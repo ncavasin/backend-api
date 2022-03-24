@@ -2,6 +2,7 @@ package com.sip.api.services.user;
 
 import com.sip.api.domains.user.User;
 import com.sip.api.dtos.user.UserCreationDto;
+import com.sip.api.dtos.user.UserDniDto;
 import com.sip.api.dtos.user.UserEmailDto;
 import com.sip.api.dtos.user.UserPasswordDto;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,8 @@ public interface UserService {
     void deactivateUser(String userId);
 
     void deleteUser(String userId);
+
+    User findByDni(UserDniDto userDniDto);
 
     User findByEmail(UserEmailDto userEmailDto);
 }
