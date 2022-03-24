@@ -23,7 +23,7 @@ jobs:
         cache: maven
         
     - name: Build package with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B clean package -DskipTests --file pom.xml
 
   build-docker-image:
     name: Publish to Docker Hub
