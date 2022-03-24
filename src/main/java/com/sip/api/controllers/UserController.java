@@ -1,10 +1,7 @@
 package com.sip.api.controllers;
 
 import com.sip.api.domains.user.UserConverter;
-import com.sip.api.dtos.user.UserCreationDto;
-import com.sip.api.dtos.user.UserDto;
-import com.sip.api.dtos.user.UserEmailDto;
-import com.sip.api.dtos.user.UserPasswordDto;
+import com.sip.api.dtos.user.*;
 import com.sip.api.services.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -25,11 +22,16 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public UserDto findUser(@PathVariable("userId") String userId) {
+    public UserDto findByid(@PathVariable("userId") String userId) {
         return UserConverter.entityToDto(userService.findById(userId));
     }
 
-    @GetMapping("/email/{email}")
+    @GetMapping("/dni")
+    public UserDto findByDni(@RequestBody @Validated UserDniDto userDniDto){
+        return UserConverter.entityToDto(userService.findByDni(userDniDto));
+    }
+
+    @GetMapping("/email")
     public UserDto findByEmail(@RequestBody @Validated UserEmailDto userEmailDto) {
         return UserConverter.entityToDto(userService.findByEmail(userEmailDto));
     }
