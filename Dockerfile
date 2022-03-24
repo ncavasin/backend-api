@@ -2,7 +2,7 @@ FROM alpine:latest AS build
 
 MAINTAINER Nicolas Cavasin ncavasin97@gmail.com
 
-RUN apk update && apk upgrade && apk add --update openjdk11 tzdata curl unzip bash && rm -rf /var/cache/apk/*
+RUN apk update && apk upgrade && apk add --update maven openjdk11 tzdata curl unzip bash && rm -rf /var/cache/apk/*
 
 RUN mkdir -p /workspace
 WORKDIR /workspace
