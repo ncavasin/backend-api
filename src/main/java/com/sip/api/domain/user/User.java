@@ -1,14 +1,14 @@
 package com.sip.api.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sip.api.domain.TimeTrackable;
+import com.sip.api.domain.enums.UserStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @NoArgsConstructor
@@ -19,20 +19,29 @@ import java.util.Objects;
 @Table(name = "user_data")
 public class User extends TimeTrackable {
 
-    @Column(nullable = false)
-    UserStatus status;
-
     @Column(nullable = false, unique = true)
     private int dni;
 
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
     private int phone;
+
+    private String firstName;
+
+    private String lastName;
+
+    private int age;
+
+    private String zipCode;
+
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    UserStatus status;
 
     @Override
     public boolean equals(Object o) {
