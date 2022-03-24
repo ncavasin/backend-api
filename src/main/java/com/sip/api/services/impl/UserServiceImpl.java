@@ -33,10 +33,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByEmail(UserEmailDto userEmailDto) {
+        return userRepository.findByEmail(userEmailDto.getEmail()).orElseThrow(() -> new NotFoundException("Email not found"));
+    }
+
+    @Override
     public User createUser(UserCreationDto userCreationDto) {
         checkUserRules(userCreationDto.getDni(), userCreationDto.getEmail(), userCreationDto.getPassword());
+        User user = UserConverter.dtoToEntity(userCreationDto);
+        // Created inactive by default until user pays the subscription plan
+        user.setStatus(UserStatus.INACTIVE);
         // TODO encrypt pwd
-        return userRepository.save(UserConverter.dtoToEntity(userCreationDto));
+        return userRepository.save(user);
     }
 
     @Override
@@ -84,7 +92,7 @@ public class UserServiceImpl implements UserService {
 
     private Integer validateDni(Integer dni) {
         if ((dni != 0) && userRepository.existsByDni(dni))
-            throw new BadRequestException("Username already in use");
+            throw new BadRequestException("DNI already in use");
         return dni;
     }
 
