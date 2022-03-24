@@ -1,8 +1,8 @@
-package com.sip.api.domain.user;
+package com.sip.api.domain.enums;
 
 public enum UserStatus {
     ACTIVE,     // acquired after paying
     INACTIVE,   // default
-    DELETED,    // logical delete
+    DEACTIVATED,// logical delete
     OVERDUE     // acquired after >1 month of debt
 }
