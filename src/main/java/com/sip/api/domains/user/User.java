@@ -1,8 +1,8 @@
-package com.sip.api.domain.user;
+package com.sip.api.domains.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sip.api.domain.TimeTrackable;
-import com.sip.api.domain.enums.UserStatus;
+import com.sip.api.domains.TimeTrackable;
+import com.sip.api.domains.enums.UserStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,7 +18,7 @@ import java.util.Objects;
 public class User extends TimeTrackable {
 
     @Column(nullable = false, unique = true)
-    private int dni;
+    private Integer dni;
 
     @Column(nullable = false)
     @JsonIgnore
@@ -27,14 +27,14 @@ public class User extends TimeTrackable {
     @Column(nullable = false, unique = true)
     private String email;
 
-    private int phone;
+    private Integer phone;
 
     private String firstName;
 
     private String lastName;
 
     @Size(min = 1, max = 99)
-    private int age;
+    private Integer age;
 
     private String zipCode;
 
