@@ -1,9 +1,9 @@
-package com.sip.api.service;
+package com.sip.api.services.user;
 
-import com.sip.api.controller.UserPasswordDto;
-import com.sip.api.domain.user.User;
-import com.sip.api.dto.user.UserDto;
-import com.sip.api.dto.user.UserEmailDto;
+import com.sip.api.controllers.UserPasswordDto;
+import com.sip.api.domains.user.User;
+import com.sip.api.dtos.user.UserDto;
+import com.sip.api.dtos.user.UserEmailDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
