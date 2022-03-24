@@ -6,4 +6,6 @@ RUN apk update && apk upgrade && apk add --update openjdk11 tzdata curl unzip ba
 
 COPY target/*.jar /app.jar
 
+EXPOSE 8080
+
 CMD ["/usr/bin/java", "-jar", "/app.jar"]
