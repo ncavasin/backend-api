@@ -1,6 +1,6 @@
 package com.sip.api.services.user;
 
-import com.sip.api.controllers.UserPasswordDto;
+import com.sip.api.dtos.user.UserPasswordDto;
 import com.sip.api.domains.user.User;
 import com.sip.api.dtos.user.UserDto;
 import com.sip.api.dtos.user.UserEmailDto;
