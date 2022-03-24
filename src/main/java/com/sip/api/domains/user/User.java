@@ -42,6 +42,19 @@ public class User extends TimeTrackable {
     @Enumerated(value = EnumType.STRING)
     UserStatus status;
 
+    // Use by UserFactory to convert from UserDTO to User
+    public User(int dni, String password, String email, String firstName, String lastName, int age, int phone, String zipCode) {
+        super();
+        this.dni= dni;
+        this.password = password;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.phone = phone;
+        this.zipCode = zipCode;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
