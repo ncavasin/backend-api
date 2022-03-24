@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @MappedSuperclass
-public class AbstractEntity {
+public abstract class AbstractEntity {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
