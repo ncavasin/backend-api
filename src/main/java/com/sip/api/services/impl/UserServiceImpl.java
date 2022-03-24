@@ -3,6 +3,7 @@ package com.sip.api.services.impl;
 import com.sip.api.domains.enums.UserStatus;
 import com.sip.api.domains.user.UserConverter;
 import com.sip.api.dtos.user.UserCreationDto;
+import com.sip.api.dtos.user.UserDniDto;
 import com.sip.api.dtos.user.UserPasswordDto;
 import com.sip.api.domains.user.User;
 import com.sip.api.dtos.user.UserEmailDto;
@@ -33,9 +34,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByDni(UserDniDto userDniDto) {
+        return userRepository.findByDni(userDniDto.getDni()).orElseThrow(() -> new NotFoundException("DNI not found"));
+    }
+
+    @Override
     public User findByEmail(UserEmailDto userEmailDto) {
         return userRepository.findByEmail(userEmailDto.getEmail()).orElseThrow(() -> new NotFoundException("Email not found"));
     }
+
 
     @Override
     public User createUser(UserCreationDto userCreationDto) {
