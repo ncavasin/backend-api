@@ -1,4 +1,4 @@
-package com.sip.api.domain.enums;
+package com.sip.api.domains.enums;
 
 public enum UserStatus {
     ACTIVE,     // acquired after paying
