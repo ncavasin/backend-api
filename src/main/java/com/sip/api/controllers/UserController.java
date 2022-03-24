@@ -29,7 +29,12 @@ public class UserController {
         return UserConverter.entityToDto(userService.findById(userId));
     }
 
-    @PostMapping("")
+    @GetMapping("/email/{email}")
+    public UserDto findByEmail(@RequestBody @Validated UserEmailDto userEmailDto) {
+        return UserConverter.entityToDto(userService.findByEmail(userEmailDto));
+    }
+
+    @PostMapping
     public UserDto addUser(@Validated @RequestBody UserCreationDto userCreationDto) {
         return UserConverter.entityToDto(userService.createUser(userCreationDto));
     }
