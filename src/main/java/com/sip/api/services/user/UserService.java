@@ -25,4 +25,6 @@ public interface UserService {
     void deactivateUser(String userId);
 
     void deleteUser(String userId);
+
+    User findByEmail(UserEmailDto userEmailDto);
 }
