@@ -1,11 +1,14 @@
-package com.sip.api.domain;
+package com.sip.api.domain.user;
 
-import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import com.sip.api.domain.TimeTrackable;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
-import java.sql.Timestamp;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Objects;
 
 @NoArgsConstructor
@@ -14,10 +17,13 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(name = "user_data")
-public class User extends AbstractEntity {
+public class User extends TimeTrackable {
+
+    @Column(nullable = false)
+    UserStatus status;
 
     @Column(nullable = false, unique = true)
-    private String username;
+    private int dni;
 
     @Column(nullable = false)
     private String password;
@@ -25,15 +31,8 @@ public class User extends AbstractEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    private int dni;
-
-    boolean active;
-
-    @CreationTimestamp
-    private Timestamp creationTimestamp;
-
-    @UpdateTimestamp
-    private Timestamp updateTimestamp;
+    @Column(nullable = false)
+    private int phone;
 
     @Override
     public boolean equals(Object o) {
@@ -45,7 +44,7 @@ public class User extends AbstractEntity {
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return Objects.hashCode(super.id);
     }
 
