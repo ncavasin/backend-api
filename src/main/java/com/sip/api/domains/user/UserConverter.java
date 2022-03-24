@@ -27,6 +27,7 @@ public class UserConverter {
 
     public static UserDto entityToDto(User user) {
         return UserDto.builder()
+                .id(user.getId())
                 .dni(user.getDni())
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
