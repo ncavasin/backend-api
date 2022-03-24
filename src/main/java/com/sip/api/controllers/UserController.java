@@ -2,6 +2,7 @@ package com.sip.api.controllers;
 
 import com.sip.api.dtos.user.UserDto;
 import com.sip.api.dtos.user.UserEmailDto;
+import com.sip.api.dtos.user.UserPasswordDto;
 import com.sip.api.services.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
