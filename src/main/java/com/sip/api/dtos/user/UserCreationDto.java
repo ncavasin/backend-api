@@ -3,6 +3,8 @@ package com.sip.api.dtos.user;
 import lombok.*;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 @Data
@@ -10,7 +12,8 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserCreationDto {
-    @Size(max = 8)
+    @Min(1)
+    @Max(value = 99999999)
     private int dni;
 
     @NonNull
@@ -24,6 +27,8 @@ public class UserCreationDto {
 
     private String lastName;
 
+    @Min(1)
+    @Max(99)
     private int age;
 
     private int phone;
