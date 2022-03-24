@@ -1,4 +1,4 @@
-package com.sip.api.domain;
+package com.sip.api.domains;
 
 import lombok.Getter;
 import lombok.Setter;
