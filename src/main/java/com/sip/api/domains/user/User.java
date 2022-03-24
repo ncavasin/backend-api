@@ -18,7 +18,7 @@ import java.util.Objects;
 public class User extends TimeTrackable {
 
     @Column(nullable = false, unique = true)
-    private Integer dni;
+    private int dni;
 
     @Column(nullable = false)
     @JsonIgnore
@@ -27,14 +27,13 @@ public class User extends TimeTrackable {
     @Column(nullable = false, unique = true)
     private String email;
 
-    private Integer phone;
+    private int phone;
 
     private String firstName;
 
     private String lastName;
 
-    @Size(min = 1, max = 99)
-    private Integer age;
+    private int age;
 
     private String zipCode;
 
