@@ -3,16 +3,13 @@ package com.sip.api.domain.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sip.api.domain.TimeTrackable;
 import com.sip.api.domain.enums.UserStatus;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
