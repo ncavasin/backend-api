@@ -6,6 +6,7 @@ import com.sip.api.domain.enums.UserStatus;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @NoArgsConstructor
@@ -32,6 +33,7 @@ public class User extends TimeTrackable {
 
     private String lastName;
 
+    @Size(min = 1, max = 99)
     private int age;
 
     private String zipCode;
