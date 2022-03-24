@@ -56,7 +56,7 @@ public class UserController {
         return UserConverter.entityToDto(userService.activateUser(userId));
     }
 
-    @DeleteMapping("/deactivate/{userId}")
+    @PutMapping("/deactivate/{userId}")
     public void deactivateUser(@PathVariable("userId") String userId) {
         userService.deactivateUser(userId);
     }
