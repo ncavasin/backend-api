@@ -1,7 +1,7 @@
-package com.sip.api.dto.user;
+package com.sip.api.dtos.user;
 
-import com.sip.api.domain.user.User;
-import com.sip.api.domain.enums.UserStatus;
+import com.sip.api.domains.user.User;
+import com.sip.api.domains.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
