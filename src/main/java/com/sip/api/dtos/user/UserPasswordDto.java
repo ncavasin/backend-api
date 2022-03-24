@@ -1,4 +1,4 @@
-package com.sip.api.controllers;
+package com.sip.api.dtos.user;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +10,5 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class UserPasswordDto {
     @NonNull
-    @Size(min = 8, max = 255)
     private String password;
 }
