@@ -12,9 +12,9 @@ spring:
 
 # Set environment vars of the Heroku deployed Database
   datasource:
-    url: jdbc:postgresql://localhost:5050/sip
-    username: sip
-    password: sip.2022
+    url:
+    username:
+    password:
     driver-class-name: org.postgresql.Driver
 
   flyway:
