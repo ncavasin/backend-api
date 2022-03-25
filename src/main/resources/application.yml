@@ -4,13 +4,13 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
     show-sql: false
 
   datasource:
-    url: jdbc:postgresql://localhost:5050/sip
-    username: sip
-    password: sip.2022
+    url: jdbc:postgresql://ec2-3-225-213-67.compute-1.amazonaws.com/d7sshocjgndia3
+    username: tdbsqzqgpeflnv
+    password: 56439dc99c665eed0beca15d7c2cce26fc3468fd5753ab61e822e7947a96b73a
     driver-class-name: org.postgresql.Driver
 
   flyway:
