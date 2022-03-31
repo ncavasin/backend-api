@@ -13,6 +13,8 @@ import com.sip.api.repositories.UserRepository;
 import com.sip.api.services.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +22,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
@@ -113,5 +115,10 @@ public class UserServiceImpl implements UserService {
         if ((!email.isEmpty()) && userRepository.existsByEmail(email))
             throw new BadRequestException("Email already in use");
         return email;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws NotFoundException {
+        return findByEmail(new UserEmailDto(email));
     }
 }
