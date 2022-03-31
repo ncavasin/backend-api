@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public List<User> findAll() {
@@ -45,6 +47,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findByEmail(userEmailDto.getEmail()).orElseThrow(() -> new NotFoundException("Email not found"));
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String email) throws NotFoundException {
+        return findByEmail(new UserEmailDto(email));
+    }
 
     @Override
     public User createUser(UserCreationDto userCreationDto) {
@@ -52,7 +58,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = UserConverter.dtoToEntity(userCreationDto);
         // Created inactive by default until user pays the subscription plan
         user.setStatus(UserStatus.INACTIVE);
-        // TODO encrypt pwd
+        user.setPassword(passwordEncoder.encode(userCreationDto.getPassword()));
         return userRepository.save(user);
     }
 
@@ -67,9 +73,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User updatePassword(String userId, UserPasswordDto userPasswordDto) {
         validatePassword(userPasswordDto.getPassword());
-        // TODO encrypt pwd
         User user = findById(userId);
-        user.setPassword(userPasswordDto.getPassword());
+        user.setPassword(passwordEncoder.encode(userPasswordDto.getPassword()));
         return userRepository.save(user);
     }
 
@@ -107,7 +112,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private String validatePassword(String password) {
         if (password.length() < 8) throw new BadRequestException("Password smaller than 8");
-        // TODO encrypt pwd
         return password;
     }
 
@@ -115,10 +119,5 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if ((!email.isEmpty()) && userRepository.existsByEmail(email))
             throw new BadRequestException("Email already in use");
         return email;
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String email) throws NotFoundException {
-        return findByEmail(new UserEmailDto(email));
     }
 }
