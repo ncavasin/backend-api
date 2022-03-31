@@ -4,6 +4,9 @@ server:
     include-binding-errors: always
 
 spring:
+  data:
+    rest:
+      base-path: "/api"
   jpa:
     properties:
       hibernate:
