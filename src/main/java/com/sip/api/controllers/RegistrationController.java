@@ -1,6 +1,8 @@
 package com.sip.api.controllers;
 
+import com.sip.api.domains.user.UserConverter;
 import com.sip.api.dtos.user.UserCreationDto;
+import com.sip.api.dtos.user.UserDto;
 import com.sip.api.services.RegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -14,7 +16,7 @@ public class RegistrationController {
     private final RegistrationService registrationService;
 
     @PostMapping
-    public String register(@RequestBody @Validated UserCreationDto userCreationDto) {
-        return registrationService.register(userCreationDto);
+    public UserDto register(@RequestBody @Validated UserCreationDto userCreationDto) {
+        return UserConverter.entityToDto(registrationService.register(userCreationDto));
     }
 }
