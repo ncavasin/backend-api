@@ -34,7 +34,6 @@ public class UserConverter {
                 .lastName(user.getLastName())
                 .age(user.getAge())
                 .phone(user.getPhone())
-                .zipCode(user.getZipCode())
                 .status(user.getStatus())
                 .build();
     }
