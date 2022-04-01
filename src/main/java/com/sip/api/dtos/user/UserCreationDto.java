@@ -5,7 +5,7 @@ import lombok.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Data
 @Builder
@@ -33,5 +33,5 @@ public class UserCreationDto {
 
     private int phone;
 
-    private String zipCode;
+    private Set<String> roles;
 }
