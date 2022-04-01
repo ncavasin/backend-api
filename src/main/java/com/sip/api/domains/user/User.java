@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "user_data")
 public class User extends TimeTrackable implements UserDetails {
-
     @Column(nullable = false, unique = true)
     private int dni;
 
@@ -43,11 +42,11 @@ public class User extends TimeTrackable implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     UserStatus status;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_data_user_roles",
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "roles_id"))
-    private Set<Role> roles = new LinkedHashSet<>();
+    private Set<Role> roles = new HashSet<>();
 
     // Use by UserFactory to convert from UserDTO to User
     public User(int dni, String password, String email, String firstName, String lastName, int age, int phone) {
