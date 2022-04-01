@@ -10,7 +10,6 @@ import com.sip.api.dtos.user.UserEmailDto;
 import com.sip.api.exceptions.BadRequestException;
 import com.sip.api.exceptions.NotFoundException;
 import com.sip.api.repositories.UserRepository;
-import com.sip.api.services.MailTokenService;
 import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +56,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User createUser(UserCreationDto userCreationDto) {
         checkUserRules(userCreationDto.getDni(), userCreationDto.getEmail(), userCreationDto.getPassword());
         User user = UserConverter.dtoToEntity(userCreationDto);
-        // Created inactive by default until user pays the subscription plan
+        // Created inactive by default until user activates it by mail
         user.setStatus(UserStatus.INACTIVE);
         user.setPassword(passwordEncoder.encode(userCreationDto.getPassword()));
         return userRepository.save(user);
