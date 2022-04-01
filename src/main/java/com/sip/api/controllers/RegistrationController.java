@@ -10,7 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/registration")
+@RequestMapping("/register")
 @RequiredArgsConstructor
 public class RegistrationController {
 
@@ -22,7 +22,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/confirm")
-    public UserDto confirmUser(@RequestBody @Validated TokenDto tokenDto){
+    public UserDto confirm(@RequestBody @Validated TokenDto tokenDto){
         return UserConverter.entityToDto(registrationService.confirm(tokenDto));
     }
 }
