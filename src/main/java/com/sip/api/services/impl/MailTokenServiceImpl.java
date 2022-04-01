@@ -2,7 +2,6 @@ package com.sip.api.services.impl;
 
 import com.sip.api.domains.registration.MailToken;
 import com.sip.api.domains.user.User;
-import com.sip.api.dtos.TokenDto;
 import com.sip.api.exceptions.BadRequestException;
 import com.sip.api.exceptions.NotFoundException;
 import com.sip.api.repositories.MailTokenRepository;
@@ -22,7 +21,7 @@ public class MailTokenServiceImpl implements MailTokenService {
     private final MailTokenRepository mailTokenRepository;
 
     @Override
-    public TokenDto createTokenForUser(User user) {
+    public String createTokenForUser(User user) {
         MailToken mailToken = MailToken.builder()
                 .token(UUID.randomUUID().toString())
                 .createdAt(Timestamp.valueOf(LocalDateTime.now()))
@@ -30,7 +29,7 @@ public class MailTokenServiceImpl implements MailTokenService {
                 .user(user)
                 .build();
         mailTokenRepository.save(mailToken);
-        return new TokenDto(mailToken.getToken());
+        return mailToken.getToken();
     }
 
     @Override
