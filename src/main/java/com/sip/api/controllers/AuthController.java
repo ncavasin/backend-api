@@ -3,7 +3,6 @@ package com.sip.api.controllers;
 import com.sip.api.dtos.UserCredentialsDto;
 import com.sip.api.dtos.user.auth.AuthenticationDto;
 import com.sip.api.services.AuthService;
-import com.sip.api.services.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -6,14 +6,15 @@ import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.security.Permission;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.sip.api.domains.enums.Permission.*;
 
 @AllArgsConstructor
 public enum Role {
-    ADMIN(Sets.newHashSet(ACTIVITY_READ, ACTIVITY_WRITE)),
+    ADMIN(Sets.newHashSet()),
     PROFESSOR(Sets.newHashSet()),
     CLIENT(Sets.newHashSet());
 
@@ -21,9 +22,7 @@ public enum Role {
     private final Set<Permission> permissions;
 
     public Set<GrantedAuthority> getGrantedAuthorities(){
-        return getPermissions().stream()
-                .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
-                .collect(Collectors.toSet());
+        return new HashSet<>();
     }
 
 }
