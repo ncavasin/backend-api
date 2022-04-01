@@ -41,12 +41,13 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void deleteRole(String roleId) {
-        if(! roleRepository.existsById(roleId)) throw new NotFoundException("Role not found");
+        if (!roleRepository.existsById(roleId)) throw new NotFoundException("Role not found");
         roleRepository.deleteById(roleId);
     }
 
     private String checkNameExistence(String name) {
-        if(roleRepository.existsByName(name)) throw new BadRequestException(String.format("Role {} already exists", name));
+        if (roleRepository.existsByName(name))
+            throw new BadRequestException(String.format("Role {} already exists", name));
         return name;
     }
 
