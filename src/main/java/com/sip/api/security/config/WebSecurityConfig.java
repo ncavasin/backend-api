@@ -1,6 +1,6 @@
 package com.sip.api.security.config;
 
-import com.sip.api.services.user.UserService;
+import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
