@@ -1,5 +1,6 @@
 package com.sip.api.services.impl;
 
+import com.sip.api.domains.Role;
 import com.sip.api.domains.enums.UserStatus;
 import com.sip.api.domains.user.UserConverter;
 import com.sip.api.dtos.user.UserCreationDto;
@@ -10,6 +11,7 @@ import com.sip.api.dtos.user.UserEmailDto;
 import com.sip.api.exceptions.BadRequestException;
 import com.sip.api.exceptions.NotFoundException;
 import com.sip.api.repositories.UserRepository;
+import com.sip.api.services.RoleService;
 import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -26,6 +30,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final RoleService roleService;
 
     @Override
     public List<User> findAll() {
@@ -54,8 +59,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User createUser(UserCreationDto userCreationDto) {
-        checkUserRules(userCreationDto.getDni(), userCreationDto.getEmail(), userCreationDto.getPassword());
+        checkUserRules(userCreationDto.getDni(), userCreationDto.getEmail(), userCreationDto.getPassword(), userCreationDto.getRoles());
         User user = UserConverter.dtoToEntity(userCreationDto);
+        // Fetch roles by name
+        Set<Role> roles = userCreationDto.getRoles().stream().map(roleService::findByName).collect(Collectors.toSet());
+        user.setRoles(roles);
         // Created inactive by default until user activates it by mail
         user.setStatus(UserStatus.INACTIVE);
         user.setPassword(passwordEncoder.encode(userCreationDto.getPassword()));
@@ -98,10 +106,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userRepository.delete(user);
     }
 
-    private void checkUserRules(Integer dni, String email, String password) {
+    private void checkUserRules(Integer dni, String email, String password, Set<String> roles) {
         validateDni(dni);
         validateEmail(email);
         validatePassword(password);
+        validateRoles(roles);
+    }
+
+    private Set<Role> validateRoles(Set<String> roles) {
+        if(roles == null || roles.isEmpty()) throw new BadRequestException("Roles are required");
+        return roles.stream().map(roleService::findByName).collect(Collectors.toSet());
     }
 
     private Integer validateDni(Integer dni) {
