@@ -7,7 +7,7 @@ import com.sip.api.dtos.user.auth.AuthenticationDto;
 import com.sip.api.exceptions.NotFoundException;
 import com.sip.api.exceptions.UnauthorizedException;
 import com.sip.api.services.AuthService;
-import com.sip.api.services.user.UserService;
+import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

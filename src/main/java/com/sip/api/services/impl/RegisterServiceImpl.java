@@ -24,9 +24,15 @@ public class RegisterServiceImpl implements RegisterService {
     @Transactional
     public User register(UserCreationDto userCreationDto) {
         User savedUser = userService.createUser(userCreationDto);
+        // TODO: handle resend confirmation mail
         String token = mailTokenService.createTokenForUser(savedUser);
         String link = "http://localhost:8080/register/confirm?token=" + token;
-        mailSender.sendMail(savedUser.getEmail(), "Geminis - Activate your account!", buildEmail(savedUser.getFirstName(), link));
+        try{
+            mailSender.sendMail(savedUser.getEmail(), "Geminis - Activate your account!", buildEmail(savedUser.getFirstName(), link));
+        }catch (Exception e){
+            log.error("Error sending mail: {}.", e.getMessage());
+            e.printStackTrace();
+        }
         return savedUser;
     }
 
