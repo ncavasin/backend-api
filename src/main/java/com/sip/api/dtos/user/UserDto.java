@@ -19,7 +19,6 @@ public class UserDto {
     private String lastName;
     private int age;
     private int phone;
-    private String zipCode;
     UserStatus status;
 
 }

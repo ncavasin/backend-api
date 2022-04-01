@@ -49,7 +49,7 @@ public class User extends TimeTrackable implements UserDetails {
     private List<UserRole> userRoles = new ArrayList<>();
 
     // Use by UserFactory to convert from UserDTO to User
-    public User(int dni, String password, String email, String firstName, String lastName, int age, int phone, String zipCode) {
+    public User(int dni, String password, String email, String firstName, String lastName, int age, int phone) {
         super();
         this.dni = dni;
         this.password = password;

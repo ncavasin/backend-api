@@ -20,8 +20,7 @@ public class UserConverter {
                 userCreationDto.getFirstName(),
                 userCreationDto.getLastName(),
                 userCreationDto.getAge(),
-                userCreationDto.getPhone(),
-                userCreationDto.getZipCode());
+                userCreationDto.getPhone());
     }
 
 
