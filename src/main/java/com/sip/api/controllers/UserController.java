@@ -2,7 +2,7 @@ package com.sip.api.controllers;
 
 import com.sip.api.domains.user.UserConverter;
 import com.sip.api.dtos.user.*;
-import com.sip.api.services.user.UserService;
+import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public UserDto findByid(@PathVariable("userId") String userId) {
+    public UserDto findById(@PathVariable("userId") String userId) {
         return UserConverter.entityToDto(userService.findById(userId));
     }
 
@@ -34,11 +34,6 @@ public class UserController {
     @GetMapping("/email")
     public UserDto findByEmail(@RequestBody @Validated UserEmailDto userEmailDto) {
         return UserConverter.entityToDto(userService.findByEmail(userEmailDto));
-    }
-
-    @PostMapping
-    public UserDto addUser(@Validated @RequestBody UserCreationDto userCreationDto) {
-        return UserConverter.entityToDto(userService.createUser(userCreationDto));
     }
 
     @PutMapping("/email/{userId}")
@@ -61,7 +56,7 @@ public class UserController {
         userService.deactivateUser(userId);
     }
 
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/delete/{userId}")
     public void deleteUser(@PathVariable("userId") String userId) {
         userService.deleteUser(userId);
     }

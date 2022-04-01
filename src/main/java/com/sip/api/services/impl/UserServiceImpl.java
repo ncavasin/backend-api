@@ -10,9 +10,12 @@ import com.sip.api.dtos.user.UserEmailDto;
 import com.sip.api.exceptions.BadRequestException;
 import com.sip.api.exceptions.NotFoundException;
 import com.sip.api.repositories.UserRepository;
-import com.sip.api.services.user.UserService;
+import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,8 +23,9 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public List<User> findAll() {
@@ -43,14 +47,18 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(userEmailDto.getEmail()).orElseThrow(() -> new NotFoundException("Email not found"));
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String email) throws NotFoundException {
+        return findByEmail(new UserEmailDto(email));
+    }
 
     @Override
     public User createUser(UserCreationDto userCreationDto) {
         checkUserRules(userCreationDto.getDni(), userCreationDto.getEmail(), userCreationDto.getPassword());
         User user = UserConverter.dtoToEntity(userCreationDto);
-        // Created inactive by default until user pays the subscription plan
+        // Created inactive by default until user activates it by mail
         user.setStatus(UserStatus.INACTIVE);
-        // TODO encrypt pwd
+        user.setPassword(passwordEncoder.encode(userCreationDto.getPassword()));
         return userRepository.save(user);
     }
 
@@ -65,9 +73,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updatePassword(String userId, UserPasswordDto userPasswordDto) {
         validatePassword(userPasswordDto.getPassword());
-        // TODO encrypt pwd
         User user = findById(userId);
-        user.setPassword(userPasswordDto.getPassword());
+        user.setPassword(passwordEncoder.encode(userPasswordDto.getPassword()));
         return userRepository.save(user);
     }
 
@@ -105,7 +112,6 @@ public class UserServiceImpl implements UserService {
 
     private String validatePassword(String password) {
         if (password.length() < 8) throw new BadRequestException("Password smaller than 8");
-        // TODO encrypt pwd
         return password;
     }
 

@@ -1,11 +1,34 @@
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+
 spring:
   jpa:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        format_sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     show-sql: true
+  mail:
+    host: localhost
+    port: 1025
+    username: hello
+    password: hello
+
+    properties:
+      mail:
+        smtp:
+          ssl:
+            trust: "*"
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 3000
+          writeTimeout: 5000
 
   datasource:
     url: jdbc:postgresql://localhost:5050/sip
@@ -18,4 +41,4 @@ spring:
     default-schema: public
     schemas: public
     out-of-order: true
-    enabled: true
+    enabled: false

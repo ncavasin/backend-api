@@ -20,8 +20,7 @@ public class UserConverter {
                 userCreationDto.getFirstName(),
                 userCreationDto.getLastName(),
                 userCreationDto.getAge(),
-                userCreationDto.getPhone(),
-                userCreationDto.getZipCode());
+                userCreationDto.getPhone());
     }
 
 
@@ -34,7 +33,6 @@ public class UserConverter {
                 .lastName(user.getLastName())
                 .age(user.getAge())
                 .phone(user.getPhone())
-                .zipCode(user.getZipCode())
                 .status(user.getStatus())
                 .build();
     }

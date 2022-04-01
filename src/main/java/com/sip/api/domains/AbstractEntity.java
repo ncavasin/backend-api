@@ -11,9 +11,8 @@ import javax.persistence.*;
 @MappedSuperclass
 public abstract class AbstractEntity {
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid")
-    @Column(name = "id")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "uuid_generator")
+    @GenericGenerator(name = "uuid_generator", strategy = "uuid2")
     protected String id;
 
 }
