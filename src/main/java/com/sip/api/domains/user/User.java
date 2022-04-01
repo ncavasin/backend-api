@@ -45,7 +45,7 @@ public class User extends TimeTrackable implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     UserStatus status;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private List<UserRole> userRoles = new ArrayList<>();
 
     // Use by UserFactory to convert from UserDTO to User
