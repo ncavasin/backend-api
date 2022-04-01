@@ -1,6 +1,7 @@
 package com.sip.api.domains.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sip.api.domains.Role;
 import com.sip.api.domains.TimeTrackable;
 import com.sip.api.domains.enums.UserStatus;
 import lombok.*;
@@ -9,10 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor
@@ -45,8 +43,11 @@ public class User extends TimeTrackable implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     UserStatus status;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    private List<UserRole> userRoles = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_data_user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id"))
+    private Set<Role> roles = new LinkedHashSet<>();
 
     // Use by UserFactory to convert from UserDTO to User
     public User(int dni, String password, String email, String firstName, String lastName, int age, int phone) {
@@ -76,7 +77,7 @@ public class User extends TimeTrackable implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return userRoles.stream().map(role -> new SimpleGrantedAuthority(role.getRole().name())).collect(Collectors.toList());
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toList());
     }
 
     @Override // is the email
