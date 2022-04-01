@@ -2,7 +2,6 @@ package com.sip.api.services.impl;
 
 import com.sip.api.domains.registration.MailToken;
 import com.sip.api.domains.user.User;
-import com.sip.api.dtos.TokenDto;
 import com.sip.api.dtos.user.UserCreationDto;
 import com.sip.api.services.MailSender;
 import com.sip.api.services.MailTokenService;
@@ -25,8 +24,8 @@ public class RegisterServiceImpl implements RegisterService {
     @Transactional
     public User register(UserCreationDto userCreationDto) {
         User savedUser = userService.createUser(userCreationDto);
-        TokenDto tokenDto = mailTokenService.createTokenForUser(savedUser);
-        String link = "http://localhost:8080/register/confirm?token=" + tokenDto.getToken();
+        String token = mailTokenService.createTokenForUser(savedUser);
+        String link = "http://localhost:8080/register/confirm?token=" + token;
         mailSender.sendMail(savedUser.getEmail(), "Geminis - Activate your account!", buildEmail(savedUser.getFirstName(), link));
         return savedUser;
     }
