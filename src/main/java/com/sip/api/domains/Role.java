@@ -28,7 +28,7 @@ public class Role extends TimeTrackable {
 
     @Column(nullable = false, unique = true)
     @NaturalId
-    private String roleName;
+    private String name;
 
     @Override
     public boolean equals(Object o) {
