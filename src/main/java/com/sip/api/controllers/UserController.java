@@ -2,7 +2,7 @@ package com.sip.api.controllers;
 
 import com.sip.api.domains.user.UserConverter;
 import com.sip.api.dtos.user.*;
-import com.sip.api.services.user.UserService;
+import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
