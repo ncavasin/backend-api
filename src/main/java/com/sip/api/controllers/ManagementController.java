@@ -50,7 +50,6 @@ public class ManagementController {
         roleService.deleteRoleByName(roleDto.getName());
     }
 
-
     @PostMapping("/add-professor")
     public UserDto addProfessor(@RequestBody @Validated UserCreationDto userCreationDto) {
         return UserConverter.entityToDto(userService.createUser(userCreationDto));
