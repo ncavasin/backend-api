@@ -5,6 +5,8 @@ import com.sip.api.domains.Role;
 import com.sip.api.domains.TimeTrackable;
 import com.sip.api.domains.enums.UserStatus;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,11 +44,12 @@ public class User extends TimeTrackable implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     UserStatus status;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "roles_id"))
-    private Set<Role> roles = new HashSet<>();
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id", referencedColumnName = "id"))
+    @Fetch(FetchMode.JOIN)
+    private Set<Role> roles = new LinkedHashSet<>();
 
     // Use by UserFactory to convert from UserDTO to User
     public User(int dni, String password, String email, String firstName, String lastName, int age, int phone) {
