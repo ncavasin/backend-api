@@ -1,5 +1,6 @@
-package com.sip.api.domains;
+package com.sip.api.domains.role;
 
+import com.sip.api.domains.TimeTrackable;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.NaturalId;

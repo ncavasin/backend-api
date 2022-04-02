@@ -1,6 +1,6 @@
 package com.sip.api.domains.user;
 
-import com.sip.api.domains.Role;
+import com.sip.api.domains.role.Role;
 import com.sip.api.dtos.user.UserCreationDto;
 import com.sip.api.dtos.user.UserDto;
 import lombok.Data;

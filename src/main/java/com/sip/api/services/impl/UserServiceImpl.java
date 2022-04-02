@@ -1,8 +1,9 @@
 package com.sip.api.services.impl;
 
-import com.sip.api.domains.Role;
+import com.sip.api.domains.role.Role;
 import com.sip.api.domains.enums.UserStatus;
 import com.sip.api.domains.user.UserConverter;
+import com.sip.api.dtos.role.RoleDto;
 import com.sip.api.dtos.user.UserCreationDto;
 import com.sip.api.dtos.user.UserDniDto;
 import com.sip.api.dtos.user.UserPasswordDto;
@@ -62,7 +63,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         checkUserRules(userCreationDto.getDni(), userCreationDto.getEmail(), userCreationDto.getPassword(), userCreationDto.getRoles());
         User user = UserConverter.dtoToEntity(userCreationDto);
         // Fetch roles by name
-        Set<Role> roles = userCreationDto.getRoles().stream().map(roleService::findByName).collect(Collectors.toSet());
+        Set<Role> roles = userCreationDto.getRoles().stream().map(role -> roleService.findByName(role.getName())).collect(Collectors.toSet());
         user.setRoles(roles);
         // Created inactive by default until user activates it by mail
         user.setStatus(UserStatus.INACTIVE);
@@ -106,16 +107,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userRepository.delete(user);
     }
 
-    private void checkUserRules(Integer dni, String email, String password, Set<String> roles) {
+    private void checkUserRules(Integer dni, String email, String password, Set<RoleDto > roles) {
         validateDni(dni);
         validateEmail(email);
         validatePassword(password);
         validateRoles(roles);
     }
 
-    private Set<Role> validateRoles(Set<String> roles) {
+    private Set<Role> validateRoles(Set<RoleDto> roles) {
         if(roles == null || roles.isEmpty()) throw new BadRequestException("Roles are required");
-        return roles.stream().map(roleService::findByName).collect(Collectors.toSet());
+        return roles.stream().map(role -> roleService.findByName(role.getName())).collect(Collectors.toSet());
     }
 
     private Integer validateDni(Integer dni) {

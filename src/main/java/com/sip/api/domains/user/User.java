@@ -1,7 +1,7 @@
 package com.sip.api.domains.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sip.api.domains.Role;
+import com.sip.api.domains.role.Role;
 import com.sip.api.domains.TimeTrackable;
 import com.sip.api.domains.enums.UserStatus;
 import lombok.*;

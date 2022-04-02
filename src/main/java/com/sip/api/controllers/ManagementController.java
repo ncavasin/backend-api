@@ -1,7 +1,8 @@
 package com.sip.api.controllers;
 
-import com.sip.api.domains.Role;
+import com.sip.api.domains.role.RoleConverter;
 import com.sip.api.domains.user.UserConverter;
+import com.sip.api.dtos.role.RoleDto;
 import com.sip.api.dtos.user.UserCreationDto;
 import com.sip.api.dtos.user.UserDto;
 import com.sip.api.services.RoleService;

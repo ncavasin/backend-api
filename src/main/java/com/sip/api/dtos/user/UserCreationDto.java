@@ -1,5 +1,6 @@
 package com.sip.api.dtos.user;
 
+import com.sip.api.dtos.role.RoleDto;
 import lombok.*;
 
 import javax.validation.constraints.Email;
@@ -33,5 +34,5 @@ public class UserCreationDto {
 
     private int phone;
 
-    private Set<String> roles;
+    private Set<RoleDto> roles;
 }

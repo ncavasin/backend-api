@@ -1,6 +1,6 @@
 package com.sip.api.repositories;
 
-import com.sip.api.domains.Role;
+import com.sip.api.domains.role.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
