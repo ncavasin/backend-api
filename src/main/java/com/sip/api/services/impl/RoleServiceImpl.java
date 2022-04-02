@@ -45,8 +45,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void deleteRoleByName(String name) {
-        if (!roleRepository.existsByName(name)) throw new NotFoundException(String.format("Role %s not found", name));
-        roleRepository.deleteByName(name);
+        Role role = findByName(name);
+        roleRepository.delete(role);
     }
 
     private String checkNameExistence(String name) {
