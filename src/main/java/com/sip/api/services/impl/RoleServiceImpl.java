@@ -38,13 +38,6 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role updateName(String roleId, String newName) {
-        Role role = findById(roleId);
-        role.setName(checkNameExistence(newName));
-        return roleRepository.save(role);
-    }
-
-    @Override
     public void deleteRole(String roleId) {
         if (!roleRepository.existsById(roleId)) throw new NotFoundException("Role not found");
         roleRepository.deleteById(roleId);

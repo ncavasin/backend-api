@@ -31,25 +31,19 @@ public class ManagementController {
     }
 
     @GetMapping("/role/all")
-    public List<RoleDto> getAll(){
+    public List<RoleDto> getAll() {
         return RoleConverter.entityToDto(roleService.findAll());
     }
 
     @PostMapping("/role")
     public RoleDto addRole(@RequestBody @Validated RoleDto roleDto) {
-        return RoleConverter.entityToDto(roleService. createRole(roleDto.getName()));
-    }
-
-    @PutMapping("/role")
-    public RoleDto updateRoleName(@RequestBody @Validated RoleDto roleDto) {
-        return RoleConverter.entityToDto(roleService.updateName(roleDto.getId(), roleDto.getName()));
+        return RoleConverter.entityToDto(roleService.createRole(roleDto.getName()));
     }
 
     @DeleteMapping
     public void deleteRole(@RequestBody @Validated RoleDto roleDto) {
         roleService.deleteRole(roleDto.getId());
     }
-
 
 
     @PostMapping("/add-professor")
