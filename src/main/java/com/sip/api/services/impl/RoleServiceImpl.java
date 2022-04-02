@@ -1,6 +1,6 @@
 package com.sip.api.services.impl;
 
-import com.sip.api.domains.Role;
+import com.sip.api.domains.role.Role;
 import com.sip.api.exceptions.BadRequestException;
 import com.sip.api.exceptions.NotFoundException;
 import com.sip.api.repositories.RoleRepository;
@@ -8,8 +8,6 @@ import com.sip.api.services.RoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.HashSet;
 
 @Slf4j
 @Service
@@ -24,18 +22,18 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role findByName(String name) {
-        return roleRepository.findByName(name).orElseThrow(() -> new NotFoundException(String.format("Role {} not found", name)));
+        return roleRepository.findByName(name).orElseThrow(() -> new NotFoundException(String.format("Role %s not found", name)));
     }
 
     @Override
     public Role createRole(String name) {
-        return roleRepository.save(new Role(new HashSet<>(), checkNameExistence(name)));
+        return roleRepository.save(new Role(checkNameExistence(name)));
     }
 
     @Override
-    public Role updateName(String roleId, String name) {
+    public Role updateName(String roleId, String newName) {
         Role role = findById(roleId);
-        role.setName(checkNameExistence(name));
+        role.setName(checkNameExistence(newName));
         return roleRepository.save(role);
     }
 
@@ -47,7 +45,7 @@ public class RoleServiceImpl implements RoleService {
 
     private String checkNameExistence(String name) {
         if (roleRepository.existsByName(name))
-            throw new BadRequestException(String.format("Role {} already exists", name));
+            throw new BadRequestException(String.format("Role %s already exists", name));
         return name;
     }
 
