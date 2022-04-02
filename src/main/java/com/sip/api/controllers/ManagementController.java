@@ -41,8 +41,13 @@ public class ManagementController {
     }
 
     @DeleteMapping("/role/{roleId}")
-    public void deleteRole(@PathVariable("roleId") String roleId) {
-        roleService.deleteRole(roleId);
+    public void deleteRoleById(@PathVariable("roleId") String roleId) {
+        roleService.deleteRoleById(roleId);
+    }
+
+    @DeleteMapping("/role/{roleId}")
+    public void deleteRoleByName(@RequestBody @Validated RoleDto roleDto) {
+        roleService.deleteRoleByName(roleDto.getName());
     }
 
 
