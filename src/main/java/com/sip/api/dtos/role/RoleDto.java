@@ -7,7 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoleDto {
-    @NonNull
     private String id;
     @NonNull
     private String name;
