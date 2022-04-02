@@ -45,7 +45,7 @@ public class ManagementController {
         roleService.deleteRoleById(roleId);
     }
 
-    @DeleteMapping("/role/{roleId}")
+    @DeleteMapping("/role")
     public void deleteRoleByName(@RequestBody @Validated RoleDto roleDto) {
         roleService.deleteRoleByName(roleDto.getName());
     }
