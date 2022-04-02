@@ -18,9 +18,6 @@ import java.util.Set;
 @Entity
 @Table(name = "roles")
 public class Role extends TimeTrackable {
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-    private Set<User> users = new HashSet<>();
-
     @Column(nullable = false, unique = true)
     @NaturalId
     private String name;
