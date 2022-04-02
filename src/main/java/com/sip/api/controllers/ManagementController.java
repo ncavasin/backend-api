@@ -40,9 +40,9 @@ public class ManagementController {
         return RoleConverter.entityToDto(roleService.createRole(roleDto.getName()));
     }
 
-    @DeleteMapping
-    public void deleteRole(@RequestBody @Validated RoleDto roleDto) {
-        roleService.deleteRole(roleDto.getId());
+    @DeleteMapping("/role/{roleId}")
+    public void deleteRole(@PathVariable("roleId") String roleId) {
+        roleService.deleteRole(roleId);
     }
 
 
