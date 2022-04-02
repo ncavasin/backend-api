@@ -21,11 +21,16 @@ public class ManagementController {
     private final RoleService roleService;
 
     @GetMapping("/role")
-    public RoleDto getRole(@RequestBody @Validated RoleDto roleDto) {
+    public RoleDto getRoleByName(@RequestBody @Validated RoleDto roleDto) {
         return RoleConverter.entityToDto(roleService.findByName(roleDto.getName()));
     }
 
-    @GetMapping("/role")
+    @GetMapping("/role/{roleId}")
+    public RoleDto getRoleById(@PathVariable("roleId") String roleId) {
+        return RoleConverter.entityToDto(roleService.findById(roleId));
+    }
+
+    @GetMapping("/role/all")
     public List<RoleDto> getAll(){
         return RoleConverter.entityToDto(roleService.findAll());
     }
