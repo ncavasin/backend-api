@@ -1,14 +1,13 @@
 package com.sip.api.domains;
 
-import com.sip.api.domains.user.User;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.NaturalId;
 
-import javax.persistence.*;
-import java.util.HashSet;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Objects;
-import java.util.Set;
 
 @Getter
 @Setter
