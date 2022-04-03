@@ -1,13 +1,11 @@
 package com.sip.api.dtos.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserEmailDto {
