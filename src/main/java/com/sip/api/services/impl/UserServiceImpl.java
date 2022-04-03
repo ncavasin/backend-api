@@ -3,7 +3,6 @@ package com.sip.api.services.impl;
 import com.sip.api.domains.role.Role;
 import com.sip.api.domains.enums.UserStatus;
 import com.sip.api.domains.user.UserConverter;
-import com.sip.api.dtos.role.RoleDto;
 import com.sip.api.dtos.user.UserCreationDto;
 import com.sip.api.dtos.user.UserDniDto;
 import com.sip.api.dtos.user.UserPasswordDto;
@@ -60,10 +59,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User createUser(UserCreationDto userCreationDto) {
-        checkUserRules(userCreationDto.getDni(), userCreationDto.getEmail(), userCreationDto.getPassword(), userCreationDto.getRoles());
+        checkUserRules(userCreationDto.getDni(), userCreationDto.getEmail(), userCreationDto.getPassword(), userCreationDto.getRolesIds());
         User user = UserConverter.dtoToEntity(userCreationDto);
         // Fetch roles by name
-        Set<Role> roles = userCreationDto.getRoles().stream().map(role -> roleService.findByName(role.getName())).collect(Collectors.toSet());
+        Set<Role> roles = validateRoles(userCreationDto.getRolesIds());
         user.setRoles(roles);
         // Created inactive by default until user activates it by mail
         user.setStatus(UserStatus.INACTIVE);
@@ -107,16 +106,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userRepository.delete(user);
     }
 
-    private void checkUserRules(Integer dni, String email, String password, Set<RoleDto > roles) {
+    private void checkUserRules(Integer dni, String email, String password, List<String > rolesIds) {
         validateDni(dni);
         validateEmail(email);
         validatePassword(password);
-        validateRoles(roles);
+        validateRoles(rolesIds);
     }
 
-    private Set<Role> validateRoles(Set<RoleDto> roles) {
+    private Set<Role> validateRoles(List<String> roles) {
         if(roles == null || roles.isEmpty()) throw new BadRequestException("Roles are required");
-        return roles.stream().map(role -> roleService.findByName(role.getName())).collect(Collectors.toSet());
+        return roles.stream().map(roleService::findById).collect(Collectors.toSet());
     }
 
     private Integer validateDni(Integer dni) {
