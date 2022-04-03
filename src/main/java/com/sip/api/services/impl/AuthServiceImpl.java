@@ -3,6 +3,7 @@ package com.sip.api.services.impl;
 import com.sip.api.domains.user.User;
 import com.sip.api.dtos.UserCredentialsDto;
 import com.sip.api.dtos.user.UserDniDto;
+import com.sip.api.dtos.user.UserEmailDto;
 import com.sip.api.dtos.user.auth.AuthenticationDto;
 import com.sip.api.exceptions.NotFoundException;
 import com.sip.api.exceptions.UnauthorizedException;
@@ -20,11 +21,10 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthenticationDto authenticate(UserCredentialsDto userCredentialsDto) {
-        // Find user by dni
         User user;
         try {
-            user = userService.findByDni(UserDniDto.builder()
-                    .dni(userCredentialsDto.getDni())
+            user = userService.findByEmail(UserEmailDto.builder()
+                    .email(userCredentialsDto.getEmail())
                     .build());
         } catch (NotFoundException e) {
             throw new UnauthorizedException("User not found");
