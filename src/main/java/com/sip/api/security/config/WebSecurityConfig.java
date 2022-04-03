@@ -1,8 +1,8 @@
 package com.sip.api.security.config;
 
+import com.sip.api.security.filters.JwtUsernamePasswordAuthenticationFilter;
 import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.id.UUIDGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -11,10 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 @Configuration
 @RequiredArgsConstructor
@@ -27,31 +23,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .and()
+                .csrf()//.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .disable()
                 .cors().disable()
+                .addFilter(new JwtUsernamePasswordAuthenticationFilter(authenticationManager()))
                 .authorizeRequests()
                 .antMatchers("/register/**", "/login/**", "/logout/**", "/management/**", "/users/**")
                 .permitAll()
                 .anyRequest()
-                .authenticated()
-                .and()
-                .formLogin()
-                    .defaultSuccessUrl("/users", true)
-                    .usernameParameter("username") // must match form field name
-                    .passwordParameter("password") // must match form field name
-                    .and()
-                    .rememberMe()
-                        .rememberMeParameter("remember-me") // must match form field name!
-                        .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(7))
-                        .key(UUID.randomUUID().toString())
-                .and()
-                .logout()
-                    .logoutUrl("/logout")
-                    .clearAuthentication(true)
-                    .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID", "remember-me")
-                    .logoutSuccessUrl("/login");
+                .authenticated();
+//                .and()
+//                .formLogin()
+//                    .defaultSuccessUrl("/users", true)
+//                    .usernameParameter("username") // must match form field name
+//                    .passwordParameter("password") // must match form field name
+//                    .and()
+//                    .rememberMe()
+//                        .rememberMeParameter("remember-me") // must match form field name!
+//                        .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(7))
+//                        .key(UUID.randomUUID().toString())
+//                .and()
+//                .logout()
+//                    .logoutUrl("/logout")
+//                    .clearAuthentication(true)
+//                    .invalidateHttpSession(true)
+//                    .deleteCookies("JSESSIONID", "remember-me")
+//                    .logoutSuccessUrl("/login");
     }
 
     @Override
