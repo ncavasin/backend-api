@@ -46,8 +46,8 @@ public class User extends TimeTrackable implements UserDetails {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK-user_data_id")),
-            inverseJoinColumns = @JoinColumn(name = "roles_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK-role_id")))
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_user_data_id")),
+            inverseJoinColumns = @JoinColumn(name = "roles_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_role_id")))
     @Fetch(FetchMode.JOIN)
     private Set<Role> roles = new LinkedHashSet<>();
 
