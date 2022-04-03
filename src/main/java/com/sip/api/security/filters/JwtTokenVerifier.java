@@ -6,6 +6,8 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -14,9 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 public class JwtTokenVerifier extends OncePerRequestFilter {
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         // Fetch auth header
         String authHeader = request.getHeader("Authorization");
 
@@ -29,7 +32,7 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
         try{
             String jwtToken = authHeader.replace("Bearer ", "");
             Jws<Claims> jwsClaims = Jwts.parser()
-                    .setSigningKey(SignatureAlgorithm.HS512, Keys.hmacShaKeyFor(key.getBytes()))
+                    .setSigningKey(Keys.hmacShaKeyFor(key.getBytes()))
                     .parseClaimsJws(jwtToken);
 
             Claims body = jwsClaims.getBody();
@@ -37,7 +40,8 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
             body.get("authorities");
 
         }catch (Exception e){
-
+            log.error("Error while verifying JWT token. Error: {}.", e.getMessage());
+            e.printStackTrace();
         }
 
     }
