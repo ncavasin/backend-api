@@ -10,7 +10,6 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 public class RoleDto {
     private String id;
-    @NotEmpty(message = "Role name is mandatory")
-    private String name;
 
+    private String name;
 }
