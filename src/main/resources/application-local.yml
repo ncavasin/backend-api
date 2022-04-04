@@ -13,22 +13,42 @@ spring:
       ddl-auto: update
     show-sql: true
   mail:
-    host: localhost
-    port: 1025
-    username: hello
-    password: hello
-
+    host: smtp.gmail.com
+    port: 587
+    username:
+    password:
     properties:
       mail:
         smtp:
-          ssl:
-            trust: "*"
           auth: true
+          connectiontimeout: 10000
+          timeout: 10000
+          writetimeout: 10000
           starttls:
             enable: true
-          connectiontimeout: 5000
-          timeout: 3000
-          writeTimeout: 5000
+          ssl:
+            trust: smtp.gmail.com
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 25MB
+  #  mail:
+  #    host: localhost
+  #    port: 1025
+  #    username: hello
+  #    password: hello
+  #
+  #    properties:
+  #      mail:
+  #        smtp:
+  #          ssl:
+  #            trust: "*"
+  #          auth: true
+  #          starttls:
+  #            enable: true
+  #          connectiontimeout: 5000
+  #          timeout: 3000
+  #          writeTimeout: 5000
 
   datasource:
     url: jdbc:postgresql://localhost:5050/sip
@@ -42,3 +62,15 @@ spring:
     schemas: public
     out-of-order: true
     enabled: false
+
+backend:
+  app:
+    JWTSecretKey: secret
+    #    JWTSecretKey : -----BEGIN RSA PRIVATE KEY-----
+    #
+    #      -----END RSA PRIVATE KEY-----
+    JWTExpirationDays: 5
+
+communication:
+  from: no-reply@sip2022.inc
+
