@@ -1,21 +1,13 @@
 package com.sip.api.security.config;
 
 import com.sip.api.security.PasswordEncoder;
-import com.sip.api.security.filters.CustomAuthFilter;
+import com.sip.api.security.filters.AuthenticationFilter;
 import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -38,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement()
                 .sessionCreationPolicy(STATELESS)
             .and()
-            .addFilter(new CustomAuthFilter(authenticationManager()))
+            .addFilter(new AuthenticationFilter(authenticationManager()))
             .authorizeRequests()
                 .antMatchers("/register/**", "/login/**", "/logout/**", "/management/**")//, "/users/**")
                 .permitAll()
