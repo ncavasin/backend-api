@@ -3,7 +3,7 @@ package com.sip.api.security.filters;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sip.api.dtos.UserCredentialsDto;
 import com.sip.api.exceptions.UnauthorizedException;
-import com.sip.api.utils.JWTIssuer;
+import com.sip.api.utils.JwtFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -46,8 +46,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                             Authentication authentication) {
         User user = (User) authentication.getPrincipal();
 
-        String accessToken = JWTIssuer.issueAuthToken(user, request.getRequestURL().toString());
-        String refreshToken = JWTIssuer.issueRefreshToken(user, request.getRequestURL().toString());
+        String accessToken = JwtFactory.issueAuthToken(user, request.getRequestURL().toString());
+        String refreshToken = JwtFactory.issueRefreshToken(user, request.getRequestURL().toString());
 
         response.addHeader("Authorization", "Bearer " + accessToken);
         response.addHeader("Authorization-Refresh", refreshToken);
