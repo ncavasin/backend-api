@@ -39,8 +39,7 @@ public class JwtFactory {
                     .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                     .sign(algorithm);
         } catch (Exception e) {
-            log.error("Error issuing auth token for user: {}. Message: {}", user.getUsername(), e.getMessage());
-            e.printStackTrace();
+            log.error("Error issuing auth token for user: {}. {}", user.getUsername(), e.getMessage());
         }
         return jwt;
     }
@@ -54,8 +53,7 @@ public class JwtFactory {
                     .withIssuer(issuer)
                     .sign(algorithm);
         } catch (Exception e) {
-            log.error("Error issuing refresh token for user: {}. Message: {}", user.getUsername(), e.getMessage());
-            e.printStackTrace();
+            log.error("Error issuing refresh token for user: {}. {}", user.getUsername(), e.getMessage());
         }
         return jwt;
     }
@@ -65,8 +63,7 @@ public class JwtFactory {
             JWTVerifier verifier = JWT.require(algorithm).build();
             return verifier.verify(rawToken);
         } catch (Exception e) {
-            log.error("Error decoding token: {}. Message: {}", rawToken, e.getMessage());
-            e.printStackTrace();
+            log.error("Error decoding token: {}. {}", rawToken, e.getMessage());
         }
         return null;
     }
