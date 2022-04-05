@@ -18,37 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ManagementController {
     private final UserService userService;
-    private final RoleService roleService;
-
-    @GetMapping("/role")
-    public RoleDto getRoleByName(@RequestBody @Validated RoleDto roleDto) {
-        return RoleConverter.entityToDto(roleService.findByName(roleDto.getName()));
-    }
-
-    @GetMapping("/role/{roleId}")
-    public RoleDto getRoleById(@PathVariable("roleId") String roleId) {
-        return RoleConverter.entityToDto(roleService.findById(roleId));
-    }
-
-    @GetMapping("/role/all")
-    public List<RoleDto> getAll() {
-        return RoleConverter.entityToDto(roleService.findAll());
-    }
-
-    @PostMapping("/role")
-    public RoleDto addRole(@RequestBody @Validated RoleDto roleDto) {
-        return RoleConverter.entityToDto(roleService.createRole(roleDto.getName()));
-    }
-
-    @DeleteMapping("/role/{roleId}")
-    public void deleteRoleById(@PathVariable("roleId") String roleId) {
-        roleService.deleteRoleById(roleId);
-    }
-
-    @DeleteMapping("/role")
-    public void deleteRoleByName(@RequestBody @Validated RoleDto roleDto) {
-        roleService.deleteRoleByName(roleDto.getName());
-    }
 
     @PostMapping("/add-professor")
     public UserDto addProfessor(@RequestBody @Validated UserCreationDto userCreationDto) {
