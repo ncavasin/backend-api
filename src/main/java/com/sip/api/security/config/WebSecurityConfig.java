@@ -33,6 +33,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement()
                 .sessionCreationPolicy(STATELESS)
             .and()
+            .authorizeRequests()
+                .antMatchers("/webjars/springfox-swagger-ui/**",
+                        "/v2/api-docs",
+                        "/swagger-resources/**",
+                        "/swagger-ui.html")
+                .permitAll()
+            .and()
             .addFilter(new AuthenticationFilter(authenticationManager()))
             .addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
             .authorizeRequests()

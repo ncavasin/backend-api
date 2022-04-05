@@ -25,7 +25,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         // Skip login
-        if (!request.getServletPath().equals("/login")) {
+        if (!request.getServletPath().equals("/login") || !request.getServletPath().contains("swagger")) {
             String authHeader = request.getHeader("Authorization");
             try {
                 // Skip if token is missing or isn't a jwt bearer
