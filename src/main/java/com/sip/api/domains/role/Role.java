@@ -1,7 +1,7 @@
 package com.sip.api.domains.role;
 
 import com.sip.api.domains.TimeTrackable;
-import com.sip.api.domains.resource.Resources;
+import com.sip.api.domains.resource.Resource;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Fetch;
@@ -30,7 +30,7 @@ public class Role extends TimeTrackable {
             joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_role_id")),
             inverseJoinColumns = @JoinColumn(name = "resource_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_resource_id")))
     @Fetch(FetchMode.JOIN)
-    Set<Resources> allowedResources = new LinkedHashSet<>();
+    Set<Resource> allowedResources = new LinkedHashSet<>();
 
     @Override
     public boolean equals(Object o) {
