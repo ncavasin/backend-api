@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Slf4j
@@ -34,7 +35,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role createRole(String name) {
-        return roleRepository.save(new Role(checkNameExistence(name)));
+        return roleRepository.save(new Role(checkNameExistence(name), new HashSet<>()));
     }
 
     @Override
