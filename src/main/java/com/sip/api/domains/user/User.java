@@ -44,7 +44,7 @@ public class User extends TimeTrackable implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     UserStatus status;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_user_data_id")),
             inverseJoinColumns = @JoinColumn(name = "roles_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_role_id")))
