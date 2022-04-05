@@ -20,5 +20,4 @@ public class Resources extends TimeTrackable {
     private String name;
 
     private String url;
-
 }
