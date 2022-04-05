@@ -20,5 +20,4 @@ public interface ResourceService {
     void deleteById(String resourceId);
 
     void deleteByName(String resourceName);
-
 }
