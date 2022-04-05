@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "resources")
-public class Resources extends TimeTrackable {
+public class Resource extends TimeTrackable {
     @Column(nullable = false, unique = true)
     private String name;
 
