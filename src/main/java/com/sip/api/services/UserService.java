@@ -31,4 +31,6 @@ public interface UserService extends UserDetailsService {
     User findByDni(UserDniDto userDniDto);
 
     User findByEmail(UserEmailDto userEmailDto);
+
+    boolean existsByEmail(String email);
 }

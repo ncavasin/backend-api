@@ -53,6 +53,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String email) throws NotFoundException {
         User user = findByEmail(new UserEmailDto(email));
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
