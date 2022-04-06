@@ -29,7 +29,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
             String authHeader = request.getHeader("Authorization");
             try {
                 // Skip if token is missing or isn't a jwt bearer
-                if (authHeader != null & authHeader.startsWith("Bearer ")) {
+                if (authHeader != null && authHeader.startsWith("Bearer ")) {
                     DecodedJWT decodedToken = JwtFactory.decodeToken(authHeader.replace("Bearer ", ""));
                     // Skip if token decoding failed
                     if (decodedToken != null) {
@@ -45,7 +45,6 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                 }
             } catch (Exception e) {
                 log.error("Error while verifying JWT token. Error: {}.", e.getMessage());
-                e.printStackTrace();
             }
             filterChain.doFilter(request, response);
         }
