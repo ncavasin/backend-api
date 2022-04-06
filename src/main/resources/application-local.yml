@@ -63,13 +63,12 @@ spring:
     out-of-order: true
     enabled: false
 
-backend:
-  app:
-    JWTSecretKey: secret
-    #    JWTSecretKey : -----BEGIN RSA PRIVATE KEY-----
-    #
-    #      -----END RSA PRIVATE KEY-----
-    JWTExpirationDays: 5
+jwt-secret: '{jwt-secret}'
+jwt-issuer: '{jwt-issuer}'
+jwt-expiration-days: '{jwy-expiration-days}'
+
+superadmin-email: 'superadmin@admin.com'
+superadmin-password: 'superSECRETpassword'
 
 communication:
   from: no-reply@sip2022.inc
