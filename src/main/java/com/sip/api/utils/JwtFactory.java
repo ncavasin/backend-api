@@ -20,16 +20,18 @@ import java.util.stream.Collectors;
 @Component
 @AllArgsConstructor
 public class JwtFactory {
-    // TODO: change this!
-//    @Value("JWTSecretKey")
-    private static String secret = "secret";
+    @Value("${jwt-secret}")
+    private String secret;
 
-    //    @Value("${JWTExpirationDays}")
-    private static Long expiration = 5L;
+    @Value("${jwt-issuer}")
+    private String issuer;
 
-    private static Algorithm algorithm = Algorithm.HMAC512(secret.getBytes());
+    @Value("${jwt-expiration-days}")
+    private Long expiration;
 
-    public static String issueAuthToken(User user, String issuer) {
+    private Algorithm algorithm = Algorithm.HMAC512(secret.getBytes());
+
+    public String issueAuthToken(User user, String issuer) {
         String jwt = String.format("Error issuing authentication token for user: %s. Message: %s", user.getUsername(), "Not implemented");
         try {
             jwt = JWT.create()
@@ -67,4 +69,13 @@ public class JwtFactory {
         }
         return null;
     }
+
+    public String getSubject(DecodedJWT token) {
+        return token.getSubject();
+    }
+
+    public String getIssuer(DecodedJWT token) {
+        return token.getIssuer();
+    }
+
 }
