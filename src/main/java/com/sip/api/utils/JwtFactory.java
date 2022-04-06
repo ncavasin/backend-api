@@ -4,9 +4,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
@@ -18,20 +19,24 @@ import java.util.stream.Collectors;
 @Slf4j
 @Data
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class JwtFactory {
-    @Value("${jwt-secret}")
-    private String secret;
+//    @Value("${jwt-secret}")
+//    private static String secret;
+//
+//    @Value("${jwt-issuer}")
+//    private String issuer;
+//
+//    @Value("${jwt-expiration-days}")
+//    private static Long expiration;
 
-    @Value("${jwt-issuer}")
-    private String issuer;
+    private static String secret = "secret";
+    private String issuer = "sip-api";
+    private static Long expiration = 5L;
 
-    @Value("${jwt-expiration-days}")
-    private Long expiration;
+    private static Algorithm algorithm = Algorithm.HMAC512(secret.getBytes());
 
-    private Algorithm algorithm = Algorithm.HMAC512(secret.getBytes());
-
-    public String issueAuthToken(User user, String issuer) {
+    public static String issueAuthToken(User user, String issuer) {
         String jwt = String.format("Error issuing authentication token for user: %s. Message: %s", user.getUsername(), "Not implemented");
         try {
             jwt = JWT.create()
