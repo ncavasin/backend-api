@@ -21,6 +21,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -42,7 +44,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         // If the request does not contain an authorization header, it won't be authorized but must still traverse the filter chain
-        // because it might try access public resources.
+        // because it might try to access public resources.
         if (Strings.isNullOrEmpty(authHeader) || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
@@ -53,6 +55,13 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
         // If decoding fails, it means the token is invalid
         if (decodedToken == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // If token is expired, won't be authorized but must still traverse the filter chain because it might try
+        // to access public resources.
+        if (decodedToken.getExpiresAt().before(Timestamp.valueOf(LocalDateTime.now()))) {
             filterChain.doFilter(request, response);
             return;
         }
