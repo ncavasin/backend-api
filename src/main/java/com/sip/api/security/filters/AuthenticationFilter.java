@@ -44,9 +44,11 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         User user = (User) authentication.getPrincipal();
 
         String accessToken = JwtFactory.issueAuthToken(user, request.getRequestURL().toString());
-        String refreshToken = JwtFactory.issueRefreshToken(user, request.getRequestURL().toString());
+
+        // TODO: should we implement refresh token?
+//        String refreshToken = JwtFactory.issueRefreshToken(user, request.getRequestURL().toString());
 
         response.addHeader("Authorization", "Bearer " + accessToken);
-        response.addHeader("Authorization-Refresh", refreshToken);
+//        response.addHeader("Authorization-Refresh", refreshToken);
     }
 }
