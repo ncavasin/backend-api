@@ -1,6 +1,5 @@
 package com.sip.api.security.config;
 
-import com.sip.api.security.PasswordEncoder;
 import com.sip.api.security.filters.AuthenticationFilter;
 import com.sip.api.security.filters.AuthorizationFilter;
 import com.sip.api.services.UserService;
@@ -16,9 +15,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
