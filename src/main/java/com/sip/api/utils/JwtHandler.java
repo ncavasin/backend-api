@@ -4,71 +4,64 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 @Slf4j
-@Data
 @Component
 @RequiredArgsConstructor
-public class JwtFactory {
-//    @Value("${jwt-secret}")
-//    private static String secret;
-//
-//    @Value("${jwt-issuer}")
-//    private String issuer;
-//
-//    @Value("${jwt-expiration-days}")
-//    private static Long expiration;
+public class JwtHandler {
+    @Value("${jwt-secret}")
+    private String secret;
 
-    private static String secret = "secret";
-    private String issuer = "sip-api";
-    private static Long expiration = 5L;
+    @Value("${jwt-issuer}")
+    private String issuer;
 
-    private static Algorithm algorithm = Algorithm.HMAC512(secret.getBytes());
+    @Value("${jwt-expiration-days}")
+    private Long expirationDays;
 
-    public static String issueAuthToken(User user, String issuer) {
+    public String issueAuthToken(User user) {
         String jwt = String.format("Error issuing authentication token for user: %s. Message: %s", user.getUsername(), "Not implemented");
         try {
             jwt = JWT.create()
                     .withSubject(user.getUsername())
-                    .withIssuedAt(Date.valueOf(LocalDate.now()))
-                    .withExpiresAt(Date.valueOf(LocalDate.now().plusDays(expiration)))
+                    .withIssuedAt(getIssuingDate())
+                    .withExpiresAt(getExpirationDate())
                     .withIssuer(issuer)
                     .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-                    .sign(algorithm);
+                    .sign(getSigningAlgorithm());
         } catch (Exception e) {
             log.error("Error issuing auth token for user: {}. {}", user.getUsername(), e.getMessage());
         }
         return jwt;
     }
 
-    public static String issueRefreshToken(User user, String issuer) {
+    public String issueRefreshToken(User user, String issuer) {
         String jwt = String.format("Error issuing refresh token for user: %s. Message: %s", user.getUsername(), "Not implemented");
         try {
             jwt = JWT.create()
                     .withSubject(user.getUsername())
-                    .withIssuedAt(Date.valueOf(LocalDate.now()))
-                    .withExpiresAt(Date.valueOf(LocalDate.now().plusDays(expiration)))
+                    .withIssuedAt(getIssuingDate())
+                    .withExpiresAt(getExpirationDate())
                     .withIssuer(issuer)
-                    .sign(algorithm);
+                    .sign(getSigningAlgorithm());
         } catch (Exception e) {
             log.error("Error issuing refresh token for user: {}. {}", user.getUsername(), e.getMessage());
         }
         return jwt;
     }
 
-    public static DecodedJWT decodeToken(String rawToken) {
+    public DecodedJWT decodeToken(String rawToken) {
         try {
-            JWTVerifier verifier = JWT.require(algorithm).build();
+            JWTVerifier verifier = JWT.require(getSigningAlgorithm()).build();
             return verifier.verify(rawToken);
         } catch (Exception e) {
             log.error("Error decoding invalid token: {}", e.getMessage());
@@ -80,8 +73,23 @@ public class JwtFactory {
         return token.getSubject();
     }
 
-    public String getIssuer(DecodedJWT token) {
-        return token.getIssuer();
+    public boolean isExpired(DecodedJWT token) {
+        return token.getExpiresAt().before(Timestamp.valueOf(LocalDateTime.now()));
     }
 
+    public boolean issuerIsValid(DecodedJWT decodedToken) {
+        return decodedToken.getIssuer().equals(issuer);
+    }
+
+    private Timestamp getIssuingDate() {
+        return Timestamp.valueOf(LocalDateTime.now());
+    }
+
+    private Timestamp getExpirationDate() {
+        return Timestamp.valueOf(LocalDateTime.now().plusDays(expirationDays));
+    }
+
+    private Algorithm getSigningAlgorithm() {
+        return Algorithm.HMAC512(secret.getBytes());
+    }
 }
