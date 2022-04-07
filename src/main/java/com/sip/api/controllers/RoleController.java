@@ -4,9 +4,9 @@ import com.sip.api.domains.role.RoleConverter;
 import com.sip.api.dtos.role.RoleDto;
 import com.sip.api.services.RoleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -16,7 +16,7 @@ public class RoleController {
     private final RoleService roleService;
 
     @GetMapping
-    public RoleDto getRoleByName(@RequestBody @Validated RoleDto roleDto) {
+    public RoleDto getRoleByName(@RequestBody @Valid RoleDto roleDto) {
         return RoleConverter.entityToDto(roleService.findByName(roleDto.getName()));
     }
 
@@ -31,7 +31,7 @@ public class RoleController {
     }
 
     @PostMapping
-    public RoleDto addRole(@RequestBody @Validated RoleDto roleDto) {
+    public RoleDto addRole(@RequestBody @Valid RoleDto roleDto) {
         return RoleConverter.entityToDto(roleService.createRole(roleDto.getName()));
     }
 
@@ -41,7 +41,7 @@ public class RoleController {
     }
 
     @DeleteMapping
-    public void deleteRoleByName(@RequestBody @Validated RoleDto roleDto) {
+    public void deleteRoleByName(@RequestBody @Valid RoleDto roleDto) {
         roleService.deleteRoleByName(roleDto.getName());
     }
 }

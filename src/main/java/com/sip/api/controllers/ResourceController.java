@@ -5,9 +5,9 @@ import com.sip.api.dtos.resource.ResourceCreationDto;
 import com.sip.api.dtos.resource.ResourceDto;
 import com.sip.api.services.ResourceService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,7 +22,7 @@ public class ResourceController {
     }
 
     @GetMapping
-    public ResourceDto getResourceByName(@RequestBody @Validated ResourceDto resourceDto) {
+    public ResourceDto getResourceByName(@RequestBody @Valid ResourceDto resourceDto) {
         return ResourceConverter.entityToDto(resourceService.findByName(resourceDto.getName()));
     }
 
@@ -32,12 +32,12 @@ public class ResourceController {
     }
 
     @PostMapping
-    public ResourceDto createResource(@RequestBody @Validated ResourceCreationDto resourceCreationDto) {
+    public ResourceDto createResource(@RequestBody @Valid ResourceCreationDto resourceCreationDto) {
         return ResourceConverter.entityToDto(resourceService.addResource(resourceCreationDto));
     }
 
     @PutMapping
-    public ResourceDto updateResource(@RequestBody @Validated ResourceDto resourceDto) {
+    public ResourceDto updateResource(@RequestBody @Valid ResourceDto resourceDto) {
         return ResourceConverter.entityToDto(resourceService.updateResource(resourceDto));
     }
 
@@ -47,7 +47,7 @@ public class ResourceController {
     }
 
     @DeleteMapping
-    public void deleteByName(@RequestBody @Validated ResourceDto resourceDto) {
+    public void deleteByName(@RequestBody @Valid ResourceDto resourceDto) {
         resourceService.deleteByName(resourceDto.getName());
     }
 }
