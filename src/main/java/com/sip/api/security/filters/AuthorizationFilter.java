@@ -5,7 +5,7 @@ import com.google.common.base.Strings;
 import com.sip.api.domains.user.User;
 import com.sip.api.dtos.user.UserEmailDto;
 import com.sip.api.services.UserService;
-import com.sip.api.utils.JwtFactory;
+import com.sip.api.utils.JwtHandler;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +21,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -31,6 +29,7 @@ import java.util.Collection;
 public class AuthorizationFilter extends OncePerRequestFilter {
     private final String BEARER_AND_SPACE = "Bearer ";
     private final UserService userService;
+    private final JwtHandler jwtHandler;
 
     /*
      * This filter extracts the token from the request and validates its roles & permissions.
@@ -51,7 +50,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
         }
 
         // Try to decode token
-        DecodedJWT decodedToken = JwtFactory.decodeToken(authHeader.replace(BEARER_AND_SPACE, ""));
+        DecodedJWT decodedToken = jwtHandler.decodeToken(authHeader.replace(BEARER_AND_SPACE, ""));
 
         // If decoding fails, it means the token is invalid
         if (decodedToken == null) {
@@ -61,13 +60,22 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
         // If token is expired, won't be authorized but must still traverse the filter chain because it might try
         // to access public resources.
-        if (decodedToken.getExpiresAt().before(Timestamp.valueOf(LocalDateTime.now()))) {
+        if (jwtHandler.isExpired(decodedToken)) {
+            log.warn("Token expired at {}", decodedToken.getExpiresAt().toString());
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // If token issuer is not us, won't be authorized but must still traverse the filter chain because it might try
+        // to access public resources.
+        if (jwtHandler.isExpired(decodedToken) || jwtHandler.issuerIsValid(decodedToken)) {
+            log.warn("Token issuer is invalid. Who is{}?", decodedToken.getIssuer());
             filterChain.doFilter(request, response);
             return;
         }
 
         // Decoding succeeded. Now fetch user from database using the email received in the token
-        String username = decodedToken.getSubject();
+        String username = jwtHandler.getSubject(decodedToken);
         User user = userService.findByEmail(UserEmailDto.builder().email(username).build());
 
         // Get roles from the token and convert them to Spring Security authorities
