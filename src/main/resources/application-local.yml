@@ -65,7 +65,7 @@ spring:
 
 jwt-secret: '{jwt-secret}'
 jwt-issuer: '{jwt-issuer}'
-jwt-expiration-days: '{jwy-expiration-days}'
+jwt-expiration-days: '{jwt-expiration-days}'
 
 superadmin-email: 'superadmin@admin.com'
 superadmin-password: 'superSECRETpassword'
