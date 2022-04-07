@@ -6,11 +6,9 @@ import com.sip.api.security.filters.AuthorizationFilter;
 import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -24,64 +22,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        http.csrf()
+                .disable()
+                .cors()
+                .disable();
+
         http.sessionManagement().sessionCreationPolicy(STATELESS);
 
-        http
-            .csrf()//.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-            .disable()
-            .cors().disable()
-            .sessionManagement()
-                .sessionCreationPolicy(STATELESS)
-            .and()
-            .authorizeRequests()
+        // public endpoints
+        http.authorizeRequests()
                 .antMatchers("/webjars/springfox-swagger-ui/**",
                         "/v2/api-docs",
                         "/swagger-resources/**",
-                        "/swagger-ui.html")
-                .permitAll()
-            .and()
-            .addFilter(new AuthenticationFilter(authenticationManager()))
-            .addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-            .authorizeRequests()
-                .antMatchers("/register/**", "/login/**", "/logout/**", "/management/**")//, "/users/**")
-                .permitAll()
-            .anyRequest().authenticated();
-//            .and()
-//            .formLogin()
-//                .defaultSuccessUrl("/users", true)
-//                .usernameParameter("username") // must match form field name
-//                .passwordParameter("password") // must match form field name
-//            .and()
-//                .rememberMe()
-//                    .rememberMeParameter("remember-me") // must match form field name!
-//                    .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(7))
-//                    .key(UUID.randomUUID().toString())
-//            .and()
-//                .logout()
-//                    .logoutUrl("/logout")
-//                    .clearAuthentication(true)
-//                    .invalidateHttpSession(true)
-//                    .deleteCookies("JSESSIONID", "remember-me")
-//                    .logoutSuccessUrl("/login");
+                        "/swagger-ui.html",
+                        "/login/**", "/register/**", "/password/**")
+                .permitAll();
+        http
+                .addFilter(new AuthenticationFilter(authenticationManager()))
+                .addFilterAfter(new AuthorizationFilter(userService), AuthenticationFilter.class)
+//            .addFilterBefore(new AuthorizationFilter(userService), UsernamePasswordAuthenticationFilter.class)
+//            .authorizeRequests()
+//                .antMatchers("/logout/**", "/management/**")//, "/users/**")
+//                .permitAll()
+                .authorizeRequests()
+                .anyRequest()
+                .authenticated();
     }
-
-//    @Bean
-//    @Override
-//    // This allows us to inject an AuthenticationManager in CustomAuthFilter
-//    public AuthenticationManager authenticationManagerBean() throws Exception {
-//        return super.authenticationManagerBean();
-//    }
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) {
-//        auth.authenticationProvider(daoAuthenticationProvider());
-//    }
-//
-//    @Bean
-//    public DaoAuthenticationProvider daoAuthenticationProvider() {
-//        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-//        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder.encoder());
-//        daoAuthenticationProvider.setUserDetailsService(userService);
-//        return daoAuthenticationProvider;
-//    }
 }
