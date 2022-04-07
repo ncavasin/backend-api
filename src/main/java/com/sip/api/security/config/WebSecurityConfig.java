@@ -3,7 +3,7 @@ package com.sip.api.security.config;
 import com.sip.api.security.filters.AuthenticationFilter;
 import com.sip.api.security.filters.AuthorizationFilter;
 import com.sip.api.services.UserService;
-import com.sip.api.utils.JwtHandlerUtil;
+import com.sip.api.utils.JwtHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,7 +15,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserService userService;
-    private final JwtHandlerUtil jwtHandlerUtil;
+    private final JwtHandler jwtHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -35,8 +35,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/login/**", "/register/**", "/password/**")
                 .permitAll();
         http
-                .addFilter(new AuthenticationFilter(authenticationManager(), jwtHandlerUtil))
-                .addFilterAfter(new AuthorizationFilter(userService, jwtHandlerUtil), AuthenticationFilter.class);
+                .addFilter(new AuthenticationFilter(authenticationManager(), jwtHandler))
+                .addFilterAfter(new AuthorizationFilter(userService, jwtHandler), AuthenticationFilter.class);
 
         http.authorizeRequests()
                 .anyRequest()
