@@ -7,7 +7,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
@@ -41,6 +40,7 @@ public class JwtFactory {
         try {
             jwt = JWT.create()
                     .withSubject(user.getUsername())
+                    .withIssuedAt(Date.valueOf(LocalDate.now()))
                     .withExpiresAt(Date.valueOf(LocalDate.now().plusDays(expiration)))
                     .withIssuer(issuer)
                     .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
@@ -56,6 +56,7 @@ public class JwtFactory {
         try {
             jwt = JWT.create()
                     .withSubject(user.getUsername())
+                    .withIssuedAt(Date.valueOf(LocalDate.now()))
                     .withExpiresAt(Date.valueOf(LocalDate.now().plusDays(expiration)))
                     .withIssuer(issuer)
                     .sign(algorithm);
@@ -70,7 +71,7 @@ public class JwtFactory {
             JWTVerifier verifier = JWT.require(algorithm).build();
             return verifier.verify(rawToken);
         } catch (Exception e) {
-            log.error("Error decoding token: {}. {}", rawToken, e.getMessage());
+            log.error("Error decoding invalid token: {}", e.getMessage());
         }
         return null;
     }
