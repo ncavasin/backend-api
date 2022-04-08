@@ -61,15 +61,15 @@ public class AuthorizationFilter extends OncePerRequestFilter {
         // If token is expired, won't be authorized but must still traverse the filter chain because it might try
         // to access public resources.
         if (jwtHandler.isExpired(decodedToken)) {
-            log.warn("Token expired at {}", decodedToken.getExpiresAt().toString());
+            log.warn("JWT expired at {}.", decodedToken.getExpiresAt().toString());
             filterChain.doFilter(request, response);
             return;
         }
 
         // If token issuer is not us, won't be authorized but must still traverse the filter chain because it might try
         // to access public resources.
-        if (jwtHandler.isExpired(decodedToken) || jwtHandler.issuerIsValid(decodedToken)) {
-            log.warn("Token issuer is invalid. Who is{}?", decodedToken.getIssuer());
+        if (jwtHandler.issuerIsNotValid(decodedToken)) {
+            log.warn("Invalid JWT issuer. Who is {}?!", decodedToken.getIssuer());
             filterChain.doFilter(request, response);
             return;
         }
