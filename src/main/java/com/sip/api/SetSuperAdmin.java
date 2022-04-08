@@ -1,3 +1,5 @@
+package com.sip.api;
+
 import com.sip.api.domains.role.Role;
 import com.sip.api.dtos.user.UserCreationDto;
 import com.sip.api.services.RoleService;
