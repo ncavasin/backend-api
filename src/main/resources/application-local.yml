@@ -15,8 +15,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username:
-    password:
+    username: sip.2022.unlu@gmail.com
+    password: xudijuocjkxwkgdo
     properties:
       mail:
         smtp:
@@ -32,23 +32,6 @@ spring:
     multipart:
       max-file-size: 25MB
       max-request-size: 25MB
-  #  mail:
-  #    host: localhost
-  #    port: 1025
-  #    username: hello
-  #    password: hello
-  #
-  #    properties:
-  #      mail:
-  #        smtp:
-  #          ssl:
-  #            trust: "*"
-  #          auth: true
-  #          starttls:
-  #            enable: true
-  #          connectiontimeout: 5000
-  #          timeout: 3000
-  #          writeTimeout: 5000
 
   datasource:
     url: jdbc:postgresql://localhost:5050/sip
@@ -68,7 +51,7 @@ jwt-issuer: '{jwt-issuer}'
 jwt-expiration-days: '{jwt-expiration-days}'
 
 superadmin-email: 'superadmin@admin.com'
-superadmin-password: 'superSECRETpassword'
+superadmin-password: 'supersecretpassword'
 
 communication:
   from: no-reply@sip2022.inc
