@@ -19,4 +19,4 @@ spring:
     schemas: public
     out-of-order: true
 
-heroku-url: 'localhost:8080 https://sip-api-dev.herokuapp.com'
+heroku-url: 'https://sip-api-dev.herokuapp.com'
