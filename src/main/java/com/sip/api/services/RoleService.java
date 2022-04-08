@@ -17,4 +17,6 @@ public interface RoleService {
     void deleteRoleById(String roleId);
 
     void deleteRoleByName(String name);
+
+    boolean existsByName(String roleName);
 }
