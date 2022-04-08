@@ -20,15 +20,15 @@ import javax.mail.internet.MimeMessage;
 public class MailServiceImpl implements MailService {
     private final JavaMailSender mailSender;
 
-//    @Value("${spring.mail.username}")
-    private final String domain = "http://localhost:8080";
+    @Value("${heroku-url}")
+    private String url;
     @Value("${spring.mail.username}")
     private String USERNAME;
 
     @Override
     @Async
     public void sendConfirmationMail(String to, String firstName, String token) {
-        String link = "http://localhost:8080/register/confirm?token=" + token;
+        String link = url+"register/confirm?token=" + token;
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "utf-8");
