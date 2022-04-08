@@ -3,6 +3,19 @@ server:
     include-message: always
     include-binding-errors: always
 
+  datasource:
+    url: jdbc:postgresql://localhost:5050/sip
+    username: sip
+    password: sip.2022
+    driver-class-name: org.postgresql.Driver
+
+  flyway:
+    baseline-on-migrate: true
+    default-schema: public
+    schemas: public
+    out-of-order: true
+    enabled: false
+
 spring:
   jpa:
     properties:
@@ -31,19 +44,6 @@ spring:
     multipart:
       max-file-size: 25MB
       max-request-size: 25MB
-
-  datasource:
-    url: jdbc:postgresql://localhost:5050/sip
-    username: sip
-    password: sip.2022
-    driver-class-name: org.postgresql.Driver
-
-  flyway:
-    baseline-on-migrate: true
-    default-schema: public
-    schemas: public
-    out-of-order: true
-    enabled: false
 
 jwt-secret: '{jwt-secret}'
 jwt-issuer: '{jwt-issuer}'
