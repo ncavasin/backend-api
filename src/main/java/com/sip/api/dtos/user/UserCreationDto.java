@@ -33,5 +33,5 @@ public class UserCreationDto {
 
     private int phone;
 
-    private List<String> rolesIds;
+    private List<String> rolesNames;
 }
