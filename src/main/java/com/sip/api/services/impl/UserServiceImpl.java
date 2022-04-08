@@ -67,10 +67,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User createUser(UserCreationDto userCreationDto) {
-        checkUserRules(userCreationDto.getDni(), userCreationDto.getEmail(), userCreationDto.getPassword(), userCreationDto.getRolesIds());
+        checkUserRules(userCreationDto.getDni(), userCreationDto.getEmail(), userCreationDto.getPassword(), userCreationDto.getRolesNames());
         User user = UserConverter.dtoToEntity(userCreationDto);
         // Fetch roles by name
-        Set<Role> roles = validateRoles(userCreationDto.getRolesIds());
+        Set<Role> roles = validateRoles(userCreationDto.getRolesNames());
         user.setRoles(roles);
         // Created inactive by default until user activates it by mail
         user.setStatus(UserStatus.INACTIVE);
@@ -123,7 +123,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private Set<Role> validateRoles(List<String> roles) {
         if(roles == null || roles.isEmpty()) throw new BadRequestException("Roles are required");
-        return roles.stream().map(roleService::findById).collect(Collectors.toSet());
+        return roles.stream().map(roleService::findByName).collect(Collectors.toSet());
     }
 
     private Integer validateDni(Integer dni) {

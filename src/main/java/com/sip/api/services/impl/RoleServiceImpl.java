@@ -50,6 +50,11 @@ public class RoleServiceImpl implements RoleService {
         roleRepository.delete(role);
     }
 
+    @Override
+    public boolean existsByName(String roleName) {
+        return roleRepository.existsByName(roleName);
+    }
+
     private String checkNameExistence(String name) {
         if (roleRepository.existsByName(name))
             throw new BadRequestException(String.format("Role %s already exists", name));
