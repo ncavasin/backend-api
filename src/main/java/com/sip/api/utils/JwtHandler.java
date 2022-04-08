@@ -38,6 +38,7 @@ public class JwtHandler {
                     .withIssuer(issuer)
                     .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                     .sign(getSigningAlgorithm());
+            log.info("New jot. Issuer {}. Algorithm {}. Token {}", issuer, getSigningAlgorithm(), jwt);
         } catch (Exception e) {
             log.error("Error issuing auth token for user: {}. {}", user.getUsername(), e.getMessage());
         }
@@ -77,8 +78,8 @@ public class JwtHandler {
         return token.getExpiresAt().before(Timestamp.valueOf(LocalDateTime.now()));
     }
 
-    public boolean issuerIsValid(DecodedJWT decodedToken) {
-        return decodedToken.getIssuer().equals(issuer);
+    public boolean issuerIsNotValid(DecodedJWT decodedToken) {
+        return !decodedToken.getIssuer().equals(issuer);
     }
 
     private Timestamp getIssuingDate() {
