@@ -52,7 +52,7 @@ jwt-expiration-days: '{jwt-expiration-days}'
 
 superadmin-email: 'superadmin@admin.com'
 superadmin-password: 'supersecretpassword'
-heroku-url: 'https://sip-api-dev.herokuapp.com'
+heroku-url: 'localhost:8080'
 
 communication:
   from: no-reply@sip2022.inc
