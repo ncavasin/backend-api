@@ -27,15 +27,26 @@ public class SetSuperAdmin implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        Role adminRole = roleService.createRole("SUPER_ADMIN");
-        if(!userService.existsByEmail(superAdminEmail)) {
-            userService.createUser(UserCreationDto.builder()
-                    .dni(99999999)
-                    .email(superAdminEmail)
-                    .password(superAdminPassword)
-                    .rolesIds(Collections.singletonList(adminRole.getId()))
-                    .build());
-            log.info("Super admin created");
+        try {
+            if (!roleService.existsByName("USER")) roleService.createRole("USER");
+
+            Role superAdmin = null;
+            if (!roleService.existsByName("SUPER ADMIN")) {
+                superAdmin = roleService.createRole("SUPER ADMIN");
+            } else {
+                superAdmin = roleService.findByName("SUPER ADMIN");
+            }
+            if (!userService.existsByEmail(superAdminEmail)) {
+                userService.createUser(UserCreationDto.builder()
+                        .dni(99999999)
+                        .email(superAdminEmail)
+                        .password(superAdminPassword)
+                        .rolesNames(Collections.singletonList(superAdmin.getName()))
+                        .build());
+                log.info("Super admin created");
+            }
+        } catch (Exception e) {
+            log.error("Error while setting up Roles or Super admin!. Error: {}", e.getMessage());
         }
     }
 }
