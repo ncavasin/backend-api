@@ -22,7 +22,12 @@ public class RegisterController {
     }
 
     @GetMapping("/confirm")
-    public UserDto confirm(@RequestParam("token") String token) {
-        return UserConverter.entityToDto(registerService.confirm(token));
+    public void confirm(@RequestParam("token") String token) {
+        registerService.sendActivationEmail(token);
+    }
+
+    @PostMapping("/resend/{userId}")
+    public void resend(@PathVariable("userId") String userId) {
+        registerService.resendActivationEmail(userId);
     }
 }
