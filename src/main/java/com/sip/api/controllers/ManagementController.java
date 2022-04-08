@@ -1,17 +1,16 @@
 package com.sip.api.controllers;
 
-import com.sip.api.domains.role.RoleConverter;
 import com.sip.api.domains.user.UserConverter;
-import com.sip.api.dtos.role.RoleDto;
 import com.sip.api.dtos.user.UserCreationDto;
 import com.sip.api.dtos.user.UserDto;
-import com.sip.api.services.RoleService;
 import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/management")
@@ -20,7 +19,7 @@ public class ManagementController {
     private final UserService userService;
 
     @PostMapping("/add-professor")
-    public UserDto addProfessor(@RequestBody @Validated UserCreationDto userCreationDto) {
+    public UserDto addProfessor(@RequestBody @Valid UserCreationDto userCreationDto) {
         return UserConverter.entityToDto(userService.createUser(userCreationDto));
     }
 
