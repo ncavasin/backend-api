@@ -28,7 +28,7 @@ public class MailServiceImpl implements MailService {
     @Override
     @Async
     public void sendConfirmationMail(String to, String firstName, String token) {
-        String link = url+"register/confirm?token=" + token;
+        String link = url+"/register/confirm?token=" + token;
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "utf-8");
