@@ -1,6 +1,7 @@
 package com.sip.api.services.impl;
 
 import com.sip.api.domains.registration.MailToken;
+import com.sip.api.domains.role.Role;
 import com.sip.api.domains.user.User;
 import com.sip.api.domains.user.UserConverter;
 import com.sip.api.dtos.user.UserCreationDto;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -27,15 +29,11 @@ public class RegisterServiceImpl implements RegisterService {
     @Override
     @Transactional
     public User register(UserCreationDto userCreationDto) {
-        // TODO ALWAYS register user with role USER
-        // Register will always assign a role of USER
-//        List<String> userRole = new ArrayList<>();
-//        userRole.add(Role
-//                .builder()
-//                .name("USER")
-//                .build()
-//                .getName());
-//        userCreationDto.setRolesIds(userRole);
+        userCreationDto.setRolesNames(Collections.singletonList(
+                Role.builder()
+                        .name("USER")
+                        .build()
+                        .getName()));
         User savedUser = userService.createUser(userCreationDto);
         sendActivationMail(savedUser);
         return savedUser;
