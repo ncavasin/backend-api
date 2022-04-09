@@ -23,7 +23,7 @@ public class AuthServiceImpl implements AuthService {
     public AuthenticationDto authenticate(UserCredentialsDto userCredentialsDto) {
         User user;
         try {
-            user = userService.findByEmail(UserEmailDto.builder()
+            user = userService.authenticateByEmail(UserEmailDto.builder()
                     .email(userCredentialsDto.getEmail())
                     .build());
         } catch (NotFoundException e) {

@@ -24,18 +24,18 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtHandler jwtHandler;
 
-    @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        try {
-            // Get request body and parse it
-            UserCredentialsDto authenticationRequest = new ObjectMapper().readValue(request.getInputStream(), UserCredentialsDto.class);
-            Authentication authentication = new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword());
-            return authenticationManager.authenticate(authentication);
-        } catch (IOException e) {
-            log.error("User tried to authenticate with wrong credentials. Error: {}", e.getMessage());
-            throw new UnauthorizedException("Bad credentials!");
-        }
-    }
+//    @Override
+//    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+//        try {
+//            // Get request body and parse it
+//            UserCredentialsDto authenticationRequest = new ObjectMapper().readValue(request.getInputStream(), UserCredentialsDto.class);
+//            Authentication authentication = new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword());
+//            return authenticationManager.authenticate(authentication);
+//        } catch (IOException e) {
+//            log.error("User tried to authenticate with wrong credentials. Error: {}", e.getMessage());
+//            throw new UnauthorizedException("Bad credentials!");
+//        }
+//    }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request,
