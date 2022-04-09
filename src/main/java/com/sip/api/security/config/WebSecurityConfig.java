@@ -25,12 +25,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf()
-                .disable()
-                .cors()
                 .disable();
 
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-
         // public endpoints
         http.authorizeRequests()
                 .antMatchers("/webjars/springfox-swagger-ui/**",
@@ -39,6 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-ui.html",
                         "/login/**", "/register/**", "/password/**")
                 .permitAll();
+
         http
                 .addFilter(new AuthenticationFilter(authenticationManager(), jwtHandler))
                 .addFilterAfter(new AuthorizationFilter(userService, jwtHandler), AuthenticationFilter.class);
@@ -46,6 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .anyRequest()
                 .authenticated();
+
     }
 
     // Used by spring security if CORS is enabled.
