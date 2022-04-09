@@ -39,7 +39,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        corsConfiguration.setExposedHeaders(List.of("Authorization"));
 
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-
         // public endpoints
         http.authorizeRequests()
                 .antMatchers("/webjars/springfox-swagger-ui/**",
@@ -52,7 +51,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated();
 //                .and()
 //                .cors().configurationSource(request -> corsConfiguration);
-
 
         http
                 .addFilter(new AuthenticationFilter(authenticationManager(), jwtHandler))
@@ -76,11 +74,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        of origins, list them explicitly or consider using "allowedOriginPatterns" instead.
         config.setAllowedOriginPatterns(List.of("*"));
         config.setAllowCredentials(true);
-        config.addAllowedMethod("OPTIONS");
-        config.addAllowedMethod("GET");
-        config.addAllowedMethod("POST");
-        config.addAllowedMethod("PUT");
-        config.addAllowedMethod("DELETE");
+        config.addAllowedOriginPattern("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
