@@ -12,6 +12,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/register")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class RegisterController {
 
     private final RegisterService registerService;

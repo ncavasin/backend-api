@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    // Used by spring security if CORS is enabled.
+    // Overrides default CorsConfiguration
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source =
