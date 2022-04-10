@@ -91,11 +91,12 @@ public class BasicSetup implements ApplicationRunner {
             roleService.createRole(RoleCreationDto
                     .builder()
                     .name("ROLE_USER")
-                    .allowedResourcesIds(resourceList
-                            .stream()
-                            .map(AbstractEntity::getId)
-                            .filter(id -> !id.equals(resourceService.findByName("ALL").getId()))
-                            .collect(Collectors.toList()))
+//                    .allowedResourcesIds(resourceList
+//                            .stream()
+//                            .map(AbstractEntity::getId)
+//                            .filter(id -> !id.equals(resourceService.findByName("ALL").getId()))
+//                            .collect(Collectors.toList()))
+                    .allowedResourcesIds(List.of(resourceList.get(3).getId(), resourceList.get(4).getId()))
                     .build());
     }
 }

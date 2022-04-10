@@ -54,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .addFilter(new AuthenticationFilter(authenticationManager(), jwtService))
-                .addFilterAfter(new AuthorizationFilter(userService, jwtService), AuthenticationFilter.class);
+                .addFilterAfter(new AuthorizationFilter(jwtService), AuthenticationFilter.class);
 //
 //        http.authorizeRequests()
 //                .anyRequest()

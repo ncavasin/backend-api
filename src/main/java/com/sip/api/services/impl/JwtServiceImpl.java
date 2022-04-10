@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Component
@@ -105,6 +106,11 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String getSubject(DecodedJWT token) {
         return token.getSubject();
+    }
+
+    @Override
+    public Collection<GrantedAuthority> getAllowedResourcesAsGrantedAuthorities(DecodedJWT token) {
+        return Stream.of(token.getClaim("roles")).map(resource -> new SimpleGrantedAuthority(resource.toString())).collect(Collectors.toList());
     }
 
     @Override
