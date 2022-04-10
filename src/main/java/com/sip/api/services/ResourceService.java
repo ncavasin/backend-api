@@ -20,4 +20,10 @@ public interface ResourceService {
     void deleteById(String resourceId);
 
     void deleteByName(String resourceName);
+
+    boolean existsById(String resourceId);
+
+    boolean existsByName(String resourceName);
+
+    boolean existsByUrl(String resourceUrl);
 }

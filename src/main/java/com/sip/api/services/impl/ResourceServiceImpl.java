@@ -64,6 +64,21 @@ public class ResourceServiceImpl implements ResourceService {
         resourceRepository.deleteById(resource.getId());
     }
 
+    @Override
+    public boolean existsById(String resourceId) {
+        return resourceRepository.existsById(resourceId);
+    }
+
+    @Override
+    public boolean existsByName(String resourceName) {
+        return resourceRepository.existsByName(resourceName);
+    }
+
+    @Override
+    public boolean existsByUrl(String resourceUrl) {
+        return resourceRepository.existsByUrl(resourceUrl);
+    }
+
     private void checkExistence(String name) {
         if (resourceRepository.existsByName(name)) throw new BadRequestException("Resource already exists");
     }

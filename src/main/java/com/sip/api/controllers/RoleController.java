@@ -1,6 +1,7 @@
 package com.sip.api.controllers;
 
 import com.sip.api.domains.role.RoleConverter;
+import com.sip.api.dtos.RoleCreationDto;
 import com.sip.api.dtos.role.RoleDto;
 import com.sip.api.services.RoleService;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +32,8 @@ public class RoleController {
     }
 
     @PostMapping
-    public RoleDto addRole(@RequestBody @Valid RoleDto roleDto) {
-        return RoleConverter.entityToDto(roleService.createRole(roleDto.getName()));
+    public RoleDto addRole(@RequestBody @Valid RoleCreationDto roleCreationDto) {
+        return RoleConverter.entityToDto(roleService.createRole(roleCreationDto));
     }
 
     @DeleteMapping("/{roleId}")

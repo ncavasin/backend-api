@@ -13,4 +13,6 @@ public interface ResourceRepository extends PagingAndSortingRepository<Resource,
     Optional<Resource> findByName(String name);
 
     boolean existsByName(String name);
+
+    boolean existsByUrl(String url);
 }
