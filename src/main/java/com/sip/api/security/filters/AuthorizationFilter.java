@@ -44,7 +44,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
         // If the request does not contain an authorization header, it won't be authorized but must still traverse the filter chain
         // because it might try to access public resources.
-        if (Strings.isNullOrEmpty(authHeader) || !authHeader.startsWith("Bearer ")) {
+        if (Strings.isNullOrEmpty(authHeader) || !authHeader.startsWith(BEARER_AND_SPACE)) {
             filterChain.doFilter(request, response);
             return;
         }
