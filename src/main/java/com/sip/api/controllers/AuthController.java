@@ -2,7 +2,7 @@ package com.sip.api.controllers;
 
 import com.sip.api.dtos.UserCredentialsDto;
 import com.sip.api.dtos.user.auth.AuthenticationDto;
-import com.sip.api.services.AuthService;
+import com.sip.api.services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,10 +16,10 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthService authService;
+    private final AuthenticationService authenticationService;
 
     @PostMapping
     public AuthenticationDto login(@RequestBody @Valid UserCredentialsDto userCredentialsDto) {
-        return authService.authenticate(userCredentialsDto);
+        return authenticationService.authenticate(userCredentialsDto);
     }
 }
