@@ -14,7 +14,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/login")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
