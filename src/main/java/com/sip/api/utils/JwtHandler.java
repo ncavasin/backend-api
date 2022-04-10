@@ -21,10 +21,8 @@ import java.util.stream.Collectors;
 public class JwtHandler {
     @Value("${jwt-secret}")
     private String secret;
-
     @Value("${jwt-issuer}")
     private String issuer;
-
     @Value("${jwt-expiration-days}")
     private Long expirationDays;
 
