@@ -35,6 +35,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role createRole(String name) {
+        // TODO IMPLEMENT THE CREATION OF THE RESOURCE ASSOCIATED TO A ROLE
         return roleRepository.save(new Role(checkNameExistence(name), new HashSet<>()));
     }
 

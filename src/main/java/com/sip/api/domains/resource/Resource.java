@@ -24,4 +24,6 @@ public class Resource extends TimeTrackable {
     private String url;
 
     // TODO: ADD HTTP METHODS
+    // IT WORKS BUT I NEED TO IMPLEMENT THE CREATION OF THE RESOURCE ASSOCIATED TO A ROLE
+
 }
