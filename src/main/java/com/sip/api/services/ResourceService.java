@@ -13,11 +13,17 @@ public interface ResourceService {
 
     Resource findByName(String resourceName);
 
-    Resource addResource(ResourceCreationDto resourceCreationDto);
+    Resource createResource(ResourceCreationDto resourceCreationDto);
 
     Resource updateResource(ResourceDto resourceDto);
 
     void deleteById(String resourceId);
 
     void deleteByName(String resourceName);
+
+    boolean existsById(String resourceId);
+
+    boolean existsByName(String resourceName);
+
+    boolean existsByUrl(String resourceUrl);
 }

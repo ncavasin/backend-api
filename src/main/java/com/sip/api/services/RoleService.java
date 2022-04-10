@@ -1,6 +1,7 @@
 package com.sip.api.services;
 
 import com.sip.api.domains.role.Role;
+import com.sip.api.dtos.RoleCreationDto;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface RoleService {
 
     Role findByName(String name);
 
-    Role createRole(String name);
+    Role createRole(RoleCreationDto roleCreationDto);
 
     void deleteRoleById(String roleId);
 

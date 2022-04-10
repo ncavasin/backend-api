@@ -10,6 +10,7 @@ import com.sip.api.domains.user.User;
 import com.sip.api.dtos.user.UserEmailDto;
 import com.sip.api.exceptions.BadRequestException;
 import com.sip.api.exceptions.NotFoundException;
+import com.sip.api.exceptions.UnauthorizedException;
 import com.sip.api.repositories.UserRepository;
 import com.sip.api.services.RoleService;
 import com.sip.api.services.UserService;
@@ -55,6 +56,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public User authenticateByEmail(UserEmailDto userEmailDto) {
+        User user = findByEmail(userEmailDto);
+        if (!user.getStatus().equals(UserStatus.ACTIVE)) throw new UnauthorizedException("User is not enabled");
+        return user;
     }
 
     @Override

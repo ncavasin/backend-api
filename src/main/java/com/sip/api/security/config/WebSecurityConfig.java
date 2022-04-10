@@ -3,7 +3,7 @@ package com.sip.api.security.config;
 import com.sip.api.security.filters.AuthenticationFilter;
 import com.sip.api.security.filters.AuthorizationFilter;
 import com.sip.api.services.UserService;
-import com.sip.api.utils.JwtHandler;
+import com.sip.api.services.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,7 +21,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserService userService;
-    private final JwtHandler jwtHandler;
+    private final JwtService jwtService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -53,8 +53,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .cors().configurationSource(request -> corsConfiguration);
 
         http
-                .addFilter(new AuthenticationFilter(authenticationManager(), jwtHandler))
-                .addFilterAfter(new AuthorizationFilter(userService, jwtHandler), AuthenticationFilter.class);
+                .addFilter(new AuthenticationFilter(authenticationManager(), jwtService))
+                .addFilterAfter(new AuthorizationFilter(userService, jwtService), AuthenticationFilter.class);
 //
 //        http.authorizeRequests()
 //                .anyRequest()

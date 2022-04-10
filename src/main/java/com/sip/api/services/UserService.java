@@ -32,5 +32,7 @@ public interface UserService extends UserDetailsService {
 
     User findByEmail(UserEmailDto userEmailDto);
 
+    User authenticateByEmail(UserEmailDto userEmailDto);
+
     boolean existsByEmail(String email);
 }

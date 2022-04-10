@@ -1,22 +1,27 @@
 package com.sip.api.services.impl;
 
+import com.sip.api.domains.resource.Resource;
 import com.sip.api.domains.role.Role;
+import com.sip.api.dtos.RoleCreationDto;
 import com.sip.api.exceptions.BadRequestException;
 import com.sip.api.exceptions.NotFoundException;
 import com.sip.api.repositories.RoleRepository;
+import com.sip.api.services.ResourceService;
 import com.sip.api.services.RoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
+    private final ResourceService resourceService;
 
     @Override
     public List<Role> findAll() {
@@ -34,8 +39,12 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role createRole(String name) {
-        return roleRepository.save(new Role(checkNameExistence(name), new HashSet<>()));
+    public Role createRole(RoleCreationDto roleCreationDto) {
+        Set<Resource> resourceSet = roleCreationDto.getAllowedResourcesIds()
+                .stream()
+                .map(resourceService::findById)
+                .collect(Collectors.toSet());
+        return roleRepository.save(new Role(checkNameExistence(roleCreationDto.getName()), resourceSet));
     }
 
     @Override

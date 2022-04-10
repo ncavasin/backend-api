@@ -3,9 +3,7 @@ package com.sip.api.services.impl;
 import com.sip.api.domains.registration.MailToken;
 import com.sip.api.domains.role.Role;
 import com.sip.api.domains.user.User;
-import com.sip.api.domains.user.UserConverter;
 import com.sip.api.dtos.user.UserCreationDto;
-import com.sip.api.dtos.user.UserDto;
 import com.sip.api.services.MailSender;
 import com.sip.api.services.MailTokenService;
 import com.sip.api.services.RegisterService;
@@ -31,7 +29,7 @@ public class RegisterServiceImpl implements RegisterService {
     public User register(UserCreationDto userCreationDto) {
         userCreationDto.setRolesNames(Collections.singletonList(
                 Role.builder()
-                        .name("USER")
+                        .name("ROLE_USER")
                         .build()
                         .getName()));
         User savedUser = userService.createUser(userCreationDto);

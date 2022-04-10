@@ -35,7 +35,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public Resource addResource(ResourceCreationDto resourceCreationDto) {
+    public Resource createResource(ResourceCreationDto resourceCreationDto) {
         checkExistence(resourceCreationDto.getName());
         return resourceRepository.save(Resource.builder()
                 .name(resourceCreationDto.getName())
@@ -62,6 +62,21 @@ public class ResourceServiceImpl implements ResourceService {
     public void deleteByName(String resourceName) {
         Resource resource = findByName(resourceName);
         resourceRepository.deleteById(resource.getId());
+    }
+
+    @Override
+    public boolean existsById(String resourceId) {
+        return resourceRepository.existsById(resourceId);
+    }
+
+    @Override
+    public boolean existsByName(String resourceName) {
+        return resourceRepository.existsByName(resourceName);
+    }
+
+    @Override
+    public boolean existsByUrl(String resourceUrl) {
+        return resourceRepository.existsByUrl(resourceUrl);
     }
 
     private void checkExistence(String name) {

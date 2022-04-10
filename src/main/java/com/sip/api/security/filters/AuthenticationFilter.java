@@ -3,7 +3,7 @@ package com.sip.api.security.filters;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sip.api.dtos.UserCredentialsDto;
 import com.sip.api.exceptions.UnauthorizedException;
-import com.sip.api.utils.JwtHandler;
+import com.sip.api.services.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +22,9 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
-    private final JwtHandler jwtHandler;
+    private final JwtService jwtService;
+
+    /* This filter by default responds to the URL /login. */
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -44,7 +46,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                             Authentication authentication) {
         User user = (User) authentication.getPrincipal();
 
-        String accessToken = jwtHandler.issueAuthToken(user);
+        String accessToken = jwtService.issueAuthToken(user);
 
         // TODO: should we implement refresh token?
 //        String refreshToken = JwtFactory.issueRefreshToken(user, request.getRequestURL().toString());
