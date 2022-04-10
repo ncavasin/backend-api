@@ -33,7 +33,7 @@ public class ResourceController {
 
     @PostMapping
     public ResourceDto createResource(@RequestBody @Valid ResourceCreationDto resourceCreationDto) {
-        return ResourceConverter.entityToDto(resourceService.addResource(resourceCreationDto));
+        return ResourceConverter.entityToDto(resourceService.createResource(resourceCreationDto));
     }
 
     @PutMapping

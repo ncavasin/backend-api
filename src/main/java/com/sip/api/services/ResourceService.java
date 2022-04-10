@@ -13,7 +13,7 @@ public interface ResourceService {
 
     Resource findByName(String resourceName);
 
-    Resource addResource(ResourceCreationDto resourceCreationDto);
+    Resource createResource(ResourceCreationDto resourceCreationDto);
 
     Resource updateResource(ResourceDto resourceDto);
 

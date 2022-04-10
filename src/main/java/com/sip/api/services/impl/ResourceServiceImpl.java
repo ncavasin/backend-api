@@ -35,7 +35,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public Resource addResource(ResourceCreationDto resourceCreationDto) {
+    public Resource createResource(ResourceCreationDto resourceCreationDto) {
         checkExistence(resourceCreationDto.getName());
         return resourceRepository.save(Resource.builder()
                 .name(resourceCreationDto.getName())

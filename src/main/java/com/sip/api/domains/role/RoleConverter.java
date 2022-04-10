@@ -20,7 +20,7 @@ public class RoleConverter {
                 .collect(Collectors.toList());
     }
 
-    public static Role dtoToEntity(RoleDto roleDto){
+    public static Role dtoToEntity(RoleDto roleDto) {
         return Role.builder()
                 .name(roleDto.getName())
                 .build();
