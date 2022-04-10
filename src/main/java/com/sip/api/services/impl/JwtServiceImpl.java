@@ -1,9 +1,10 @@
-package com.sip.api.utils;
+package com.sip.api.services.impl;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.sip.api.services.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class JwtHandler {
+public class JwtServiceImpl implements JwtService {
     @Value("${jwt-secret}")
     private String secret;
     @Value("${jwt-issuer}")
@@ -26,6 +27,7 @@ public class JwtHandler {
     @Value("${jwt-expiration-days}")
     private Long expirationDays;
 
+    @Override
     public String issueAuthToken(User user) {
         String jwt = String.format("Error issuing authentication token for user: %s. Message: %s", user.getUsername(), "Not implemented");
         try {
@@ -43,6 +45,7 @@ public class JwtHandler {
         return jwt;
     }
 
+    @Override
     public String issueRefreshToken(User user, String issuer) {
         String jwt = String.format("Error issuing refresh token for user: %s. Message: %s", user.getUsername(), "Not implemented");
         try {
@@ -58,6 +61,7 @@ public class JwtHandler {
         return jwt;
     }
 
+    @Override
     public DecodedJWT decodeToken(String rawToken) {
         try {
             JWTVerifier verifier = JWT.require(getSigningAlgorithm()).build();
@@ -68,14 +72,17 @@ public class JwtHandler {
         return null;
     }
 
+    @Override
     public String getSubject(DecodedJWT token) {
         return token.getSubject();
     }
 
+    @Override
     public boolean isExpired(DecodedJWT token) {
         return token.getExpiresAt().before(Timestamp.valueOf(LocalDateTime.now()));
     }
 
+    @Override
     public boolean issuerIsNotValid(DecodedJWT decodedToken) {
         return !decodedToken.getIssuer().equals(issuer);
     }
