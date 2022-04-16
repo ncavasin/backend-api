@@ -1,10 +1,13 @@
 package com.sip.api.domains.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sip.api.domains.role.Role;
 import com.sip.api.domains.TimeTrackable;
 import com.sip.api.domains.enums.UserStatus;
-import lombok.*;
+import com.sip.api.domains.role.Role;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,7 +15,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor
