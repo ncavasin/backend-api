@@ -38,6 +38,16 @@ public class RoleController {
         return RoleConverter.entityToDto(roleService.createRole(roleCreationDto));
     }
 
+    @PutMapping("/add-resource/{roleId}/{resourceId}")
+    public RoleDto addPermissionToRole(@PathVariable("roleId") String roleId, @PathVariable("resourceId") String resourceId) {
+        return RoleConverter.entityToDto(roleService.addResourceToRole(roleId, resourceId));
+    }
+
+    @PutMapping("/remove-resource/{roleId}/{resourceId}")
+    public RoleDto removePermissionToRole(@PathVariable("roleId") String roleId, @PathVariable("resourceId") String resourceId) {
+        return RoleConverter.entityToDto(roleService.removeResourceFromRole(roleId, resourceId));
+    }
+
     @DeleteMapping("/{roleId}")
     public void deleteRoleById(@PathVariable("roleId") String roleId) {
         roleService.deleteRoleById(roleId);

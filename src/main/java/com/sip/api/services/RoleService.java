@@ -1,7 +1,6 @@
 package com.sip.api.services;
 
 import com.sip.api.domains.role.Role;
-import com.sip.api.domains.user.User;
 import com.sip.api.dtos.RoleCreationDto;
 
 import java.util.List;
@@ -15,6 +14,10 @@ public interface RoleService {
     Role findByName(String name);
 
     Role createRole(RoleCreationDto roleCreationDto);
+
+    Role addResourceToRole(String roleId, String resourceId);
+
+    Role removeResourceFromRole(String roleId, String resourceId);
 
     void deleteRoleById(String roleId);
 
