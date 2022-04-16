@@ -10,6 +10,7 @@ public class ResourceConverter {
         return ResourceDto.builder()
                 .id(resource.getId())
                 .name(resource.getName())
+                .url(resource.getUrl())
                 .build();
     }
 
@@ -22,6 +23,7 @@ public class ResourceConverter {
     public static Resource dtoToEntity(ResourceDto resourceDto) {
         return Resource.builder()
                 .name(resourceDto.getName())
+                .url(resourceDto.getUrl())
                 .build();
     }
 }
