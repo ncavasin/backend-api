@@ -2,7 +2,6 @@ package com.sip.api.security.filters;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.common.base.Strings;
-import com.sip.api.exceptions.ForbiddenException;
 import com.sip.api.services.JwtService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -83,7 +82,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
 //        Collection<GrantedAuthority> matches = allowedResources.stream().filter(grantedAuthority -> grantedAuthority.getAuthority().contains(requestingUrl)).collect(Collectors.toList());
 
-        if (hasAccessToEverything | hasAccessToUrl){
+        if (!(hasAccessToEverything | hasAccessToUrl)) {
             log.info("User does not have permission to access {}.", requestingUrl);
             filterChain.doFilter(request, response);
             return;
