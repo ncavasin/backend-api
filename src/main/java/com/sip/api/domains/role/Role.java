@@ -30,7 +30,7 @@ public class Role extends TimeTrackable {
             joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_role_id")),
             inverseJoinColumns = @JoinColumn(name = "resource_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_resource_id")))
     @Fetch(FetchMode.JOIN)
-    Set<Resource> allowedResources = new LinkedHashSet<>();
+    private Set<Resource> allowedResources = new LinkedHashSet<>();
 
     @Override
     public boolean equals(Object o) {
