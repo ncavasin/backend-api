@@ -1,6 +1,7 @@
 package com.sip.api.services;
 
 import com.sip.api.domains.role.Role;
+import com.sip.api.domains.user.User;
 import com.sip.api.dtos.RoleCreationDto;
 
 import java.util.List;

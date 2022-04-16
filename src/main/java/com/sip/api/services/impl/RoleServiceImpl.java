@@ -69,5 +69,4 @@ public class RoleServiceImpl implements RoleService {
             throw new BadRequestException(String.format("Role %s already exists", name));
         return name;
     }
-
 }
