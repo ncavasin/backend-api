@@ -13,6 +13,8 @@ public interface ResourceService {
 
     Resource findByName(String resourceName);
 
+    Resource findByUrl(String resourceUrl);
+
     Resource createResource(ResourceCreationDto resourceCreationDto);
 
     Resource updateResource(ResourceDto resourceDto);
@@ -20,6 +22,8 @@ public interface ResourceService {
     void deleteById(String resourceId);
 
     void deleteByName(String resourceName);
+
+    void deleteByUrl(String resourceUrl);
 
     boolean existsById(String resourceId);
 

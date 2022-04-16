@@ -19,9 +19,10 @@ import java.util.List;
 @Table(name = "resources")
 public class Resource extends TimeTrackable {
     @Column(nullable = false, unique = true)
-    private String name;
-
     private String url;
+
+    @Column(nullable = false, unique = true)
+    private String name;
 
     // TODO: ADD HTTP METHODS
     // IT WORKS BUT I NEED TO IMPLEMENT THE CREATION OF THE RESOURCE ASSOCIATED TO A ROLE

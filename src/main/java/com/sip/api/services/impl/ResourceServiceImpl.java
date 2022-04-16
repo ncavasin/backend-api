@@ -35,6 +35,11 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
+    public Resource findByUrl(String resourceUrl) {
+        return resourceRepository.findByUrl(resourceUrl).orElseThrow(() -> new NotFoundException("Resource not found"));
+    }
+
+    @Override
     public Resource createResource(ResourceCreationDto resourceCreationDto) {
         checkExistence(resourceCreationDto.getName());
         return resourceRepository.save(Resource.builder()
@@ -61,6 +66,12 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     public void deleteByName(String resourceName) {
         Resource resource = findByName(resourceName);
+        resourceRepository.deleteById(resource.getId());
+    }
+
+    @Override
+    public void deleteByUrl(String resourceUrl) {
+        Resource resource = findByUrl(resourceUrl);
         resourceRepository.deleteById(resource.getId());
     }
 
