@@ -20,6 +20,8 @@ public interface UserService extends UserDetailsService {
 
     User assignRoleToUserById(String userId, String roleId);
 
+    User removeRoleToUserById(String userId, String roleId);
+
     User updateEmail(String userId, UserEmailDto userEmailDto);
 
     User updatePassword(String userId, UserPasswordDto userPasswordDto);

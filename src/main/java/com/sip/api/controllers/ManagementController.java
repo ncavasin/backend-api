@@ -20,5 +20,10 @@ public class ManagementController {
         return UserConverter.entityToDto(userService.assignRoleToUserById(userId, roleId));
     }
 
+    @PutMapping("/remove-role/{userId}/{roleId}")
+    public UserDto removeRoleToUserById(@PathVariable("userId") String userId, @PathVariable("roleId") String roleId) {
+        return UserConverter.entityToDto(userService.removeRoleToUserById(userId, roleId));
+    }
+
 
 }
