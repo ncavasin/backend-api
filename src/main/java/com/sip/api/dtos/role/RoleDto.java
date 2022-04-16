@@ -1,8 +1,12 @@
 package com.sip.api.dtos.role;
 
-import lombok.*;
+import com.sip.api.domains.resource.Resource;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotEmpty;
+import java.util.Set;
 
 @Data
 @Builder
@@ -12,4 +16,6 @@ public class RoleDto {
     private String id;
 
     private String name;
+
+    private Set<Resource> allowedResources;
 }

@@ -11,6 +11,7 @@ public class RoleConverter {
         return RoleDto.builder()
                 .id(role.getId())
                 .name(role.getName())
+                .allowedResources(role.getAllowedResources())
                 .build();
     }
 
