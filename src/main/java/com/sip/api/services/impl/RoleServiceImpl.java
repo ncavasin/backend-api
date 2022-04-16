@@ -48,7 +48,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role addResourceToRole(String roleId, String resourceId) {
+    public Role addResourceToRole(String resourceId, String roleId) {
         Role role = findById(roleId);
         Resource newResource = resourceService.findById(resourceId);
         if (role.getAllowedResources().contains(newResource))
@@ -60,10 +60,10 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role removeResourceFromRole(String roleId, String resourceId) {
+    public Role removeResourceFromRole(String resourceId, String roleId) {
         Role role = findById(roleId);
         Resource resourceToRemove = resourceService.findById(resourceId);
-        if (! role.getAllowedResources().contains(resourceToRemove))
+        if (!role.getAllowedResources().contains(resourceToRemove))
             throw new BadRequestException(String.format("Resource %s does not exist in role", resourceToRemove.getName()));
         role.setAllowedResources(role.getAllowedResources()
                 .stream()
