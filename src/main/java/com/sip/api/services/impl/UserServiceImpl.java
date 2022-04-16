@@ -86,20 +86,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = findById(userId);
         Role newRole = roleService.findById(roleId);
         if (user.getRoles().contains(newRole))
-            throw new BadRequestException("User already has this role");
+            throw new BadRequestException(String.format("User already has role %s!", newRole.getName()));
         Set<Role> roles = user.getRoles();
         roles.add(newRole);
         return userRepository.save(user);
     }
 
     @Override
-    public User removeRoleToUserById(String userId, String roleId) {
+    public User removeRoleToUserById(String userId, String roleId) throws BadRequestException {
         User user = findById(userId);
         Role roleToDelete = roleService.findById(roleId);
         if (!user.getRoles().contains(roleToDelete))
-            throw new BadRequestException("User does not have this role");
-        Set<Role> roles = user.getRoles();
-        user.setRoles(roles
+            throw new BadRequestException(String.format("User does not have role %s!", roleToDelete.getName()));
+        user.setRoles(user.getRoles()
                 .stream()
                 .filter(role -> !role.getId().equals(roleId))
                 .collect(Collectors.toSet()));
