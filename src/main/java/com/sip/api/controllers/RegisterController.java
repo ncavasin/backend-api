@@ -23,7 +23,7 @@ public class RegisterController {
 
     @GetMapping("/confirm")
     public void confirm(@RequestParam("token") String token) {
-        registerService.sendActivationEmail(token);
+        registerService.confirmEmail(token);
     }
 
     @PostMapping("/resend/{userId}")

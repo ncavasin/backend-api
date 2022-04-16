@@ -1,5 +1,6 @@
 package com.sip.api.services.impl;
 
+import com.sip.api.domains.enums.UserStatus;
 import com.sip.api.domains.registration.MailToken;
 import com.sip.api.domains.role.Role;
 import com.sip.api.domains.user.User;
@@ -10,6 +11,7 @@ import com.sip.api.services.RegisterService;
 import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,8 +40,7 @@ public class RegisterServiceImpl implements RegisterService {
     }
 
     @Override
-    @Transactional
-    public void sendActivationEmail(String token) {
+    public void confirmEmail(String token) {
         MailToken mailToken = mailTokenService.findByToken(token);
         mailTokenService.confirmToken(token);
         userService.activateUser(mailToken.getUser().getId());
@@ -51,8 +52,11 @@ public class RegisterServiceImpl implements RegisterService {
         sendActivationMail(userService.findById(userId));
     }
 
-    private void sendActivationMail(User user) {
-        mailSender.sendConfirmationMail(user.getEmail(), user.getFirstName(), mailTokenService.createTokenForUser(user));
+    @Override
+    @Async
+    public void sendActivationMail(User user) {
+        if (user.getStatus() == UserStatus.INACTIVE)
+            mailSender.sendConfirmationMail(user.getEmail(), user.getFirstName(), mailTokenService.createTokenForUser(user));
     }
 
     private void deleteAssociatedTokens(String userId) {
