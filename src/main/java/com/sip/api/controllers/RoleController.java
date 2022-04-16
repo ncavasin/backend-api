@@ -1,8 +1,10 @@
 package com.sip.api.controllers;
 
 import com.sip.api.domains.role.RoleConverter;
+import com.sip.api.domains.user.UserConverter;
 import com.sip.api.dtos.RoleCreationDto;
 import com.sip.api.dtos.role.RoleDto;
+import com.sip.api.dtos.user.UserDto;
 import com.sip.api.services.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +34,7 @@ public class RoleController {
     }
 
     @PostMapping
-    public RoleDto addRole(@RequestBody @Valid RoleCreationDto roleCreationDto) {
+    public RoleDto createRole(@RequestBody @Valid RoleCreationDto roleCreationDto) {
         return RoleConverter.entityToDto(roleService.createRole(roleCreationDto));
     }
 
