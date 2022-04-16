@@ -49,15 +49,27 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role addResourceToRole(String roleId, String resourceId) {
-        //TODO implement
-        return null;
+        Role role = findById(roleId);
+        Resource newResource = resourceService.findById(resourceId);
+        if (role.getAllowedResources().contains(newResource))
+            throw new BadRequestException(String.format("Resource %s already exists in role", newResource.getName()));
+        Set<Resource> allowedResources = role.getAllowedResources();
+        allowedResources.add(newResource);
+        role.setAllowedResources(allowedResources);
+        return roleRepository.save(role);
     }
 
     @Override
     public Role removeResourceFromRole(String roleId, String resourceId) {
-        //TODO implement
-
-        return null;
+        Role role = findById(roleId);
+        Resource resourceToRemove = resourceService.findById(resourceId);
+        if (! role.getAllowedResources().contains(resourceToRemove))
+            throw new BadRequestException(String.format("Resource %s does not exist in role", resourceToRemove.getName()));
+        role.setAllowedResources(role.getAllowedResources()
+                .stream()
+                .filter(resource -> !resource.getId().equals(resourceId))
+                .collect(Collectors.toSet()));
+        return roleRepository.save(role);
     }
 
     @Override
