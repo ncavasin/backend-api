@@ -1,13 +1,13 @@
 package com.sip.api.services.impl;
 
-import com.sip.api.domains.role.Role;
 import com.sip.api.domains.enums.UserStatus;
+import com.sip.api.domains.role.Role;
+import com.sip.api.domains.user.User;
 import com.sip.api.domains.user.UserConverter;
 import com.sip.api.dtos.user.UserCreationDto;
 import com.sip.api.dtos.user.UserDniDto;
-import com.sip.api.dtos.user.UserPasswordDto;
-import com.sip.api.domains.user.User;
 import com.sip.api.dtos.user.UserEmailDto;
+import com.sip.api.dtos.user.UserPasswordDto;
 import com.sip.api.exceptions.BadRequestException;
 import com.sip.api.exceptions.NotFoundException;
 import com.sip.api.exceptions.UnauthorizedException;
@@ -22,7 +22,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -59,13 +62,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User authenticateByEmail(UserEmailDto userEmailDto) {
-        User user = findByEmail(userEmailDto);
-        if (!user.getStatus().equals(UserStatus.ACTIVE)) throw new UnauthorizedException("User is not enabled");
-        return user;
-    }
-
-    @Override
     public UserDetails loadUserByUsername(String email) throws NotFoundException {
         User user = findByEmail(new UserEmailDto(email));
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
@@ -84,6 +80,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setStatus(UserStatus.INACTIVE);
         user.setPassword(passwordEncoder.encode(userCreationDto.getPassword()));
         return userRepository.save(user);
+    }
+
+    @Override
+    public User assignRoleToUserById(String userId, String roleId) {
+        User user = findById(userId);
+        Role newRole = roleService.findById(roleId);
+        if (user.getRoles().contains(newRole))
+            throw new BadRequestException("User already has this role");
+        Set<Role> roles = user.getRoles();
+        roles.add(newRole);
+        return user;
     }
 
     @Override
@@ -122,7 +129,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userRepository.delete(user);
     }
 
-    private void checkUserRules(Integer dni, String email, String password, List<String > rolesIds) {
+    private void checkUserRules(Integer dni, String email, String password, List<String> rolesIds) {
         validateDni(dni);
         validateEmail(email);
         validatePassword(password);
@@ -130,7 +137,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     private Set<Role> validateRoles(List<String> roles) {
-        if(roles == null || roles.isEmpty()) throw new BadRequestException("Roles are required");
+        if (roles == null || roles.isEmpty()) throw new BadRequestException("Roles are required");
         return roles.stream().map(roleService::findByName).collect(Collectors.toSet());
     }
 
