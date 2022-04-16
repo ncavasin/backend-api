@@ -8,12 +8,10 @@ import com.sip.api.exceptions.NotFoundException;
 import com.sip.api.repositories.ResourceRepository;
 import com.sip.api.services.ResourceService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ResourceServiceImpl implements ResourceService {
@@ -91,6 +89,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     private void checkExistence(String name) {
-        if (resourceRepository.existsByName(name)) throw new BadRequestException("Resource already exists");
+        if (resourceRepository.existsByName(name))
+            throw new BadRequestException(String.format("Resource '%s' already exists!", name));
     }
 }
