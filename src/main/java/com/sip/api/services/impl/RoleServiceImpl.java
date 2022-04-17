@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -35,16 +36,17 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role findByName(String name) {
-        return roleRepository.findByName(name).orElseThrow(() -> new NotFoundException(String.format("Role %s not found", name)));
+        return roleRepository.findByName(name).orElseThrow(() -> new NotFoundException(String.format("Role '%s' not found", name)));
     }
 
     @Override
     public Role createRole(RoleCreationDto roleCreationDto) {
-        Set<Resource> resourceSet = roleCreationDto.getAllowedResourcesIds()
-                .stream()
-                .map(resourceService::findById)
-                .collect(Collectors.toSet());
-        return roleRepository.save(new Role(checkNameExistence(roleCreationDto.getName()), resourceSet));
+        Set<Resource> allowedResources = roleCreationDto.getAllowedResourcesIds() == null ? new LinkedHashSet<>() :
+                roleCreationDto.getAllowedResourcesIds()
+                        .stream()
+                        .map(resourceService::findById)
+                        .collect(Collectors.toSet());
+        return roleRepository.save(new Role(checkNameExistence(roleCreationDto.getName()), allowedResources));
     }
 
     @Override
@@ -52,7 +54,7 @@ public class RoleServiceImpl implements RoleService {
         Role role = findById(roleId);
         Resource newResource = resourceService.findById(resourceId);
         if (role.getAllowedResources().contains(newResource))
-            throw new BadRequestException(String.format("Resource %s already exists in role", newResource.getName()));
+            throw new BadRequestException(String.format("Resource '%s' already exists in role", newResource.getName()));
         Set<Resource> allowedResources = role.getAllowedResources();
         allowedResources.add(newResource);
         role.setAllowedResources(allowedResources);
@@ -64,7 +66,7 @@ public class RoleServiceImpl implements RoleService {
         Role role = findById(roleId);
         Resource resourceToRemove = resourceService.findById(resourceId);
         if (!role.getAllowedResources().contains(resourceToRemove))
-            throw new BadRequestException(String.format("Resource %s does not exist in role", resourceToRemove.getName()));
+            throw new BadRequestException(String.format("Resource '%s' does not exist in role", resourceToRemove.getName()));
         role.setAllowedResources(role.getAllowedResources()
                 .stream()
                 .filter(resource -> !resource.getId().equals(resourceId))
@@ -91,7 +93,7 @@ public class RoleServiceImpl implements RoleService {
 
     private String checkNameExistence(String name) {
         if (roleRepository.existsByName(name))
-            throw new BadRequestException(String.format("Role %s already exists", name));
+            throw new BadRequestException(String.format("Role '%s' already exists", name));
         return name;
     }
 }
