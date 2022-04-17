@@ -50,8 +50,8 @@ jwt-secret: '{jwt-secret}'
 jwt-issuer: '{jwt-issuer}'
 jwt-expiration-days: '{jwt-expiration-days}'
 
-superadmin-email: 'superadmin@admin.com'
-superadmin-password: 'supersecretpassword'
+superadmin-email: 'admin@admin.com'
+superadmin-password: 'adminadmin'
 heroku-url: 'localhost:8080'
 
 communication:

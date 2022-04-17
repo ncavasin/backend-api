@@ -8,12 +8,10 @@ import com.sip.api.exceptions.NotFoundException;
 import com.sip.api.repositories.ResourceRepository;
 import com.sip.api.services.ResourceService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ResourceServiceImpl implements ResourceService {
@@ -32,6 +30,11 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     public Resource findByName(String resourceName) {
         return resourceRepository.findByName(resourceName).orElseThrow(() -> new NotFoundException("Resource not found"));
+    }
+
+    @Override
+    public Resource findByUrl(String resourceUrl) {
+        return resourceRepository.findByUrl(resourceUrl).orElseThrow(() -> new NotFoundException("Resource not found"));
     }
 
     @Override
@@ -65,6 +68,12 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
+    public void deleteByUrl(String resourceUrl) {
+        Resource resource = findByUrl(resourceUrl);
+        resourceRepository.deleteById(resource.getId());
+    }
+
+    @Override
     public boolean existsById(String resourceId) {
         return resourceRepository.existsById(resourceId);
     }
@@ -80,6 +89,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     private void checkExistence(String name) {
-        if (resourceRepository.existsByName(name)) throw new BadRequestException("Resource already exists");
+        if (resourceRepository.existsByName(name))
+            throw new BadRequestException(String.format("Resource '%s' already exists!", name));
     }
 }

@@ -18,6 +18,10 @@ public interface UserService extends UserDetailsService {
 
     User createUser(UserCreationDto userCreationDto);
 
+    User assignRoleToUserById(String userId, String roleId);
+
+    User removeRoleToUserById(String userId, String roleId);
+
     User updateEmail(String userId, UserEmailDto userEmailDto);
 
     User updatePassword(String userId, UserPasswordDto userPasswordDto);
@@ -31,8 +35,6 @@ public interface UserService extends UserDetailsService {
     User findByDni(UserDniDto userDniDto);
 
     User findByEmail(UserEmailDto userEmailDto);
-
-    User authenticateByEmail(UserEmailDto userEmailDto);
 
     boolean existsByEmail(String email);
 }

@@ -15,6 +15,10 @@ public interface RoleService {
 
     Role createRole(RoleCreationDto roleCreationDto);
 
+    Role addResourceToRole(String resourceId, String roleId);
+
+    Role removeResourceFromRole(String resourceId, String roleId);
+
     void deleteRoleById(String roleId);
 
     void deleteRoleByName(String name);

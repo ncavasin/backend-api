@@ -1,7 +1,7 @@
 package com.sip.api;
 
-import com.sip.api.domains.AbstractEntity;
 import com.sip.api.domains.resource.Resource;
+import com.sip.api.domains.user.User;
 import com.sip.api.dtos.RoleCreationDto;
 import com.sip.api.dtos.resource.ResourceCreationDto;
 import com.sip.api.dtos.user.UserCreationDto;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -39,12 +38,13 @@ public class BasicSetup implements ApplicationRunner {
             createRoles();
 
             if (!userService.existsByEmail(superAdminEmail)) {
-                userService.createUser(UserCreationDto.builder()
+                User user =  userService.createUser(UserCreationDto.builder()
                         .dni(99999999)
                         .email(superAdminEmail)
                         .password(superAdminPassword)
                         .rolesNames(Collections.singletonList("ROLE_ADMIN"))
                         .build());
+                userService.activateUser(user.getId());
                 log.info("Admin role created");
             }
         } catch (Exception e) {
