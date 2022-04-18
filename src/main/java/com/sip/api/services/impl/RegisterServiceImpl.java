@@ -35,7 +35,7 @@ public class RegisterServiceImpl implements RegisterService {
                         .build()
                         .getName()));
         User savedUser = userService.createUser(userCreationDto);
-        Thread newThread = new Thread(() -> sendActivationMail(savedUser));
+        new Thread(() -> sendActivationMail(savedUser));
         return savedUser;
     }
 
