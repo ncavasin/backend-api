@@ -41,10 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         // public endpoints
         http.authorizeRequests()
-                .antMatchers("/webjars/springfox-swagger-ui/**",
-                        "/v2/api-docs",
-                        "/swagger-resources/**",
-                        "/swagger-ui.html",
+                .antMatchers("/api-docs/**", "/swagger-ui**" , "/swagger-ui/**",
                         "/login/**", "/register/**", "/password/**")
                 .permitAll()
                 .anyRequest()

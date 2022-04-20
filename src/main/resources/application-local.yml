@@ -3,6 +3,10 @@ server:
     include-message: always
     include-binding-errors: always
 
+springdoc:
+  api-docs:
+    path: /api-docs
+
 spring:
   jpa:
     properties:
@@ -53,7 +57,3 @@ jwt-expiration-days: '{jwt-expiration-days}'
 superadmin-email: 'admin@admin.com'
 superadmin-password: 'adminadmin'
 heroku-url: 'localhost:8080'
-
-communication:
-  from: no-reply@sip2022.inc
-
