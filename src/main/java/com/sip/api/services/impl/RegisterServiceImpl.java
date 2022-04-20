@@ -11,6 +11,7 @@ import com.sip.api.services.RegisterService;
 import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.jni.Time;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +36,7 @@ public class RegisterServiceImpl implements RegisterService {
                         .build()
                         .getName()));
         User savedUser = userService.createUser(userCreationDto);
-        new Thread(() -> sendActivationMail(savedUser));
+        sendActivationMail(savedUser);
         return savedUser;
     }
 
@@ -55,8 +56,23 @@ public class RegisterServiceImpl implements RegisterService {
     @Override
     @Async
     public void sendActivationMail(User user) {
-        if (user.getStatus() == UserStatus.INACTIVE)
-            mailSender.sendConfirmationMail(user.getEmail(), user.getFirstName(), mailTokenService.createTokenForUser(user));
+        if (user.getStatus() == UserStatus.INACTIVE) {
+            try {
+                new Thread(() -> {
+                    try {
+                        // Wait for the user to be persisted
+                        Thread.sleep(3000L);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    mailSender.sendConfirmationMail(user.getEmail(), user.getFirstName(),
+                            mailTokenService.createTokenForUser(user));
+                })
+                        .start();
+            }catch (Exception e){
+                throw new RuntimeException(String.format("Error while sending mail to %s", user.getEmail()));
+            }
+        }
     }
 
     private void deleteAssociatedTokens(String userId) {
