@@ -39,6 +39,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        corsConfiguration.setExposedHeaders(List.of("Authorization"));
 
         http.sessionManagement().sessionCreationPolicy(STATELESS);
+        http
+                .addFilter(new AuthenticationFilter(authenticationManager(), jwtService))
+                .addFilterAfter(new AuthorizationFilter(jwtService), AuthenticationFilter.class);
         // public endpoints
         http.authorizeRequests()
                 .antMatchers("/api-docs/**", "/swagger-ui**" , "/swagger-ui/**",
@@ -49,13 +52,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .and()
 //                .cors().configurationSource(request -> corsConfiguration);
 
-        http
-                .addFilter(new AuthenticationFilter(authenticationManager(), jwtService))
-                .addFilterAfter(new AuthorizationFilter(jwtService), AuthenticationFilter.class);
 
-        http.authorizeRequests()
-                .anyRequest()
-                .authenticated();
+
+//        http.authorizeRequests()
+//                .anyRequest()
+//                .authenticated();
     }
 
 
