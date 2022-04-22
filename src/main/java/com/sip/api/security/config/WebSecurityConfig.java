@@ -28,15 +28,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable();
 
-        http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http
-                .addFilter(new AuthenticationFilter(authenticationManager(), jwtService))
-                .addFilterAfter(new AuthorizationFilter(jwtService), AuthenticationFilter.class);
         // public endpoints
         http.authorizeRequests()
                 .antMatchers("/api-docs/**", "/swagger-ui**" , "/swagger-ui/**", "/swagger-ui/index.html",
                         "/login/**", "/register/**", "/password/**")
                 .permitAll();
+        http.sessionManagement().sessionCreationPolicy(STATELESS);
+        http
+                .addFilter(new AuthenticationFilter(authenticationManager(), jwtService))
+                .addFilterAfter(new AuthorizationFilter(jwtService), AuthenticationFilter.class);
 
         http.authorizeRequests()
                 .anyRequest()
