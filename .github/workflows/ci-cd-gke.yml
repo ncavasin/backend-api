@@ -1,9 +1,9 @@
 name: Build & Deploy to Google Kubernetes Engine
 
 env:
-  PROJECT_ID: {{ secrets.GKE_PROJECT_ID }}
-  CLUSTER_NAME: {{ secrets.GKE_CLUSTER_NAME }}
-  CLUSTER_ZONE: {{ secrets.GKE_CLUSTER_ZONE }}
+  PROJECT_ID: ${{ secrets.GKE_PROJECT_ID }}
+  CLUSTER_NAME: ${{ secrets.GKE_CLUSTER_NAME }}
+  CLUSTER_ZONE: ${{ secrets.GKE_CLUSTER_ZONE }}
   CONTAINER_IMAGE_NAME: sip-api-image
   DEPLOYMENT_NAME: sip-api
 
@@ -31,72 +31,6 @@ jobs:
 
       - name: Build package with Maven
         run: mvn -B clean package -DskipTests --file pom.xml
-
-  build-docker-image:
-    name: Publish to Docker Hub
-    runs-on: ubuntu-latest
-    needs: [build-and-test]
-
-    steps:
-      - name: Checkout to master branch
-        uses: actions/checkout@v2
-
-      - name: Login to Docker Hub
-        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build Container image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest .
-
-      - name: Publish Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest
-
-  publish-container-to-heroku:
-    name: Deploy Docker image to Heroku
-    runs-on: ubuntu-latest
-    needs: [build-docker-image]
-
-    steps:
-      - name: Checkout to master branch
-        uses: actions/checkout@v2
-
-      - name: Login to Heroku Container registry
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login
-
-      - name: Push container
-        run: heroku container:push web -a ${{ secrets.HEROKU_APP_NAME }}
-        env:
-          # Below you must provide variables for your Heroku app.
-
-          # The email address associated with your Heroku account.
-          # If you don't want to use repository secrets (which is recommended) you can do:
-          # email: my.email@example.com
-          email: ${{ secrets.HEROKU_EMAIL }}
-
-          # Heroku API key associated with provided user's email.
-          # Api Key is available under your Heroku account settings.
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-
-          # Name of the heroku application to which the build is to be sent.
-          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
-
-      - name: Release container
-        run: heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
-        env:
-          # Below you must provide variables for your Heroku app.
-
-          # The email address associated with your Heroku account.
-          # If you don't want to use repository secrets (which is recommended) you can do:
-          # email: my.email@example.com
-          email: ${{ secrets.HEROKU_EMAIL }}
-
-          # Heroku API key associated with provided user's email.
-          # Api Key is available under your Heroku account settings.
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-
-          # Name of the heroku application to which the build is to be sent.
-          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
 
 #name: Build & Deploy to Google Kubernetes Engine
 #
