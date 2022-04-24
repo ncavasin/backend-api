@@ -1,11 +1,4 @@
-name: Build & Deploy to Google Kubernetes Engine
-#
-#env:
-#  PROJECT_ID: { { secrets.GKE_PROJECT_ID } }
-#  CLUSTER_NAME: { { secrets.GKE_CLUSTER_NAME } }
-#  CLUSTER_ZONE: { { secrets.GKE_CLUSTER_ZONE } }
-#  CONTAINER_IMAGE_NAME: sip-api-image
-#  DEPLOYMENT_NAME: sip-api
+name: Spring CICD with Java 11, Maven, Docker & Heroku
 
 on:
   push:
@@ -14,8 +7,8 @@ on:
     branches: [ master ]
 
 jobs:
-  setup-and-build:
-    name: Setup & Build
+  build-and-test:
+    name: Build and Test API
     runs-on: ubuntu-latest
 
     steps:
@@ -32,35 +25,135 @@ jobs:
       - name: Build package with Maven
         run: mvn -B clean package -DskipTests --file pom.xml
 
-      - name: Setup Google Cloud CLI
-        uses: GoogleCloudPlatform/github-actions/setup-gcloud@0.1.3
+  build-docker-image:
+    name: Publish to Docker Hub
+    runs-on: ubuntu-latest
+    needs: [build-and-test]
+
+    steps:
+      - name: Checkout to master branch
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Container image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest .
+
+      - name: Publish Docker image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest
+
+  publish-container-to-heroku:
+    name: Deploy Docker image to Heroku
+    runs-on: ubuntu-latest
+    needs: [build-docker-image]
+
+    steps:
+      - name: Checkout to master branch
+        uses: actions/checkout@v2
+
+      - name: Login to Heroku Container registry
         env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-        with:
-          service_account_key: { { secrets.GKE_SA_KEY } }
-          project_id: { { secrets.GKE_PROJECT_ID } }
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:login
 
-      -name: Configure Docker
-        run: gcloud --quiet auth configure-docker
+      - name: Push container
+        run: heroku container:push web -a ${{ secrets.HEROKU_APP_NAME }}
+        env:
+          # Below you must provide variables for your Heroku app.
 
-      - name: Get GKE credentials
-        run: gcloud container clusters get-credentials "$CLUSTER_NAME" --zone "$CLUSTER_ZONE"
+          # The email address associated with your Heroku account.
+          # If you don't want to use repository secrets (which is recommended) you can do:
+          # email: my.email@example.com
+          email: ${{ secrets.HEROKU_EMAIL }}
 
-      - name: Build Docker image
-        run: docker build -t "gcr.io/$PROJECT_ID/$CONTAINER_IMAGE_NAME" .
+          # Heroku API key associated with provided user's email.
+          # Api Key is available under your Heroku account settings.
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
 
-      - name: Publish image to Google Container Registry
-        run: docker push "grc.io/$PROJECT_ID/$CONTAINER_IMAGE_NAME"
+          # Name of the heroku application to which the build is to be sent.
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
 
-      - name: Set up Kustomize
-        run: |-
-          curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.5.5/kustomize_3.5.5_linux_amd64
-          chmod u+x ./kustomize
+      - name: Release container
+        run: heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
+        env:
+          # Below you must provide variables for your Heroku app.
 
-      - name: Deploy to GKE
-          run: |-
-            ./kustomize edit set image gcr.io/PROJECT_ID/CONTAINER_IMAGE_NAME=gcr.io/$PROJECT_ID/$CONTAINER_IMAGE_NAME
-            ./kustomize build . | kubectl apply -f -
-            kubectl rollout status deployment/$DEPLOYMENT_NAME
-            kubectl get services -o wide
+          # The email address associated with your Heroku account.
+          # If you don't want to use repository secrets (which is recommended) you can do:
+          # email: my.email@example.com
+          email: ${{ secrets.HEROKU_EMAIL }}
 
+          # Heroku API key associated with provided user's email.
+          # Api Key is available under your Heroku account settings.
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+
+          # Name of the heroku application to which the build is to be sent.
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+
+#name: Build & Deploy to Google Kubernetes Engine
+#
+#env:
+#  PROJECT_ID: { { secrets.GKE_PROJECT_ID } }
+#  CLUSTER_NAME: { { secrets.GKE_CLUSTER_NAME } }
+#  CLUSTER_ZONE: { { secrets.GKE_CLUSTER_ZONE } }
+#  CONTAINER_IMAGE_NAME: sip-api-image
+#  DEPLOYMENT_NAME: sip-api
+#
+#on:
+#  push:
+#    branches: [ master ]
+#  pull_request:
+#    branches: [ master ]
+#
+#jobs:
+#  setup-and-build:
+#    name: Setup & Build
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout to master branch
+#        uses: actions/checkout@v2
+#
+#      - name: Set up JDK 11
+#        uses: actions/setup-java@v2
+#        with:
+#          java-version: '11'
+#          distribution: 'temurin'
+#          cache: maven
+#
+#      - name: Build package with Maven
+#        run: mvn -B clean package -DskipTests --file pom.xml
+#
+#      - name: Setup Google Cloud CLI
+#        uses: GoogleCloudPlatform/github-actions/setup-gcloud@0.1.3
+#        env:
+#          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+#        with:
+#          service_account_key: {{ secrets.GKE_SA_KEY }}
+#          project_id: {{ secrets.GKE_PROJECT_ID }}
+#
+#      -name: Configure Docker
+#        run: gcloud --quiet auth configure-docker
+#
+#      - name: Get GKE credentials
+#        run: gcloud container clusters get-credentials "$CLUSTER_NAME" --zone "$CLUSTER_ZONE"
+#
+#      - name: Build Docker image
+#        run: docker build -t "gcr.io/$PROJECT_ID/$CONTAINER_IMAGE_NAME" .
+#
+#      - name: Publish image to Google Container Registry
+#        run: docker push "grc.io/$PROJECT_ID/$CONTAINER_IMAGE_NAME"
+#
+#      - name: Set up Kustomize
+#        run: |-
+#          curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.5.5/kustomize_3.5.5_linux_amd64
+#          chmod u+x ./kustomize
+#
+#      - name: Deploy to GKE
+#          run: |-
+#            ./kustomize edit set image gcr.io/PROJECT_ID/CONTAINER_IMAGE_NAME=gcr.io/$PROJECT_ID/$CONTAINER_IMAGE_NAME
+#            ./kustomize build . | kubectl apply -f -
+#            kubectl rollout status deployment/$DEPLOYMENT_NAME
+#            kubectl get services -o wide
+#
