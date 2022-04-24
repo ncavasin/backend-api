@@ -15,6 +15,7 @@ server:
     schemas: public
     out-of-order: true
     enabled: false
+  port: 8080
 
 springdoc:
   api-docs:
