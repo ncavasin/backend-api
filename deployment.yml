@@ -16,3 +16,8 @@ spec:
         - name: app
           image: gcr.io/sip-unlu-2022/sip-api-image:latest
           imagePullPolicy: Always
+          env:
+            - name: jwt-secret
+              value:
+                
+                jwt-secret=supersecretpassword;jwt-issuer=SIP-2022;jwt-expiration-days=5

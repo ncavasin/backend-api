@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spring-config
+data:
+  dev-config.json:
+    '{
+      "example.datasource.url": "jdbc:mysql://dev-endpoint/example",
+      "example.datasource.username": "dev-root",
+      "example.datasource.password": "dev-pass"
+     }'
+
+  jwt-secret: '{jwt-secret}'
+  jwt-issuer: '{jwt-issuer}'
+  jwt-expiration-days: '{jwt-expiration-days}'
