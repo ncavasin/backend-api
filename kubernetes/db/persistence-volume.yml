@@ -11,7 +11,7 @@ parameters:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: sip-postgres-pv
+  name: sip-postgres-pvc
 spec:
   # must match namespace name
   storageClassName: sip-storageclass
