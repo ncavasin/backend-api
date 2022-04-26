@@ -8,8 +8,8 @@ parameters:
 
 ---
 
-kind: PersistentVolumeClaim
 apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   name: sip-postgres-pv
 spec:
