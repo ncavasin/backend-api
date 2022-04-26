@@ -14,5 +14,5 @@ spec:
     spec:
       containers:
         - name: app
-          image: gcr.io/PROJECT_ID/CONTAINER_IMAGE_NAME
+          image: gcr.io/sip-unlu-2022/sip-api-image:latest
           imagePullPolicy: Always
