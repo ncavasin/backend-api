@@ -4,8 +4,8 @@ env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT_ID }}
   CLUSTER_NAME: ${{ secrets.GKE_CLUSTER_NAME }}
   CLUSTER_ZONE: ${{ secrets.GKE_CLUSTER_ZONE }}
-  CONTAINER_IMAGE_NAME: sip-api-image
-  DEPLOYMENT_NAME: sip-api
+  CONTAINER_IMAGE_NAME: "sip-api-image"
+  DEPLOYMENT_NAME: "sip-api"
 
 on:
   push:
