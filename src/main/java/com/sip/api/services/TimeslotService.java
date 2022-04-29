@@ -1,6 +1,7 @@
 package com.sip.api.services;
 
 import com.sip.api.domains.timeslot.Timeslot;
+import com.sip.api.dtos.timeslot.TimeslotCreationDto;
 import com.sip.api.dtos.timeslot.TimeslotDto;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface TimeslotService {
 
     Timeslot findById(String timeslotId);
 
-    Timeslot createTimeslot(TimeslotDto timeslotDto);
+    Timeslot createTimeslot(TimeslotCreationDto timeslotCreationDto);
 
     Timeslot updateTimeslot(String timeslotId, TimeslotDto timeslotDto);
 

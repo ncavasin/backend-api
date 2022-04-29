@@ -1,5 +1,6 @@
 package com.sip.api.domains.timeslot;
 
+import com.sip.api.dtos.timeslot.TimeslotCreationDto;
 import com.sip.api.dtos.timeslot.TimeslotDto;
 
 import java.util.List;
@@ -27,6 +28,13 @@ public class TimeslotConverter {
                 .startTime(timeslotDto.getStartTime())
                 .endTime(timeslotDto.getEndTime())
                 .appointments(timeslotDto.getAppointments())
+                .build();
+    }
+
+    public static Timeslot fromDtoToEntity(TimeslotCreationDto timeslotCreationDto){
+        return Timeslot.builder()
+                .startTime(timeslotCreationDto.getStartTime())
+                .endTime(timeslotCreationDto.getEndTime())
                 .build();
     }
 }

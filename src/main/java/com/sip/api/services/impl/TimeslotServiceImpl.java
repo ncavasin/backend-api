@@ -2,6 +2,7 @@ package com.sip.api.services.impl;
 
 import com.sip.api.domains.timeslot.Timeslot;
 import com.sip.api.domains.timeslot.TimeslotConverter;
+import com.sip.api.dtos.timeslot.TimeslotCreationDto;
 import com.sip.api.dtos.timeslot.TimeslotDto;
 import com.sip.api.exceptions.NotFoundException;
 import com.sip.api.repositories.TimeslotRepository;
@@ -27,8 +28,8 @@ public class TimeslotServiceImpl implements TimeslotService {
     }
 
     @Override
-    public Timeslot createTimeslot(TimeslotDto timeslotDto) {
-        return timeslotRepository.save(TimeslotConverter.fromDtoToEntity(timeslotDto));
+    public Timeslot createTimeslot(TimeslotCreationDto timeslotCreationDto) {
+        return timeslotRepository.save(TimeslotConverter.fromDtoToEntity(timeslotCreationDto));
     }
 
     @Override

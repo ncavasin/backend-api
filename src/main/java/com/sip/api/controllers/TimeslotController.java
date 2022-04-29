@@ -1,6 +1,7 @@
 package com.sip.api.controllers;
 
 import com.sip.api.domains.timeslot.TimeslotConverter;
+import com.sip.api.dtos.timeslot.TimeslotCreationDto;
 import com.sip.api.dtos.timeslot.TimeslotDto;
 import com.sip.api.services.TimeslotService;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +27,8 @@ public class TimeslotController {
     }
 
     @PostMapping
-    public TimeslotDto createTimeslot(@Valid @RequestBody TimeslotDto timeslotDto){
-        return TimeslotConverter.fromEntityToDto(timeslotService.createTimeslot(timeslotDto));
+    public TimeslotDto createTimeslot(@Valid @RequestBody TimeslotCreationDto timeslotCreationDto){
+        return TimeslotConverter.fromEntityToDto(timeslotService.createTimeslot(timeslotCreationDto));
     }
 
     @PutMapping("/{timeslotId}")
