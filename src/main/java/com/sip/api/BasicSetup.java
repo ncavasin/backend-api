@@ -4,9 +4,12 @@ import com.sip.api.domains.resource.Resource;
 import com.sip.api.domains.user.User;
 import com.sip.api.dtos.RoleCreationDto;
 import com.sip.api.dtos.resource.ResourceCreationDto;
+import com.sip.api.dtos.timeslot.TimeslotCreationDto;
 import com.sip.api.dtos.user.UserCreationDto;
+import com.sip.api.exceptions.BadRequestException;
 import com.sip.api.services.ResourceService;
 import com.sip.api.services.RoleService;
+import com.sip.api.services.TimeslotService;
 import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +18,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,6 +30,8 @@ public class BasicSetup implements ApplicationRunner {
     private final RoleService roleService;
     private final ResourceService resourceService;
     private final List<Resource> resourceList;
+    private final TimeslotService timeslotService;
+
     @Value("${superadmin-email}")
     private String superAdminEmail;
     @Value("${superadmin-password}")
@@ -36,7 +42,7 @@ public class BasicSetup implements ApplicationRunner {
         try {
             createResources();
             createRoles();
-
+            createTimeslots();
             if (!userService.existsByEmail(superAdminEmail)) {
                 User user =  userService.createUser(UserCreationDto.builder()
                         .dni(99999999)
@@ -49,6 +55,28 @@ public class BasicSetup implements ApplicationRunner {
             }
         } catch (Exception e) {
             log.error("Something went wrong while setting up application!. Error: {}", e.getMessage());
+        }
+    }
+
+    private void createTimeslots() {
+        try {
+            for (int i = 7; i < 13; i++) {
+                timeslotService.createTimeslot(TimeslotCreationDto.builder()
+                        .startTime(LocalTime.of(i, 15))
+                        .endTime(LocalTime.of(i + 1, 15))
+                        .appointments(Collections.emptySet())
+                        .build());
+            }
+
+            for (int i = 16; i < 22; i++) {
+                timeslotService.createTimeslot(TimeslotCreationDto.builder()
+                        .startTime(LocalTime.of(i, 15))
+                        .endTime(LocalTime.of(i + 1, 15))
+                        .appointments(Collections.emptySet())
+                        .build());
+            }
+        }catch (BadRequestException e){
+            // do nothing as timeslots are already created
         }
     }
 
