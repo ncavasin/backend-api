@@ -1,7 +1,7 @@
 package com.sip.api.security.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sip.api.dtos.UserCredentialsDto;
+import com.sip.api.dtos.user.UserCredentialsDto;
 import com.sip.api.exceptions.UnauthorizedException;
 import com.sip.api.services.JwtService;
 import lombok.RequiredArgsConstructor;
