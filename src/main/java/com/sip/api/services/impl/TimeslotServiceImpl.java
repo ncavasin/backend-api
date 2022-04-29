@@ -4,6 +4,7 @@ import com.sip.api.domains.timeslot.Timeslot;
 import com.sip.api.domains.timeslot.TimeslotConverter;
 import com.sip.api.dtos.timeslot.TimeslotCreationDto;
 import com.sip.api.dtos.timeslot.TimeslotDto;
+import com.sip.api.exceptions.BadRequestException;
 import com.sip.api.exceptions.NotFoundException;
 import com.sip.api.repositories.TimeslotRepository;
 import com.sip.api.services.TimeslotService;
@@ -29,6 +30,8 @@ public class TimeslotServiceImpl implements TimeslotService {
 
     @Override
     public Timeslot createTimeslot(TimeslotCreationDto timeslotCreationDto) {
+        if(timeslotRepository.existsByStartTimeAndEndTime(timeslotCreationDto.getStartTime(), timeslotCreationDto.getEndTime()))
+            throw new BadRequestException("Timeslot already exists");
         return timeslotRepository.save(TimeslotConverter.fromDtoToEntity(timeslotCreationDto));
     }
 
