@@ -47,12 +47,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User findByDni(UserDniDto userDniDto) {
-        return userRepository.findByDni(userDniDto.getDni()).orElseThrow(() -> new NotFoundException("DNI not found"));
+        return userRepository.findByDni(userDniDto.dni()).orElseThrow(() -> new NotFoundException("DNI not found"));
     }
 
     @Override
     public User findByEmail(UserEmailDto userEmailDto) {
-        return userRepository.findByEmail(userEmailDto.getEmail()).orElseThrow(() -> new NotFoundException("Email not found"));
+        return userRepository.findByEmail(userEmailDto.email()).orElseThrow(() -> new NotFoundException("Email not found"));
     }
 
     @Override
@@ -70,14 +70,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User createUser(UserCreationDto userCreationDto) {
-        checkUserRules(userCreationDto.getDni(), userCreationDto.getEmail(), userCreationDto.getPassword(), userCreationDto.getRolesNames());
+        checkUserRules(userCreationDto.dni(), userCreationDto.email(), userCreationDto.password(), userCreationDto.rolesNames());
         User user = UserConverter.dtoToEntity(userCreationDto);
         // Fetch roles by name
-        Set<Role> roles = validateRoles(userCreationDto.getRolesNames());
+        Set<Role> roles = validateRoles(userCreationDto.rolesNames());
         user.setRoles(roles);
         // Created inactive by default until user activates it by mail
         user.setStatus(UserStatus.INACTIVE);
-        user.setPassword(passwordEncoder.encode(userCreationDto.getPassword()));
+        user.setPassword(passwordEncoder.encode(userCreationDto.password()));
         return userRepository.save(user);
     }
 
@@ -107,17 +107,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User updateEmail(String userId, UserEmailDto userEmailDto) {
-        validateEmail(userEmailDto.getEmail());
+        validateEmail(userEmailDto.email());
         User user = findById(userId);
-        user.setEmail(userEmailDto.getEmail());
+        user.setEmail(userEmailDto.email());
         return userRepository.save(user);
     }
 
     @Override
     public User updatePassword(String userId, UserPasswordDto userPasswordDto) {
-        validatePassword(userPasswordDto.getPassword());
+        validatePassword(userPasswordDto.password());
         User user = findById(userId);
-        user.setPassword(passwordEncoder.encode(userPasswordDto.getPassword()));
+        user.setPassword(passwordEncoder.encode(userPasswordDto.password()));
         return userRepository.save(user);
     }
 

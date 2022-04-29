@@ -20,7 +20,7 @@ public class RoleController {
 
     @GetMapping
     public RoleDto getRoleByName(@RequestBody @Valid RoleDto roleDto) {
-        return RoleConverter.entityToDto(roleService.findByName(roleDto.getName()));
+        return RoleConverter.entityToDto(roleService.findByName(roleDto.name()));
     }
 
     @GetMapping("{roleId}")
@@ -55,6 +55,6 @@ public class RoleController {
 
     @DeleteMapping
     public void deleteRoleByName(@RequestBody @Valid RoleDto roleDto) {
-        roleService.deleteRoleByName(roleDto.getName());
+        roleService.deleteRoleByName(roleDto.name());
     }
 }

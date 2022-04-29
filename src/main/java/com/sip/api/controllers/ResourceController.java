@@ -23,7 +23,7 @@ public class ResourceController {
 
     @GetMapping
     public ResourceDto getResourceByName(@RequestBody @Valid ResourceDto resourceDto) {
-        return ResourceConverter.entityToDto(resourceService.findByName(resourceDto.getName()));
+        return ResourceConverter.entityToDto(resourceService.findByName(resourceDto.name()));
     }
 
     @GetMapping("/all")
@@ -48,6 +48,6 @@ public class ResourceController {
 
     @DeleteMapping
     public void deleteByName(@RequestBody @Valid ResourceDto resourceDto) {
-        resourceService.deleteByName(resourceDto.getName());
+        resourceService.deleteByName(resourceDto.name());
     }
 }

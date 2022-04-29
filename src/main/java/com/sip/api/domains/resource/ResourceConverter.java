@@ -5,7 +5,7 @@ import com.sip.api.dtos.resource.ResourceDto;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ResourceConverter {
+public record ResourceConverter() {
     public static ResourceDto entityToDto(Resource resource) {
         return ResourceDto.builder()
                 .id(resource.getId())
@@ -22,8 +22,8 @@ public class ResourceConverter {
 
     public static Resource dtoToEntity(ResourceDto resourceDto) {
         return Resource.builder()
-                .name(resourceDto.getName())
-                .url(resourceDto.getUrl())
+                .name(resourceDto.name())
+                .url(resourceDto.url())
                 .build();
     }
 }

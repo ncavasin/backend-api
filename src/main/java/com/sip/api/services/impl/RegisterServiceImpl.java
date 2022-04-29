@@ -11,7 +11,6 @@ import com.sip.api.services.RegisterService;
 import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.jni.Time;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,14 +29,27 @@ public class RegisterServiceImpl implements RegisterService {
     @Override
     @Transactional
     public User register(UserCreationDto userCreationDto) {
-        userCreationDto.setRolesNames(Collections.singletonList(
-                Role.builder()
-                        .name("ROLE_USER")
-                        .build()
-                        .getName()));
+        userCreationDto = buildUserWithUserRole(userCreationDto);
         User savedUser = userService.createUser(userCreationDto);
         sendActivationMail(savedUser);
         return savedUser;
+    }
+
+    private UserCreationDto buildUserWithUserRole(UserCreationDto userCreationDto) {
+        return UserCreationDto.builder()
+                .dni(userCreationDto.dni())
+                .age(userCreationDto.age())
+                .firstName(userCreationDto.firstName())
+                .lastName(userCreationDto.lastName())
+                .email(userCreationDto.email())
+                .password(userCreationDto.password())
+                .phone(userCreationDto.phone())
+                .rolesNames(Collections.singletonList(
+                        Role.builder()
+                                .name("ROLE_USER")
+                                .build()
+                                .getName()))
+                .build();
     }
 
     @Override
@@ -69,7 +81,7 @@ public class RegisterServiceImpl implements RegisterService {
                             mailTokenService.createTokenForUser(user));
                 })
                         .start();
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException(String.format("Error while sending mail to %s", user.getEmail()));
             }
         }

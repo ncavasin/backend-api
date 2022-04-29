@@ -1,12 +1,7 @@
 package com.sip.api.dtos;
 
-import lombok.*;
+import lombok.Builder;
 
-@Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class UserCredentialsDto {
-    private String email;
-    private String password;
+public record UserCredentialsDto(String email, String password) {
 }

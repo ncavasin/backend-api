@@ -39,19 +39,19 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public Resource createResource(ResourceCreationDto resourceCreationDto) {
-        checkExistence(resourceCreationDto.getName());
+        checkExistence(resourceCreationDto.name());
         return resourceRepository.save(Resource.builder()
-                .name(resourceCreationDto.getName())
-                .url(resourceCreationDto.getUrl())
+                .name(resourceCreationDto.name())
+                .url(resourceCreationDto.url())
                 .build());
     }
 
     @Override
     public Resource updateResource(ResourceDto resourceDto) {
-        Resource resource = findById(resourceDto.getId());
-        checkExistence(resourceDto.getName());
-        resource.setName(resourceDto.getName());
-        resource.setUrl(resourceDto.getUrl());
+        Resource resource = findById(resourceDto.id());
+        checkExistence(resourceDto.name());
+        resource.setName(resourceDto.name());
+        resource.setUrl(resourceDto.url());
         return resourceRepository.save(resource);
     }
 

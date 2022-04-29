@@ -5,7 +5,7 @@ import com.sip.api.dtos.role.RoleDto;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RoleConverter {
+public record RoleConverter() {
 
     public static RoleDto entityToDto(Role role) {
         return RoleDto.builder()
@@ -23,7 +23,7 @@ public class RoleConverter {
 
     public static Role dtoToEntity(RoleDto roleDto) {
         return Role.builder()
-                .name(roleDto.getName())
+                .name(roleDto.name())
                 .build();
     }
 }

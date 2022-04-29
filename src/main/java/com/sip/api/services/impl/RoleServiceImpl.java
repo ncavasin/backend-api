@@ -41,12 +41,12 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role createRole(RoleCreationDto roleCreationDto) {
-        Set<Resource> allowedResources = roleCreationDto.getAllowedResourcesIds() == null ? new LinkedHashSet<>() :
-                roleCreationDto.getAllowedResourcesIds()
+        Set<Resource> allowedResources = roleCreationDto.allowedResourcesIds() == null ? new LinkedHashSet<>() :
+                roleCreationDto.allowedResourcesIds()
                         .stream()
                         .map(resourceService::findById)
                         .collect(Collectors.toSet());
-        return roleRepository.save(new Role(checkNameExistence(roleCreationDto.getName()), allowedResources));
+        return roleRepository.save(new Role(checkNameExistence(roleCreationDto.name()), allowedResources));
     }
 
     @Override

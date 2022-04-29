@@ -31,7 +31,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         try {
             // Get request body and parse it
             UserCredentialsDto authenticationRequest = new ObjectMapper().readValue(request.getInputStream(), UserCredentialsDto.class);
-            Authentication authentication = new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword());
+            Authentication authentication = new UsernamePasswordAuthenticationToken(authenticationRequest.email(), authenticationRequest.password());
             return authenticationManager.authenticate(authentication);
         } catch (IOException e) {
             log.error("User tried to authenticate with wrong credentials. Error: {}", e.getMessage());

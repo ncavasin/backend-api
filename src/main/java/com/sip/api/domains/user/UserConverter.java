@@ -3,25 +3,21 @@ package com.sip.api.domains.user;
 import com.sip.api.domains.role.Role;
 import com.sip.api.dtos.user.UserCreationDto;
 import com.sip.api.dtos.user.UserDto;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Data
-@NoArgsConstructor
-public class UserConverter {
+public record UserConverter() {
 
     public static User dtoToEntity(UserCreationDto userCreationDto) {
         return new User(
-                userCreationDto.getDni(),
-                userCreationDto.getPassword(),
-                userCreationDto.getEmail(),
-                userCreationDto.getFirstName(),
-                userCreationDto.getLastName(),
-                userCreationDto.getAge(),
-                userCreationDto.getPhone());
+                userCreationDto.dni(),
+                userCreationDto.password(),
+                userCreationDto.email(),
+                userCreationDto.firstName(),
+                userCreationDto.lastName(),
+                userCreationDto.age(),
+                userCreationDto.phone());
     }
 
 
