@@ -24,3 +24,20 @@ spec:
               value: SIP-2022
             - name: jwt-expiration-days
               value: "5"
+
+            - name: db-url
+              value: postgresql://sip-api:sip-api@sip-api-postgresql:5432/sip-api
+            - name: db-username
+              value: sip
+            - name: db-password
+              value: sip.2022
+
+            - value: smtp-username
+              name: sip.2022.unlu@gmail.com
+            - value: smtp-password
+              name: xudijuocjkxwkgdo
+
+            - name: admin-email
+              value: admin@admin.com
+            - name: admin-password
+              value: adminadmin
