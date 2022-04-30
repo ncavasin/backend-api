@@ -19,11 +19,14 @@ spec:
     spec:
       containers:
         - name: sip-db
-          image: postgres:10
+          image: postgres:alpine
           resources:
+            requests:
+              cpu: "1"
+              memory: "1Gi"
             limits:
               cpu: "1"
-              memory: "4Gi"
+              memory: "5Gi"
           ports:
             - containerPort: 5432
           env:
