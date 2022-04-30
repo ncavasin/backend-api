@@ -2,6 +2,7 @@ server:
   error:
     include-message: always
     include-binding-errors: always
+  port: 8080
 
 
 springdoc:
@@ -10,9 +11,9 @@ springdoc:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5050/sip
-    username: sip
-    password: sip.2022
+    url: '{db-url}'
+    username: '{db-username}'
+    password: '{db-password}'
     driver-class-name: org.postgresql.Driver
 
   flyway:
@@ -21,7 +22,6 @@ spring:
     schemas: public
     out-of-order: true
     enabled: false
-  port: 8080
   jpa:
     properties:
       hibernate:
@@ -32,8 +32,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: sip.2022.unlu@gmail.com
-    password: xudijuocjkxwkgdo
+    username: '{smtp-username}'
+    password: '{smtp-password}'
     properties:
       mail:
         smtp:
@@ -54,7 +54,7 @@ jwt-secret: '{jwt-secret}'
 jwt-issuer: '{jwt-issuer}'
 jwt-expiration-days: '{jwt-expiration-days}'
 
-superadmin-email: 'admin@admin.com'
-superadmin-password: 'adminadmin'
+superadmin-email: '{admin-email}'
+superadmin-password: '{admin-password}'
 
 heroku-url: 'https://sip-api-dev.herokuapp.com'
