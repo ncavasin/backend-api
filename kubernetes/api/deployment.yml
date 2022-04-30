@@ -19,6 +19,8 @@ spec:
           imagePullPolicy: Always
           env:
             - name: jwt-secret
-              value:
-                
-                jwt-secret=supersecretpassword;jwt-issuer=SIP-2022;jwt-expiration-days=5
+              value: adminadmin
+            - name: jwt-issuer
+              value: SIP-2022
+            - name: jwt-expiration-days
+              value: "5"
