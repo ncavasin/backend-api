@@ -3,6 +3,12 @@ server:
     include-message: always
     include-binding-errors: always
 
+
+springdoc:
+  api-docs:
+    path: /api-docs
+
+spring:
   datasource:
     url: jdbc:postgresql://localhost:5050/sip
     username: sip
@@ -16,12 +22,6 @@ server:
     out-of-order: true
     enabled: false
   port: 8080
-
-springdoc:
-  api-docs:
-    path: /api-docs
-
-spring:
   jpa:
     properties:
       hibernate:
