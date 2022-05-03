@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: sip-db-service
 spec:
+  type: ClusterIP
   selector:
     app: sip-db
   ports:
