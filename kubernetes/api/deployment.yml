@@ -25,8 +25,8 @@ spec:
             - name: jwt-expiration-days
               value: "5"
 
-            - name: db-ip
-              value: 10.8.0.1
+            - name: sip-db
+              value: sip-db
             - name: db-port
               value: "5432"
             - name: db-name
