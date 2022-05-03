@@ -19,9 +19,6 @@ jobs:
     name: Build & Test
     runs-on: ubuntu-latest
     steps:
-#      - name: Assignation test
-#        run: ls -al >> $PRUEBA ; echo $PRUEBA;
-
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -30,7 +27,7 @@ jobs:
           cache: maven
 
       - name: sarasa
-        run: mvn test >> $PRUEBA; echo $PRUEBA;
+        run: mvn clean package -DskipTests >> $PRUEBA; echo $PRUEBA;
 
 #      - name: Package
 #        run: mvn clean package -DskipTests
