@@ -6,6 +6,7 @@ env:
   CLUSTER_ZONE: ${{ secrets.GKE_CLUSTER_ZONE }}
   CONTAINER_IMAGE_NAME: ${{ secrets.GKE_CONTAINER_IMAGE_NAME }}
   DEPLOYMENT_NAME: ${{ secrets.GKE_CLUSTER_NAME }}
+  PRUEBA: "Hola"
 
 on:
   push:
@@ -19,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Assignation test
-        run: ls -al >> $GITHUB_ENV; echo $GITHUB_ENV
+        run: ls -al >> $PRUEBA ; echo $HOLA
 
       - name: Checkout
         uses: actions/checkout@v2
