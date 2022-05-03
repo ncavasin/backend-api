@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Assignation test
-        run: ls -al >> $PRUEBA ; eval $PRUEBA
+        run: ls -al >> $PRUEBA ; echo $PRUEBA;
 
       - name: Checkout
         uses: actions/checkout@v2
