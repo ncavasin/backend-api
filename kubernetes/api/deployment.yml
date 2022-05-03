@@ -25,12 +25,18 @@ spec:
             - name: jwt-expiration-days
               value: "5"
 
-            - name: db-url
-              value: postgresql://sip-api:sip-api@sip-api-postgresql:5432/sip-api
+            - name: db-ip
+              value: 10.8.0.1
+            - name: db-port
+              value: "5432"
+            - name: db-name
+              value: sip-db
             - name: db-username
               value: sip
             - name: db-password
               value: sip.2022
+            - name: db-url
+              value: jdbc:postgresql://{db-ip}:{db-port}/{db-name}?user={user}&password={pwd}
 
             - value: smtp-username
               name: sip.2022.unlu@gmail.com
