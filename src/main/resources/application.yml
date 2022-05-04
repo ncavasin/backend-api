@@ -10,8 +10,7 @@ springdoc:
 
 spring:
   datasource:
-    url: jdbc:postgresql://sip-db-service.default.svc.cluster.local:5432/postgres?user=sip&password=sip.2022
-
+    url: '{db-url}'
     username: '{db-username}'
     password: '{db-password}'
     driver-class-name: org.postgresql.Driver
