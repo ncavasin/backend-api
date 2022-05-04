@@ -45,7 +45,7 @@ spec:
 
             - name: db-url
 #              value: jdbc:postgresql://{db-ip}:{db-port}/{db-name}?user={user}&password={pwd}
-              value: jdbc:postgresql://{db-ip}:{db-port}/postgres?user=root&password=postgres
+              value: jdbc:postgresql://$(db-ip):$(db-port)/postgres?user=root&password=postgres
 
 
             - value: smtp-password
