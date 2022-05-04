@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - kubernetes/api/deployment.yml
   - kubernetes/api/service.yml
+  - kubernetes/api/configmap.yml
