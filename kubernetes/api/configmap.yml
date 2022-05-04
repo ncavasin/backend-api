@@ -9,10 +9,10 @@ metadata:
 data:
   jwt-secret: supersecretkey
   jwt-issuer: NC-SIP-2022
-  jwt-expiration-days: 5
+  jwt-expiration-days: "5"
   sip-db: sip-db
   db-host: sip-db-service.default.svc.cluster.local
-  db-port: 5432
+  db-port: "5432"
   db-name: sip
   db-user: sip
   db-password: sip.2022
