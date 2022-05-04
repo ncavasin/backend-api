@@ -44,3 +44,6 @@ spec:
         - name: postgredb # Must match volumeMounts identifier
           persistentVolumeClaim:
             claimName: sip-postgres-pvc # Must match withc PVC identifier
+
+            # kubectl exec -it sip-db-d84557bcd-mpwrl /bin/bash
+            # psql -p 5432 -U sip --password -p 5432 sip
