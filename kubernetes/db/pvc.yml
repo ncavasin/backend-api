@@ -14,12 +14,12 @@ metadata:
   name: sip-postgres-pvc
   namespace: default
 spec:
-  storageClassName: sip-storageclass # Must match with StorageClass identifier
+  storageClassName: sip-storageclass # Must match with StorageClass.
   accessModes:
-    - ReadWriteOnce
-  volumeMode: Filesystem
+    - ReadWriteOnce # Define the volume can be mounted as read-write by a single node.
+  volumeMode: Filesystem # Define the volume as a filesystem.
   resources:
     requests:
-      storage: 500Mi
+      storage: 1Gi
     limits:
-      storage: 3Gi
+      storage: 5Gi
