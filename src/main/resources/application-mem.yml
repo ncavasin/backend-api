@@ -4,7 +4,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: false
 
   h2:
@@ -19,5 +19,36 @@ spring:
 
   flyway:
     baseline-on-migrate: true
-    enabled: true
+    default-schema: public
+    schemas: public
     out-of-order: true
+    enabled: false
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: sip.2022.unlu@gmail.com
+    password: xudijuocjkxwkgdo
+    properties:
+      mail:
+        smtp:
+          auth: true
+          connectiontimeout: 10000
+          timeout: 10000
+          writetimeout: 10000
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 25MB
+
+jwt-secret: placeholder
+jwt-issuer: placeholder
+jwt-expiration-days: 5
+
+superadmin-email: admin@admin.com
+superadmin-password: adminadmin
+app-url: 'localhost:8080'
