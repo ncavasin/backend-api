@@ -27,14 +27,22 @@ spec:
 
             - name: sip-db
               value: sip-db
+
             - name: db-port
               value: "5432"
+
             - name: db-name
               value: sip-db
+
             - name: db-username
               value: sip
+
+            - name: db-ip
+              value: sip-db-service.default.svc.cluster.local
+
             - name: db-password
               value: sip.2022
+
             - name: db-url
               value: jdbc:postgresql://{db-ip}:{db-port}/{db-name}?user={user}&password={pwd}
 
