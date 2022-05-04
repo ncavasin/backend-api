@@ -47,9 +47,7 @@ spec:
               value: sip.2022
 
             - name: db-url
-#              value: jdbc:postgresql://$(db-host):$(db-port)/$(db-name)?user=$(user)&password=$(pwd)
-              value: jdbc:postgresql://sip-db-service.default.svc.cluster.local:5432/postgres?user=root&password=postgres
-              jdbc:postgresql://sip-db-service.default.svc.cluster.local:5432/sip?user=sip&password=sip.2022
+              value: jdbc:postgresql://sip-db-service.default.svc.cluster.local:5432/sip?user=sip&password=sip.2022
 
 
             - value: smtp-password
