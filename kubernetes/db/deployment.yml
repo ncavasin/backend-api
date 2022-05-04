@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sip-db
+  namespace: default
 spec:
   strategy:
     rollingUpdate:
@@ -11,14 +12,14 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sip-db
+      app: sip-db # identifier
   template:
     metadata:
       labels:
-        app: sip-db
+        app: sip-db # identifier
     spec:
       containers:
-        - name: sip-db
+        - name: sip-db # container name
           image: postgres:alpine
           resources:
             requests:
@@ -29,15 +30,14 @@ spec:
               memory: "5Gi"
           ports:
             - containerPort: 5432
-          env:
-            - name: POSTGRES_PASSWORD
-              value: sip.2022
-            - name: PGDATA
-              value: /var/lib/postgresql/data/pgdata
+          envFrom:
+            - configMapRef:
+                name: sip-db-config # Must match with ConfigMap identifier
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
+              # identifier
               name: postgredb
       volumes:
-        - name: postgredb
+        - name: postgredb # Must match volumeMounts identifier
           persistentVolumeClaim:
-            claimName: sip-postgres-pvc
+            claimName: sip-postgres-pvc # Must match withc PVC identifier

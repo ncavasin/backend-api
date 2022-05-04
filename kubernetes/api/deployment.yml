@@ -35,7 +35,7 @@ spec:
               value: "5432"
 
             - name: db-name
-              value: sip-db
+              value: sip
 
             - name: db-username
               value: sip
