@@ -47,7 +47,7 @@ spec:
               value: jdbc:postgresql://{db-ip}:{db-port}/{db-name}?user={user}&password={pwd}
 
             - value: smtp-username
-              name: sip.2022.unlu@gmail.com
+              name: "sip.2022.unlu@gmail.com"
             - value: smtp-password
               name: xudijuocjkxwkgdo
 
