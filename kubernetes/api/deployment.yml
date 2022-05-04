@@ -28,6 +28,9 @@ spec:
             - name: sip-db
               value: sip-db
 
+            - name: db-ip
+              value: sip-db-service.default.svc.cluster.local
+
             - name: db-port
               value: "5432"
 
@@ -36,9 +39,6 @@ spec:
 
             - name: db-username
               value: sip
-
-            - name: db-ip
-              value: sip-db-service.default.svc.cluster.local
 
             - name: db-password
               value: sip.2022
