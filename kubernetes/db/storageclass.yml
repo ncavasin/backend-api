@@ -1,0 +1,19 @@
+# https://kubernetes.io/docs/concepts/storage/storage-classes/
+
+# A StorageClass provides a way for administrators to describe the "classes" of storage they offer.
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: sip-storageclass
+  namespace: default
+# Provisioner determines what volume plugin is used for provisioning PVs
+provisioner: kubernetes.io/gce-pd
+
+# Parameters describe volumes belonging to the storage class.
+# Different parameters may be accepted depending on the provisioner.
+parameters:
+  type: pd-standard # use an hdd
+  fsType: ext4 # use ext4 as filesystem
+
+allowVolumeExpansion: true
+volumeBindingMode: Immediate

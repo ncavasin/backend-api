@@ -20,7 +20,6 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserService userService;
     private final JwtService jwtService;
 
     @Override
@@ -28,34 +27,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf()
                 .disable();
-//
-//        CorsConfiguration corsConfiguration = new CorsConfiguration();
-//        corsConfiguration.setAllowedHeaders(
-//                List.of("Authorization", "Cache-Control", "Content-Type", "X-PT-SESSION-ID", "NGSW-BYPASS"));
-//        corsConfiguration.setAllowedOrigins(List.of("*"));
-//        corsConfiguration
-//                .setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PUT", "OPTIONS", "PATCH", "DELETE"));
-//        corsConfiguration.setAllowCredentials(true);
-//        corsConfiguration.setExposedHeaders(List.of("Authorization"));
 
         http.sessionManagement().sessionCreationPolicy(STATELESS);
+
         // public endpoints
         http.authorizeRequests()
-                .antMatchers("/api-docs/**", "/swagger-ui**" , "/swagger-ui/**",
+                .antMatchers("/api-docs/**", "/swagger-ui**" , "/swagger-ui/**", "/swagger-ui/index.html",
                         "/login/**", "/register/**", "/password/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated();
-//                .and()
-//                .cors().configurationSource(request -> corsConfiguration);
+                .permitAll();
 
         http
                 .addFilter(new AuthenticationFilter(authenticationManager(), jwtService))
                 .addFilterAfter(new AuthorizationFilter(jwtService), AuthenticationFilter.class);
-//
-//        http.authorizeRequests()
-//                .anyRequest()
-//                .authenticated();
+
+        http.authorizeRequests()
+                .anyRequest()
+                .authenticated();
     }
 
 
