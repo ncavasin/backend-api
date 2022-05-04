@@ -1,15 +1,22 @@
 apiVersion: v1
 kind: ConfigMap
+# identifier
 metadata:
-  name: spring-config
+  name: sip-api-configmap
+  namespace: default
+  labels:
+    app: sip-api # Must match with api deployment identifier
 data:
-  dev-config.json:
-    '{
-      "example.datasource.url": "jdbc:mysql://dev-endpoint/example",
-      "example.datasource.username": "dev-root",
-      "example.datasource.password": "dev-pass"
-     }'
-
-  jwt-secret: '{jwt-secret}'
-  jwt-issuer: '{jwt-issuer}'
-  jwt-expiration-days: '{jwt-expiration-days}'
+  jwt-secret: supersecretkey
+  jwt-issuer: NC-SIP-2022
+  jwt-expiration-days: 5
+  sip-db: sip-db
+  db-host: sip-db-service.default.svc.cluster.local
+  db-port: 5432
+  db-name: sip
+  db-user: sip
+  db-password: sip.2022
+  db-url: jdbc:postgresql://sip-db-service.default.svc.cluster.local:5432/sip?user=sip&password=sip.2022
+  smtp-password: xudijuocjkxwkgdo
+  admin-email: admin@admin.com
+  admin-password: adminadmin
