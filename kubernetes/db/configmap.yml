@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+# identifier
+metadata:
+  name: sip-db-configmap
+  namespace: default
+  labels:
+    app: sip-db # Must match with database deployment identifier
+data:
+  POSTGRES_DB: sip
+  POSTGRES_USER: sip
+  POSTGRES_PASSWORD: sip.2022

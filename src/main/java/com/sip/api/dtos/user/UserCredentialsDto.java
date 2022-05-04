@@ -1,4 +1,4 @@
-package com.sip.api.dtos;
+package com.sip.api.dtos.user;
 
 import lombok.*;
 
