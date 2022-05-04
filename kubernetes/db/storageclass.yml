@@ -12,7 +12,7 @@ provisioner: kubernetes.io/gce-pd
 # Parameters describe volumes belonging to the storage class.
 # Different parameters may be accepted depending on the provisioner.
 parameters:
-  type: pd-ssd # use an SSD
+  type: pd-standard # use an hdd
   fsType: ext4 # use ext4 as filesystem
 
 allowVolumeExpansion: true
