@@ -25,6 +25,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        format_sql: true
     hibernate:
       ddl-auto: create
     show-sql: false
@@ -55,5 +56,4 @@ jwt-expiration-days: '{jwt-expiration-days}'
 
 superadmin-email: '{admin-email}'
 superadmin-password: '{admin-password}'
-
-heroku-url: 'https://sip-api-dev.herokuapp.com'
+app-url: '{app-url}'

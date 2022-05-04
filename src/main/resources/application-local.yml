@@ -2,12 +2,25 @@ server:
   error:
     include-message: always
     include-binding-errors: always
+  port: 8080
 
 springdoc:
   api-docs:
     path: /api-docs
 
 spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5050/sip
+    username: sip
+    password: sip.2022
+    driver-class-name: org.postgresql.Driver
+
+  flyway:
+    baseline-on-migrate: true
+    default-schema: public
+    schemas: public
+    out-of-order: true
+    enabled: false
   jpa:
     properties:
       hibernate:
@@ -37,23 +50,10 @@ spring:
       max-file-size: 25MB
       max-request-size: 25MB
 
-  datasource:
-    url: jdbc:postgresql://localhost:5050/sip
-    username: sip
-    password: sip.2022
-    driver-class-name: org.postgresql.Driver
-
-  flyway:
-    baseline-on-migrate: true
-    default-schema: public
-    schemas: public
-    out-of-order: true
-    enabled: false
-
 jwt-secret: '{jwt-secret}'
 jwt-issuer: '{jwt-issuer}'
 jwt-expiration-days: '{jwt-expiration-days}'
 
-superadmin-email: 'admin@admin.com'
-superadmin-password: 'adminadmin'
-heroku-url: 'localhost:8080'
+superadmin-email: '{admin-email}'
+superadmin-password: '{admin-password}'
+app-url: 'localhost:8080'
