@@ -29,8 +29,9 @@ public class BasicSetup implements ApplicationRunner {
     private final UserService userService;
     private final RoleService roleService;
     private final ResourceService resourceService;
-    private final List<Resource> resourceList;
+    private List<Resource> resourceList;
     private final TimeslotService timeslotService;
+//    private final ResourcesMock resourcesMock;
 
     @Value("${superadmin-email}")
     private String superAdminEmail;
@@ -40,6 +41,7 @@ public class BasicSetup implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         try {
+//            resourceList = resourcesMock.getAllMockedResources();
             createResources();
             createRoles();
             createTimeslots();
