@@ -19,6 +19,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,9 +30,8 @@ public class BasicSetup implements ApplicationRunner {
     private final UserService userService;
     private final RoleService roleService;
     private final ResourceService resourceService;
-    private List<Resource> resourceList;
+    private List<Resource> resourceList = new ArrayList<>();
     private final TimeslotService timeslotService;
-//    private final ResourcesMock resourcesMock;
 
     @Value("${superadmin-email}")
     private String superAdminEmail;
@@ -41,7 +41,6 @@ public class BasicSetup implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         try {
-//            resourceList = resourcesMock.getAllMockedResources();
             createResources();
             createRoles();
             createTimeslots();
