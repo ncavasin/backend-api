@@ -7,8 +7,10 @@ import com.sip.api.services.ActivityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
+@RestController
 @RequestMapping("/activity")
 @RequiredArgsConstructor
 public class ActivityController {
@@ -24,8 +26,8 @@ public class ActivityController {
         return ActivityConverter.fromEntityToDto(activityService.findById(activityId));
     }
 
-    @PostMapping
-    public ActivityDto createActivity(ActivityCreationDto activityCreationDto) {
+    @PostMapping()
+    public ActivityDto createActivity(@RequestBody @Valid ActivityCreationDto activityCreationDto) {
         return ActivityConverter.fromEntityToDto(activityService.createActivity(activityCreationDto));
     }
 
