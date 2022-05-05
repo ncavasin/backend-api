@@ -1,23 +1,28 @@
 package com.sip.api.services;
 
 import com.sip.api.domains.enums.UserStatus;
+import com.sip.api.domains.resource.Resource;
+import com.sip.api.domains.role.Role;
 import com.sip.api.domains.user.User;
+import com.sip.api.dtos.RoleCreationDto;
+import com.sip.api.dtos.resource.ResourceCreationDto;
 import com.sip.api.dtos.user.UserCreationDto;
 import com.sip.api.dtos.user.UserEmailDto;
 import com.sip.api.dtos.user.UserPasswordDto;
 import com.sip.api.exceptions.BadRequestException;
 import com.sip.api.exceptions.NotFoundException;
 import org.junit.Assert;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -28,29 +33,25 @@ public class UserServiceImplTest {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
+    @Autowired
+    private ResourceService resourceService;
+
+    private Resource userResource;
+    private Role userRole;
     private User savedUser;
 
     @BeforeEach
     private void setUp() {
-
-        // Create the roles
-/*        adminRole = roleService.createRole(RoleCreationDto.builder()
-        .name("ADMIN_ROLE")
-        .allowedResourcesIds(Collections.singletonList(resourcesMock.getAllResource().getId()))
-        .build());*/
-//        userRole = roleService.createRole(RoleCreationDto.builder()
-//                .name("USER_ROLE")
-//                .allowedResourcesIds()
-//                .build());
-//        professorRole = roleService.createRole(RoleCreationDto.builder()
-//                .name("PROFESSOR_ROLE")
-//                .allowedResourcesIds()
-//                .build());
-//        analystRole = roleService.createRole(RoleCreationDto.builder()
-//                .name("ANALYST_ROLE")
-//                .allowedResourcesIds()
-//                .build());
-
+        userResource = resourceService.createResource(ResourceCreationDto.builder()
+                .name("USER")
+                .url("/user")
+                .build());
+        userRole = roleService.createRole(RoleCreationDto.builder()
+                .name("USER_ROLE")
+                .allowedResourcesIds(Collections.singletonList(userResource.getId()))
+                .build());
         savedUser = createUser(12345678, "password123!", "ncavasin97@gmail.com", 23456781,
                 "Nicolás", "Cavasin", 25, null);
     }
