@@ -2,10 +2,7 @@ package com.sip.api.domains.activity;
 
 import com.sip.api.domains.TimeTrackable;
 import com.sip.api.domains.appointment.Appointment;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -15,6 +12,7 @@ import java.util.Set;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
