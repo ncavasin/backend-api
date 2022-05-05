@@ -2,6 +2,7 @@ package com.sip.api.services.impl;
 
 
 import com.sip.api.domains.activity.Activity;
+import com.sip.api.domains.appointment.Appointment;
 import com.sip.api.dtos.activity.ActivityCreationDto;
 import com.sip.api.dtos.activity.ActivityDto;
 import com.sip.api.exceptions.BadRequestException;
@@ -12,12 +13,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ActivityServiceImpl implements ActivityService {
     private final ActivityRepository activityRepository;
+
     @Override
     public List<Activity> findAll() {
         return activityRepository.findAll();
@@ -25,22 +29,30 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public Activity findById(String activityId) {
-        return null;
+        return activityRepository.findById(activityId).orElseThrow(() -> new BadRequestException("Activity not found!"));
     }
 
     @Override
     public Activity createActivity(ActivityCreationDto activityCreationDto) {
-        return null;
+        return activityRepository.save(Activity.builder()
+                .name(activityCreationDto.getName())
+                .basePrice(activityCreationDto.getBasePrice())
+                .appointments(activityCreationDto.getAppointments())
+                .build());
     }
 
     @Override
     public Activity updateActivity(String activityId, ActivityDto activityDto) {
-        return null;
+        Activity activity = findById(activityId);
+        activity.setName(activityDto.getName());
+        activity.setBasePrice(activityDto.getBasePrice());
+        activity.setAppointments(activityDto.getAppointments());
+        return activityRepository.save(activity);
     }
 
     @Override
     public void delete(String activityId) {
-        if(! activityRepository.existsById(activityId))
+        if (!activityRepository.existsById(activityId))
             throw new BadRequestException("Activity not found!");
         activityRepository.deleteById(activityId);
     }
