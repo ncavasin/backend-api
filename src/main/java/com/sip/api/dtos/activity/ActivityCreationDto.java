@@ -1,5 +1,6 @@
 package com.sip.api.dtos.activity;
 
+import com.sip.api.domains.appointment.Appointment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,5 +15,5 @@ public class ActivityCreationDto {
     private String name;
     @NonNegative
     private Double basePrice;
-    private Set<String> appointmentIds;
+    private Set<Appointment> appointments;
 }
