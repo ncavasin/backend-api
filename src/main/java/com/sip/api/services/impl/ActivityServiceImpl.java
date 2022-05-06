@@ -31,6 +31,9 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public Activity createActivity(ActivityCreationDto activityCreationDto) {
+        if (activityRepository.existsByName(activityCreationDto.getName()))
+            throw new BadRequestException("Activity already exists!");
+
         return activityRepository.save(Activity.builder()
                 .name(activityCreationDto.getName())
                 .basePrice(activityCreationDto.getBasePrice())
