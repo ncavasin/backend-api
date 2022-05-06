@@ -26,7 +26,7 @@ public class ActivityController {
         return ActivityConverter.fromEntityToDto(activityService.findById(activityId));
     }
 
-    @PostMapping()
+    @PostMapping
     public ActivityDto createActivity(@RequestBody @Valid ActivityCreationDto activityCreationDto) {
         return ActivityConverter.fromEntityToDto(activityService.createActivity(activityCreationDto));
     }

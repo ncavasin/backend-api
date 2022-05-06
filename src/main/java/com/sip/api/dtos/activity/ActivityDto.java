@@ -1,7 +1,10 @@
 package com.sip.api.dtos.activity;
 
 import com.sip.api.domains.appointment.Appointment;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.util.Set;
