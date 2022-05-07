@@ -1,6 +1,6 @@
 package com.sip.api.dtos.timeslot;
 
-import com.sip.api.domains.appointment.Appointment;
+import com.sip.api.domains.availableClass.AvailableClass;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,5 +13,4 @@ public class TimeslotDto {
     private String id;
     private LocalTime startTime;
     private LocalTime endTime;
-    private Set<Appointment> appointments;
 }

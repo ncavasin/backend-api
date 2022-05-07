@@ -19,7 +19,6 @@ public class TimeslotConverter {
                 .id(timeslot.getId())
                 .startTime(timeslot.getStartTime())
                 .endTime(timeslot.getEndTime())
-                .appointments(timeslot.getAppointments())
                 .build();
     }
 
@@ -27,7 +26,6 @@ public class TimeslotConverter {
         return Timeslot.builder()
                 .startTime(timeslotDto.getStartTime())
                 .endTime(timeslotDto.getEndTime())
-                .appointments(timeslotDto.getAppointments())
                 .build();
     }
 

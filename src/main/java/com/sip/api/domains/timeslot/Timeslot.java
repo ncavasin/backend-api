@@ -1,7 +1,7 @@
 package com.sip.api.domains.timeslot;
 
 import com.sip.api.domains.TimeTrackable;
-import com.sip.api.domains.appointment.Appointment;
+import com.sip.api.domains.availableClass.AvailableClass;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -23,8 +23,4 @@ public class Timeslot extends TimeTrackable {
 
     @Column(nullable = false)
     private LocalTime endTime;
-
-    @OneToMany(mappedBy = "timeslot", fetch = FetchType.LAZY)
-    @Fetch(FetchMode.JOIN)
-    private Set<Appointment> appointments = new java.util.LinkedHashSet<>();
 }
