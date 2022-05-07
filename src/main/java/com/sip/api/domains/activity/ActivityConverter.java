@@ -16,7 +16,6 @@ public class ActivityConverter {
                 .id(activity.getId())
                 .name(activity.getName())
                 .basePrice(activity.getBasePrice())
-                .appointments(activity.getAppointments())
                 .build();
     }
 
@@ -24,7 +23,6 @@ public class ActivityConverter {
         return Activity.builder()
                 .name(activityDto.getName())
                 .basePrice(activityDto.getBasePrice())
-                .appointments(activityDto.getAppointments())
                 .build();
     }
 }

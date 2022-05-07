@@ -1,13 +1,10 @@
 package com.sip.api.dtos.activity;
 
-import com.sip.api.domains.appointment.Appointment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.checkerframework.checker.index.qual.NonNegative;
-
-import java.util.Set;
 
 @Data
 @Builder
@@ -18,5 +15,6 @@ public class ActivityDto {
     private String name;
     @NonNegative
     private Double basePrice;
-    private Set<Appointment> appointments;
+    @NonNegative
+    private int atendeesLimit;
 }
