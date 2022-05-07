@@ -37,7 +37,6 @@ public class ActivityServiceImpl implements ActivityService {
         return activityRepository.save(Activity.builder()
                 .name(activityCreationDto.getName())
                 .basePrice(activityCreationDto.getBasePrice())
-                .appointments(activityCreationDto.getAppointments())
                 .build());
     }
 
@@ -46,7 +45,6 @@ public class ActivityServiceImpl implements ActivityService {
         Activity activity = findById(activityId);
         activity.setName(activityDto.getName());
         activity.setBasePrice(activityDto.getBasePrice());
-        activity.setAppointments(activityDto.getAppointments());
         return activityRepository.save(activity);
     }
 
