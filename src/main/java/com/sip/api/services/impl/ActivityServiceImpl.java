@@ -37,6 +37,7 @@ public class ActivityServiceImpl implements ActivityService {
         return activityRepository.save(Activity.builder()
                 .name(activityCreationDto.getName())
                 .basePrice(activityCreationDto.getBasePrice())
+                .atendeesLimit(activityCreationDto.getAtendeesLimit())
                 .build());
     }
 
