@@ -46,6 +46,7 @@ public class ActivityServiceImpl implements ActivityService {
         Activity activity = findById(activityId);
         activity.setName(activityDto.getName());
         activity.setBasePrice(activityDto.getBasePrice());
+        activity.setAtendeesLimit(activityDto.getAtendeesLimit());
         return activityRepository.save(activity);
     }
 

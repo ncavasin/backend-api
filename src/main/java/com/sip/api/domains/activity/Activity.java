@@ -21,5 +21,6 @@ public class Activity extends TimeTrackable {
     @Column(nullable = false)
     private Double basePrice;
 
+    @NonNegative
     private int atendeesLimit;
 }
