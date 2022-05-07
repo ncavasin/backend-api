@@ -65,7 +65,7 @@ public class BasicSetup implements ApplicationRunner {
                 timeslotService.createTimeslot(TimeslotCreationDto.builder()
                         .startTime(LocalTime.of(i, 15))
                         .endTime(LocalTime.of(i + 1, 15))
-                        .appointments(Collections.emptySet())
+                        .availableClasses(Collections.emptySet())
                         .build());
             }
 
@@ -73,7 +73,7 @@ public class BasicSetup implements ApplicationRunner {
                 timeslotService.createTimeslot(TimeslotCreationDto.builder()
                         .startTime(LocalTime.of(i, 15))
                         .endTime(LocalTime.of(i + 1, 15))
-                        .appointments(Collections.emptySet())
+                        .availableClasses(Collections.emptySet())
                         .build());
             }
         }catch (BadRequestException e){
