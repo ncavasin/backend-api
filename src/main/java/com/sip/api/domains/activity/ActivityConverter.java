@@ -16,6 +16,7 @@ public class ActivityConverter {
                 .id(activity.getId())
                 .name(activity.getName())
                 .basePrice(activity.getBasePrice())
+                .atendeesLimit(activity.getAtendeesLimit())
                 .build();
     }
 
@@ -23,6 +24,7 @@ public class ActivityConverter {
         return Activity.builder()
                 .name(activityDto.getName())
                 .basePrice(activityDto.getBasePrice())
+                .atendeesLimit(activityDto.getAtendeesLimit())
                 .build();
     }
 }
