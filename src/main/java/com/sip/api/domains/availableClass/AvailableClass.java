@@ -18,14 +18,12 @@ import javax.persistence.*;
 @Table(name = "availableClass")
 public class AvailableClass extends TimeTrackable {
     @ManyToOne(optional = false)
-    @JoinColumn(name = "activity_id", nullable = false, referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "FK_activity_id"))
+    @JoinColumn(name = "activity_id", nullable = false, referencedColumnName = "id")
     @Fetch(FetchMode.JOIN)
     private Activity activity;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "timeslot_id", nullable = false, referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "FK_timeslot_id"))
+    @JoinColumn(name = "timeslot_id", nullable = false, referencedColumnName = "id")
     @Fetch(FetchMode.JOIN)
     private Timeslot timeslot;
 }
