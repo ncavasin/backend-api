@@ -61,7 +61,7 @@ public class BasicSetup implements ApplicationRunner {
     }
 
     public DayOfWeek getRandomDay(){
-        return DayOfWeek.values()[(int) (Math.random() * 7)];
+        return DayOfWeek.values()[(int) (Math.random() * 5)];
     }
 
     private void createTimeslots() {
