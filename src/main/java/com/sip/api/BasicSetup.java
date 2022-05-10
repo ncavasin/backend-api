@@ -18,6 +18,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,6 +60,10 @@ public class BasicSetup implements ApplicationRunner {
         }
     }
 
+    public DayOfWeek getRandomDay(){
+        return DayOfWeek.values()[(int) (Math.random() * 7)];
+    }
+
     private void createTimeslots() {
         try {
             for (int i = 7; i < 13; i++) {
@@ -66,6 +71,7 @@ public class BasicSetup implements ApplicationRunner {
                         .startTime(LocalTime.of(i, 15))
                         .endTime(LocalTime.of(i + 1, 15))
                         .availableClasses(Collections.emptySet())
+                        .dayOfWeek(getRandomDay())
                         .build());
             }
 
@@ -74,6 +80,7 @@ public class BasicSetup implements ApplicationRunner {
                         .startTime(LocalTime.of(i, 15))
                         .endTime(LocalTime.of(i + 1, 15))
                         .availableClasses(Collections.emptySet())
+                        .dayOfWeek(getRandomDay())
                         .build());
             }
         }catch (BadRequestException e){
