@@ -29,8 +29,8 @@ public class AvailableClassServiceImpl implements AvailableClassService {
     }
 
     @Override
-    public AvailableClass findById(String appointmentId) {
-        return availableClassRepository.findById(appointmentId).orElseThrow(() -> new BadRequestException("AvailableClass not found!"));
+    public AvailableClass findById(String availableClassId) {
+        return availableClassRepository.findById(availableClassId).orElseThrow(() -> new BadRequestException("AvailableClass not found!"));
     }
 
     @Override
@@ -47,9 +47,9 @@ public class AvailableClassServiceImpl implements AvailableClassService {
     }
 
     @Override
-    public void removeAvailableClass(String appointmentId) {
-        if (!availableClassRepository.existsById(appointmentId))
+    public void removeAvailableClass(String availableClassId) {
+        if (!availableClassRepository.existsById(availableClassId))
             throw new BadRequestException("AvailableClass not found!");
-        availableClassRepository.deleteById(appointmentId);
+        availableClassRepository.deleteById(availableClassId);
     }
 }
