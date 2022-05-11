@@ -23,5 +23,4 @@ public class UserDto {
     private int phone;
     private UserStatus status;
     private Set<String> roles;
-
 }
