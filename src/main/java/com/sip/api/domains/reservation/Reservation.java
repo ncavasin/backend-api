@@ -18,13 +18,15 @@ import java.util.Set;
 @Entity
 @Table(name = "reservation")
 public class Reservation extends TimeTrackable {
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "available_class_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_available_class_reservation_id"))
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("availableClassId")
     @Fetch(FetchMode.JOIN)
-    private Set<AvailableClass> availableClasses = new java.util.LinkedHashSet<>();
+    private AvailableClass availableClass;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "atendee_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_reservation_atendee_id"))
+    @ManyToMany
+    @JoinTable(name = "reservation_attendees",
+            joinColumns = @JoinColumn(name = "reservation_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_reservation_id")),
+            inverseJoinColumns = @JoinColumn(name = "attendees_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_attendees_id")))
     @Fetch(FetchMode.JOIN)
-    private Set<User> attendees;
+    private Set<User> attendees = new java.util.LinkedHashSet<>();
 }
