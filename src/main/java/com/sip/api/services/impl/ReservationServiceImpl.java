@@ -4,15 +4,21 @@ import com.sip.api.domains.reservation.Reservation;
 import com.sip.api.dtos.reservation.ReservationCreationDto;
 import com.sip.api.exceptions.BadRequestException;
 import com.sip.api.repositories.ReservationRepository;
+import com.sip.api.services.AvailableClassService;
 import com.sip.api.services.ReservationService;
+import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
     private final ReservationRepository reservationRepository;
+    private final AvailableClassService availableClassService;
+    private final UserService userService;
 
     @Override
     public List<Reservation> findAll() {
@@ -26,16 +32,20 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Reservation createReservation(ReservationCreationDto reservationCreationDto) {
+
         Reservation reservation = Reservation.builder()
-                .attendees(reservationCreationDto.getAteendees())
-                .availableClasses(reservationCreationDto.getAvailableClasses())
+                .availableClass(availableClassService.findById(reservationCreationDto.getAvailableClassId()))
+                .attendees(reservationCreationDto.getAttendeesIds()
+                        .stream()
+                        .map(userService::findById)
+                        .collect(Collectors.toSet()))
                 .build();
         return reservationRepository.save(reservation);
     }
 
     @Override
     public void deleteReservation(String reservationId) {
-        if(! reservationRepository.existsById(reservationId))
+        if (!reservationRepository.existsById(reservationId))
             throw new BadRequestException("Reservation not found");
         reservationRepository.deleteById(reservationId);
     }
