@@ -1,12 +1,11 @@
 package com.sip.api.dtos.reservation;
 
-import com.sip.api.domains.availableClass.AvailableClass;
-import com.sip.api.domains.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Data
@@ -14,6 +13,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReservationCreationDto {
-    private Set<AvailableClass> availableClasses;
-    private Set<User> ateendees;
+    @NotNull
+    private String availableClassId;
+    @NotNull
+    private Set<String> attendeesIds;
 }
