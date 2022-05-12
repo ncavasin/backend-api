@@ -13,4 +13,8 @@ public interface AvailableClassService {
     AvailableClass createAvailableClass(AvailableClassesCreationDto availableClassesCreationDto);
 
     void removeAvailableClass(String appointmentId);
+
+    AvailableClass addUserToAvailableClass(String availableClassId, String userId);
+
+    AvailableClass removeUserFromAvailableClass(String availableClassId, String userId);
 }
