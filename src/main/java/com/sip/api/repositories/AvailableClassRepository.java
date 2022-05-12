@@ -4,9 +4,7 @@ import com.sip.api.domains.availableClass.AvailableClass;
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Optional;
 
 public interface AvailableClassRepository extends JpaRepository<AvailableClass, String> {
 
@@ -18,5 +16,5 @@ public interface AvailableClassRepository extends JpaRepository<AvailableClass, 
 
     boolean existsById(@NonNull String id);
 
-    Optional<AvailableClass> findByActivity_IdAndTimeslotId(@NotNull String activityId, @NotNull String timeslotId);
+    boolean existsByActivityIdAndTimeslotId(@NonNull String activityId, @NonNull String timeslotId);
 }
