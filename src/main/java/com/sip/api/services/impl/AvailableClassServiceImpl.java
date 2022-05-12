@@ -56,9 +56,17 @@ public class AvailableClassServiceImpl implements AvailableClassService {
         checkAvailableClassDoesExist(availableClassId);
         AvailableClass availableClass = findById(availableClassId);
         User attendee = userService.findById(userId);
-        availableClass.addAttendee(attendee);
+
+        final boolean classHasFreeSlots = availableClass.addAttendee(attendee);
+        final AvailableClass updatedAvailableClass = availableClassRepository.save(availableClass);
+
+        if (!classHasFreeSlots) {
+            log.info("User '{}' could not book a slot in AvailableClass '{}'", userId, availableClassId);
+            throw new BadRequestException(String.format("AvailableClass '%s' is full!", availableClassId));
+        }
+
         log.info("Attendee '{}' booked a slot in AvailableClass {}.", attendee.getId(), availableClass.getId());
-        return availableClassRepository.save(availableClass);
+        return updatedAvailableClass;
     }
 
     @Override
