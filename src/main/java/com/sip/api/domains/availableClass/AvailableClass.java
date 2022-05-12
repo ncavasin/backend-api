@@ -4,7 +4,6 @@ import com.sip.api.domains.TimeTrackable;
 import com.sip.api.domains.activity.Activity;
 import com.sip.api.domains.timeslot.Timeslot;
 import com.sip.api.domains.user.User;
-import com.sip.api.exceptions.BadRequestException;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -53,19 +52,20 @@ public class AvailableClass extends TimeTrackable {
     @OneToMany(fetch = FetchType.LAZY)
     private Set<User> rejectedAttendees = new HashSet<>();
 
-    public void addAttendee(User user) {
-        if (this.attendees.size() + 1 >= this.activity.getAtendeesLimit()){
+    public boolean addAttendee(User user) {
+        if (this.attendees.size() + 1 >= this.activity.getAtendeesLimit()) {
             this.rejectedAttendees.add(user);
-            throw new BadRequestException(String.format("AvailableClass '%s' is full!", super.getId()));
+            return false;
         }
         this.attendees.add(user);
+        return true;
     }
 
     public void removeAttendee(User user) {
         this.attendees.remove(user);
     }
 
-    public void addRejectedAttendee(User attendee){
+    public void addRejectedAttendee(User attendee) {
         this.rejectedAttendees.add(attendee);
     }
 }
