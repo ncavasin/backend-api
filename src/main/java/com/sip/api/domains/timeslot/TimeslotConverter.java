@@ -19,7 +19,7 @@ public class TimeslotConverter {
                 .id(timeslot.getId())
                 .startTime(timeslot.getStartTime())
                 .endTime(timeslot.getEndTime())
-                .appointments(timeslot.getAppointments())
+                .dayOfWeek(timeslot.getDayOfWeek())
                 .build();
     }
 
@@ -27,7 +27,7 @@ public class TimeslotConverter {
         return Timeslot.builder()
                 .startTime(timeslotDto.getStartTime())
                 .endTime(timeslotDto.getEndTime())
-                .appointments(timeslotDto.getAppointments())
+                .dayOfWeek(timeslotDto.getDayOfWeek())
                 .build();
     }
 
@@ -35,6 +35,7 @@ public class TimeslotConverter {
         return Timeslot.builder()
                 .startTime(timeslotCreationDto.getStartTime())
                 .endTime(timeslotCreationDto.getEndTime())
+                .dayOfWeek(timeslotCreationDto.getDayOfWeek())
                 .build();
     }
 }

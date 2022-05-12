@@ -1,19 +1,21 @@
-server:
-  error:
-    include-message: always
-    include-binding-errors: always
-  port: 8080
-
-springdoc:
-  api-docs:
-    path: /api-docs
-
 spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+
+  h2:
+    console:
+      enabled: true
+
   datasource:
-    url: jdbc:postgresql://localhost:5050/sip
+    url: "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1"
     username: sip
     password: sip.2022
-    driver-class-name: org.postgresql.Driver
+    driver-class-name: org.h2.Driver
 
   flyway:
     baseline-on-migrate: true
@@ -21,14 +23,7 @@ spring:
     schemas: public
     out-of-order: true
     enabled: false
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQL10Dialect
-        format_sql: true
-    hibernate:
-      ddl-auto: create-drop
-    show-sql: true
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -50,10 +45,10 @@ spring:
       max-file-size: 25MB
       max-request-size: 25MB
 
-jwt-secret: '{jwt-secret}'
-jwt-issuer: '{jwt-issuer}'
-jwt-expiration-days: '{jwt-expiration-days}'
+jwt-secret: placeholder
+jwt-issuer: placeholder
+jwt-expiration-days: 5
 
-superadmin-email: '{admin-email}'
-superadmin-password: '{admin-password}'
+superadmin-email: admin@admin.com
+superadmin-password: adminadmin
 app-url: 'localhost:8080'

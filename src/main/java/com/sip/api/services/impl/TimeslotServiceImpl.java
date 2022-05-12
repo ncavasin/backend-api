@@ -41,7 +41,7 @@ public class TimeslotServiceImpl implements TimeslotService {
         Timeslot timeslot = findById(timeslotId);
         timeslot.setStartTime(timeslotDto.getStartTime());
         timeslot.setEndTime(timeslotDto.getEndTime());
-        timeslot.setAppointments(timeslotDto.getAppointments());
+        timeslot.setDayOfWeek(timeslotDto.getDayOfWeek());
         return timeslotRepository.save(timeslot);
     }
 

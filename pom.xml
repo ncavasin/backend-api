@@ -15,6 +15,15 @@
     <description>backend-api</description>
     <properties>
         <java.version>11</java.version>
+        <open.api.version>1.6.4</open.api.version>
+        <spring.security.core.version>5.6.2</spring.security.core.version>
+        <spring.boot.starter.email.version>2.6.6</spring.boot.starter.email.version>
+        <hibernate.validator.version>7.0.4.Final</hibernate.validator.version>
+        <com.google.guava.version>31.1-jre</com.google.guava.version>
+        <io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
+        <com.auth0.version>3.19.1</com.auth0.version>
+        <io.jsonwebtoken.jjwtimpl.version>0.11.2</io.jsonwebtoken.jjwtimpl.version>
+
     </properties>
     <dependencies>
         <dependency>
@@ -37,13 +46,13 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
-            <version>5.6.2</version>
+            <version>${spring.security.core.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
-            <version>2.6.6</version>
+            <version>${spring.boot.starter.email.version}</version>
         </dependency>
 
         <dependency>
@@ -64,12 +73,12 @@
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>7.0.4.Final</version>
+            <version>${hibernate.validator.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>31.1-jre</version>
+            <version>${com.google.guava.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -84,22 +93,32 @@
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <version>0.9.1</version>
+            <version>${io.jsonwebtoken.version}</version>
         </dependency>
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
-            <version>3.19.1</version>
+            <version>${com.auth0.version}</version>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-impl</artifactId>
-            <version>0.11.2</version>
+            <version>${io.jsonwebtoken.jjwtimpl.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.6.4</version>
+            <version>${open.api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

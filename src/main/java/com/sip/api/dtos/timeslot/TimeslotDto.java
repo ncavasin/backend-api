@@ -1,17 +1,20 @@
 package com.sip.api.dtos.timeslot;
 
-import com.sip.api.domains.appointment.Appointment;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.Set;
 
 @Data
 @Builder
 public class TimeslotDto {
     private String id;
+    @NotNull
     private LocalTime startTime;
+    @NotNull
     private LocalTime endTime;
-    private Set<Appointment> appointments;
+    @NotNull
+    private DayOfWeek dayOfWeek;
 }

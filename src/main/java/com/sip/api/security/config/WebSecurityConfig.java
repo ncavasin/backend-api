@@ -1,5 +1,6 @@
 package com.sip.api.security.config;
 
+import com.sip.api.domains.enums.HTTPMethod;
 import com.sip.api.security.filters.AuthenticationFilter;
 import com.sip.api.security.filters.AuthorizationFilter;
 import com.sip.api.services.UserService;
@@ -34,6 +35,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/api-docs/**", "/swagger-ui**" , "/swagger-ui/**", "/swagger-ui/index.html",
                         "/login/**", "/register/**", "/password/**")
+                .permitAll();
+
+        http.authorizeRequests()
+                .antMatchers(String.valueOf(HTTPMethod.GET), "/available-class/**")
                 .permitAll();
 
         http

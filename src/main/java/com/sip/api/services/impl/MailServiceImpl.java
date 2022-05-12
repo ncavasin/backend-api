@@ -20,7 +20,7 @@ import javax.mail.internet.MimeMessage;
 public class MailServiceImpl implements MailService {
     private final JavaMailSender mailSender;
 
-    @Value("${heroku-url}")
+    @Value("${app-url}")
     private String url;
     @Value("${spring.mail.username}")
     private String USERNAME;

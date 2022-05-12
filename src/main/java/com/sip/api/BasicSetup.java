@@ -1,16 +1,16 @@
 package com.sip.api;
 
+import com.sip.api.domains.activity.Activity;
 import com.sip.api.domains.resource.Resource;
 import com.sip.api.domains.user.User;
 import com.sip.api.dtos.RoleCreationDto;
+import com.sip.api.dtos.activity.ActivityCreationDto;
+import com.sip.api.dtos.availableClass.AvailableClassesCreationDto;
 import com.sip.api.dtos.resource.ResourceCreationDto;
 import com.sip.api.dtos.timeslot.TimeslotCreationDto;
 import com.sip.api.dtos.user.UserCreationDto;
 import com.sip.api.exceptions.BadRequestException;
-import com.sip.api.services.ResourceService;
-import com.sip.api.services.RoleService;
-import com.sip.api.services.TimeslotService;
-import com.sip.api.services.UserService;
+import com.sip.api.services.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +18,9 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,8 +31,11 @@ public class BasicSetup implements ApplicationRunner {
     private final UserService userService;
     private final RoleService roleService;
     private final ResourceService resourceService;
-    private final List<Resource> resourceList;
+    private final ActivityService activityService;
     private final TimeslotService timeslotService;
+    private final AvailableClassService availableClassService;
+
+    private List<Resource> resourceList = new ArrayList<>();
 
     @Value("${superadmin-email}")
     private String superAdminEmail;
@@ -43,6 +48,8 @@ public class BasicSetup implements ApplicationRunner {
             createResources();
             createRoles();
             createTimeslots();
+            createActivities();
+            createAvailableClasses();
             if (!userService.existsByEmail(superAdminEmail)) {
                 User user =  userService.createUser(UserCreationDto.builder()
                         .dni(99999999)
@@ -58,13 +65,51 @@ public class BasicSetup implements ApplicationRunner {
         }
     }
 
+    private void createActivities() {
+        activityService.createActivity(ActivityCreationDto.builder()
+                .name("CROSSFIT")
+                .basePrice(2250.75D)
+                .atendeesLimit(12)
+                .build());
+        activityService.createActivity(ActivityCreationDto.builder()
+                .name("SPINNING")
+                .basePrice(3550.25D)
+                .atendeesLimit(20)
+                .build());
+        activityService.createActivity(ActivityCreationDto.builder()
+                .name("BOXING")
+                .basePrice(1050.10D)
+                .atendeesLimit(6)
+                .build());
+    }
+
+    private void createAvailableClasses() {
+        availableClassService.createAvailableClass(AvailableClassesCreationDto.builder()
+                        .activityId(activityService.findAll().get(0).getId())
+                        .timeslotId(timeslotService.findAll().get(3).getId())
+                .build());
+        availableClassService.createAvailableClass(AvailableClassesCreationDto.builder()
+                .activityId(activityService.findAll().get(2).getId())
+                .timeslotId(timeslotService.findAll().get(1).getId())
+                .build());
+        availableClassService.createAvailableClass(AvailableClassesCreationDto.builder()
+                .activityId(activityService.findAll().get(1).getId())
+                .timeslotId(timeslotService.findAll().get(2).getId())
+                .build());
+    }
+
+    public DayOfWeek getRandomDay(){
+        return DayOfWeek.values()[(int) (Math.random() * 5)];
+    }
+
     private void createTimeslots() {
         try {
             for (int i = 7; i < 13; i++) {
                 timeslotService.createTimeslot(TimeslotCreationDto.builder()
                         .startTime(LocalTime.of(i, 15))
                         .endTime(LocalTime.of(i + 1, 15))
-                        .appointments(Collections.emptySet())
+                        .availableClasses(Collections.emptySet())
+                        .dayOfWeek(getRandomDay())
                         .build());
             }
 
@@ -72,7 +117,8 @@ public class BasicSetup implements ApplicationRunner {
                 timeslotService.createTimeslot(TimeslotCreationDto.builder()
                         .startTime(LocalTime.of(i, 15))
                         .endTime(LocalTime.of(i + 1, 15))
-                        .appointments(Collections.emptySet())
+                        .availableClasses(Collections.emptySet())
+                        .dayOfWeek(getRandomDay())
                         .build());
             }
         }catch (BadRequestException e){
