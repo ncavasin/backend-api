@@ -19,7 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "availableClass")
+@Table(name = "available_class")
 public class AvailableClass extends TimeTrackable {
 
     /**
