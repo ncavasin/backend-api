@@ -17,11 +17,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class UserServiceImplTest {
                 .allowedResourcesIds(Collections.singletonList(userResource.getId()))
                 .build());
         savedUser = createUser(12345678, "password123!", "ncavasin97@gmail.com", 23456781,
-                "Nicolás", "Cavasin", 25, null);
+                "Nicolás", "Cavasin", LocalDate.of(1997, 03, 26), null);
     }
 
     @Test
@@ -66,14 +66,14 @@ public class UserServiceImplTest {
     public void shouldNotCreateWhenWeakPassword() {
         Assert.assertThrows(BadRequestException.class, () -> createUser(12345678, "123",
                 "ncavasin97@gmail.com", 23456781,
-                "Nicolás", "Cavasin", 25, null));
+                "Nicolás", "Cavasin",  LocalDate.of(1997, 03, 26), null));
     }
 
     @Test
     public void shouldNotCreateWhenDuplicatedEmail() {
         // Create another user with the same email than the saved User
         Assert.assertThrows(BadRequestException.class, () -> createUser(87654321, "securepassword1!", savedUser.getEmail(), 999944,
-                "Juan", "Perez", 45, null));
+                "Juan", "Perez",  LocalDate.of(1997, 03, 26), null));
     }
 
     @Test
@@ -115,7 +115,7 @@ public class UserServiceImplTest {
         Assert.assertThrows(NotFoundException.class, () -> userService.findById(foundUser.getId()));
     }
 
-    private User createUser(int dni, String password, String email, int phone, String firstName, String lastName, int age, List<String> rolesNames) {
+    private User createUser(int dni, String password, String email, int phone, String firstName, String lastName, LocalDate birthDate, List<String> rolesNames) {
         return userService.createUser(UserCreationDto.builder()
                 .dni(dni)
                 .password(password)
@@ -123,7 +123,7 @@ public class UserServiceImplTest {
                 .phone(phone)
                 .firstName(firstName)
                 .lastName(lastName)
-                .age(age)
+                .birthDate(birthDate)
                 .rolesNames(rolesNames)
                 .build());
     }

@@ -15,6 +15,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -44,7 +45,7 @@ public class User extends TimeTrackable implements UserDetails {
 
     private String lastName;
 
-    private int age;
+    private LocalDate birthDate;
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
@@ -58,14 +59,14 @@ public class User extends TimeTrackable implements UserDetails {
     private Set<Role> roles = new LinkedHashSet<>();
 
     // Use by UserFactory to convert from UserDTO to User
-    public User(int dni, String password, String email, String firstName, String lastName, int age, int phone) {
+    public User(int dni, String password, String email, String firstName, String lastName, LocalDate birthDate, int phone) {
         super();
         this.dni = dni;
         this.password = password;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.age = age;
+        this.birthDate = birthDate;
         this.phone = phone;
     }
 
