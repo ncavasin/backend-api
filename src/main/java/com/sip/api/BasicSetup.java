@@ -69,27 +69,35 @@ public class BasicSetup implements ApplicationRunner {
     }
 
     private void createActivities() {
-        activityService.createActivity(ActivityCreationDto.builder()
-                .name("CROSSFIT")
-                .basePrice(2250.75D)
-                .attendeesLimit(12)
-                .build());
-        activityService.createActivity(ActivityCreationDto.builder()
-                .name("SPINNING")
-                .basePrice(3550.25D)
-                .attendeesLimit(20)
-                .build());
-        activityService.createActivity(ActivityCreationDto.builder()
-                .name("BOXING")
-                .basePrice(1050.10D)
-                .attendeesLimit(6)
-                .build());
+        try{
+            activityService.createActivity(ActivityCreationDto.builder()
+                    .name("CROSSFIT")
+                    .basePrice(2250.75D)
+                    .attendeesLimit(12)
+                    .build());
+            activityService.createActivity(ActivityCreationDto.builder()
+                    .name("SPINNING")
+                    .basePrice(3550.25D)
+                    .attendeesLimit(20)
+                    .build());
+            activityService.createActivity(ActivityCreationDto.builder()
+                    .name("BOXING")
+                    .basePrice(1050.10D)
+                    .attendeesLimit(6)
+                    .build());
+        }catch (Exception e){
+            log.warn("Activities already created, skipping...");
+        }
     }
 
     private void createAvailableClasses() {
-        createAvailableClass(1, 0);
-        createAvailableClass(2, 1);
-        createAvailableClass(1, 2);
+        try{
+            createAvailableClass(1, 0);
+            createAvailableClass(2, 1);
+            createAvailableClass(1, 2);
+        }catch (Exception e){
+            log.warn("Available classes already created, skipping...");
+        }
     }
 
     private void createAvailableClass(int activityPosition, int timeslotPosition) {
