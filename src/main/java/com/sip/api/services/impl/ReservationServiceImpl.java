@@ -64,11 +64,11 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Reservation removeUserFromReservation(String reservationId, String attendeeId) {
-        AvailableClass availableClass = availableClassService.findById(reservationId);
+    public Reservation removeUserFromReservationUsingAvailableClassId(String availableClassId, String attendeeId) {
+        AvailableClass availableClass = availableClassService.findById(availableClassId);
         Reservation reservation = reservationRepository
                 .findByAvailableClass_Id(availableClass.getId())
-                .orElseThrow(() -> new BadRequestException(String.format("Reservation not found for AvailableClass %s.")));
+                .orElseThrow(() -> new BadRequestException(String.format("Can't remove user since there's no Reservation related to AvailableClass '%s'.", availableClassId)));
         reservation.removeAttendee(userService.findById(attendeeId));
         return reservationRepository.save(reservation);
     }
