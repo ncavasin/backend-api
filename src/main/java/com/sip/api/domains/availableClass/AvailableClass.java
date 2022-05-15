@@ -2,12 +2,15 @@ package com.sip.api.domains.availableClass;
 
 import com.sip.api.domains.TimeTrackable;
 import com.sip.api.domains.activity.Activity;
+import com.sip.api.domains.reservation.Reservation;
 import com.sip.api.domains.timeslot.Timeslot;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Set;
 
 @Getter
 @Setter
