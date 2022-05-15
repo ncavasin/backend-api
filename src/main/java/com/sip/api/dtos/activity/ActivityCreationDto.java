@@ -17,5 +17,5 @@ public class ActivityCreationDto {
     private Double basePrice;
     private AvailableClass availableClass;
     @NonNegative
-    private int atendeesLimit;
+    private int attendeesLimit;
 }

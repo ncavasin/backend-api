@@ -1,33 +1,48 @@
-//package com.sip.api.domains.reservation;
-//
-//import com.sip.api.domains.TimeTrackable;
-//import com.sip.api.domains.availableClass.AvailableClass;
-//import com.sip.api.domains.user.User;
-//import lombok.*;
-//import org.hibernate.annotations.Fetch;
-//import org.hibernate.annotations.FetchMode;
-//
-//import javax.persistence.*;
-//import java.util.Set;
-//
-//@Getter
-//@Setter
-//@Builder
-//@AllArgsConstructor
-//@NoArgsConstructor
-//@Entity
-//@Table(name = "reservation")
-//public class Reservation extends TimeTrackable {
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "available_class", foreignKey = @ForeignKey(name = "fk_reservation_available_class"))
-////    @MapsId("availableClassId")
-//    @Fetch(FetchMode.JOIN)
-//    private AvailableClass availableClass;
-//
-//    @OneToMany(fetch = FetchType.LAZY)
-////    @JoinTable(name = "reservation_attendees",
-////            joinColumns = @JoinColumn(name = "reservation_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_reservation_id")),
-////            inverseJoinColumns = @JoinColumn(name = "attendees_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_attendees_id")))
-//    @Fetch(FetchMode.JOIN)
-//    private Set<User> attendees;
-//}
+package com.sip.api.domains.reservation;
+
+import com.sip.api.domains.TimeTrackable;
+import com.sip.api.domains.availableClass.AvailableClass;
+import com.sip.api.domains.user.User;
+import com.sip.api.exceptions.BadRequestException;
+import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.*;
+import java.util.Set;
+
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "reservation")
+public class Reservation extends TimeTrackable {
+    /**
+     * A reservation only has one AvailableClass
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
+    private AvailableClass availableClass;
+
+    /**
+     * A reservation for an available class can have many users and a user can have a reservation
+     */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "reservation_user_data",
+            joinColumns = @JoinColumn(name = "reservation_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @Fetch(FetchMode.JOIN)
+    private Set<User> attendees;
+
+    public void addAttendee(User user) {
+        if (this.getAttendees().size() >= this.getAvailableClass().getActivity().getAttendeesLimit())
+            throw new BadRequestException(String.format("No more slots available for AvailableClass %s.", this.getAvailableClass().getId()));
+        attendees.add(user);
+    }
+
+    public void removeAttendee(User user) {
+        attendees.remove(user);
+    }
+}
