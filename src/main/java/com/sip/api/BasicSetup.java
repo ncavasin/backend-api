@@ -2,6 +2,7 @@ package com.sip.api;
 
 import com.sip.api.domains.activity.Activity;
 import com.sip.api.domains.resource.Resource;
+import com.sip.api.domains.timeslot.Timeslot;
 import com.sip.api.domains.user.User;
 import com.sip.api.dtos.RoleCreationDto;
 import com.sip.api.dtos.activity.ActivityCreationDto;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -27,6 +29,7 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class BasicSetup implements ApplicationRunner {
     private final UserService userService;
     private final RoleService roleService;
@@ -51,7 +54,7 @@ public class BasicSetup implements ApplicationRunner {
             createActivities();
             createAvailableClasses();
             if (!userService.existsByEmail(superAdminEmail)) {
-                User user =  userService.createUser(UserCreationDto.builder()
+                User user = userService.createUser(UserCreationDto.builder()
                         .dni(99999999)
                         .email(superAdminEmail)
                         .password(superAdminPassword)
@@ -66,39 +69,47 @@ public class BasicSetup implements ApplicationRunner {
     }
 
     private void createActivities() {
-        activityService.createActivity(ActivityCreationDto.builder()
-                .name("CROSSFIT")
-                .basePrice(2250.75D)
-                .atendeesLimit(12)
-                .build());
-        activityService.createActivity(ActivityCreationDto.builder()
-                .name("SPINNING")
-                .basePrice(3550.25D)
-                .atendeesLimit(20)
-                .build());
-        activityService.createActivity(ActivityCreationDto.builder()
-                .name("BOXING")
-                .basePrice(1050.10D)
-                .atendeesLimit(6)
-                .build());
+        try{
+            activityService.createActivity(ActivityCreationDto.builder()
+                    .name("CROSSFIT")
+                    .basePrice(2250.75D)
+                    .attendeesLimit(12)
+                    .build());
+            activityService.createActivity(ActivityCreationDto.builder()
+                    .name("SPINNING")
+                    .basePrice(3550.25D)
+                    .attendeesLimit(20)
+                    .build());
+            activityService.createActivity(ActivityCreationDto.builder()
+                    .name("BOXING")
+                    .basePrice(1050.10D)
+                    .attendeesLimit(6)
+                    .build());
+        }catch (Exception e){
+            log.warn("Activities already created, skipping...");
+        }
     }
 
     private void createAvailableClasses() {
+        try{
+            createAvailableClass(1, 0);
+            createAvailableClass(2, 1);
+            createAvailableClass(1, 2);
+        }catch (Exception e){
+            log.warn("Available classes already created, skipping...");
+        }
+    }
+
+    private void createAvailableClass(int activityPosition, int timeslotPosition) {
+        Activity activity = activityService.findAll().get(activityPosition);
+        Timeslot timeslot = timeslotService.findAll().get(timeslotPosition);
         availableClassService.createAvailableClass(AvailableClassesCreationDto.builder()
-                        .activityId(activityService.findAll().get(0).getId())
-                        .timeslotId(timeslotService.findAll().get(3).getId())
-                .build());
-        availableClassService.createAvailableClass(AvailableClassesCreationDto.builder()
-                .activityId(activityService.findAll().get(2).getId())
-                .timeslotId(timeslotService.findAll().get(1).getId())
-                .build());
-        availableClassService.createAvailableClass(AvailableClassesCreationDto.builder()
-                .activityId(activityService.findAll().get(1).getId())
-                .timeslotId(timeslotService.findAll().get(2).getId())
+                .activityId(activity.getId())
+                .timeslotId(timeslot.getId())
                 .build());
     }
 
-    public DayOfWeek getRandomDay(){
+    public DayOfWeek getRandomDay() {
         return DayOfWeek.values()[(int) (Math.random() * 5)];
     }
 
@@ -121,7 +132,7 @@ public class BasicSetup implements ApplicationRunner {
                         .dayOfWeek(getRandomDay())
                         .build());
             }
-        }catch (BadRequestException e){
+        } catch (BadRequestException e) {
             // do nothing as timeslots are already created
         }
     }

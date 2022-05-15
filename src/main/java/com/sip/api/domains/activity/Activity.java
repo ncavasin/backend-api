@@ -4,7 +4,9 @@ import com.sip.api.domains.TimeTrackable;
 import lombok.*;
 import org.checkerframework.checker.index.qual.NonNegative;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Getter
 @Setter
@@ -22,5 +24,5 @@ public class Activity extends TimeTrackable {
     private Double basePrice;
 
     @NonNegative
-    private int atendeesLimit;
+    private int attendeesLimit;
 }
