@@ -31,14 +31,8 @@ public class AvailableClassController {
         return AvailableClassConverter.fromEntityToDto(availableClassService.createAvailableClass(availableClassesCreationDto));
     }
 
-    @PutMapping("/{availableClassId}/add-user/{userId}")
-    public AvailableClassDto addUserToAvailableClass(@PathVariable("availableClassId") String availableClassId, @PathVariable("userId") String userId) {
-        return AvailableClassConverter.fromEntityToDto(availableClassService.addUserToAvailableClass(availableClassId, userId));
-    }
-
-    @PutMapping("/{availableClassId}/remove-user/{userId}")
-    public AvailableClassDto removeUserFromAvailableClass(@PathVariable("availableClassId") String availableClassId, @PathVariable("userId") String userId) {
-        return AvailableClassConverter.fromEntityToDto(availableClassService.removeUserFromAvailableClass(availableClassId, userId));
+    @PutMapping AvailableClassDto updateAvailableClass(@RequestBody @Valid AvailableClassDto availableClassDto) {
+        return AvailableClassConverter.fromEntityToDto(availableClassService.updateAvailableClass(availableClassDto));
     }
 
     @DeleteMapping("/{availableClassId}")

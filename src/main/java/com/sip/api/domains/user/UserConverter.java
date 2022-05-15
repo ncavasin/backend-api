@@ -20,7 +20,7 @@ public class UserConverter {
                 userCreationDto.getEmail(),
                 userCreationDto.getFirstName(),
                 userCreationDto.getLastName(),
-                userCreationDto.getAge(),
+                userCreationDto.getBirthDate(),
                 userCreationDto.getPhone());
     }
 
@@ -32,7 +32,7 @@ public class UserConverter {
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
-                .age(user.getAge())
+                .birthDate(user.getBirthDate())
                 .phone(user.getPhone())
                 .status(user.getStatus())
                 .roles(user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()))

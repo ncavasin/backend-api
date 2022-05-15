@@ -19,16 +19,16 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "roles")
+@Table(name = "role")
 public class Role extends TimeTrackable {
     @Column(nullable = false, unique = true)
     @NaturalId
     private String name;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "roles_resources",
-            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_role_id")),
-            inverseJoinColumns = @JoinColumn(name = "resource_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_resource_id")))
+    @JoinTable(name = "role_resource",
+            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "resource_id", referencedColumnName = "id"))
     @Fetch(FetchMode.JOIN)
     private Set<Resource> allowedResources = new LinkedHashSet<>();
 

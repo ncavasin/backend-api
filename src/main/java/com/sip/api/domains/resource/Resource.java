@@ -3,12 +3,10 @@ package com.sip.api.domains.resource;
 
 import com.sip.api.domains.TimeTrackable;
 import lombok.*;
-import org.springframework.http.HttpMethod;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.List;
 
 @Entity
 @Getter
@@ -16,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "resources")
+@Table(name = "resource")
 public class Resource extends TimeTrackable {
     @Column(nullable = false, unique = true)
     private String url;

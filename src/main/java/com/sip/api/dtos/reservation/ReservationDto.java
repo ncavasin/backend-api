@@ -17,5 +17,4 @@ public class ReservationDto {
     private String id;
     private AvailableClass availableClass;
     private Set<UserSlimDto> attendees;
-
 }
