@@ -41,9 +41,9 @@ CREATE TABLE IF NOT EXISTS resource
 
 CREATE TABLE IF NOT EXISTS role
 (
-    id                 VARCHAR(255)            NOT NULL
+    id                 VARCHAR(255) NOT NULL
         CONSTRAINT PK_roles PRIMARY KEY,
-    name               VARCHAR(255)            NOT NULL,
+    name               VARCHAR(255) NOT NULL,
     creation_timestamp TIMESTAMP DEFAULT NOW(),
     update_timestamp   TIMESTAMP DEFAULT NOW()
 );
@@ -72,32 +72,32 @@ CREATE TABLE IF NOT EXISTS user_data_role
 
 CREATE TABLE IF NOT EXISTS timeslot
 (
-    id                 VARCHAR(255)            NOT NULL
+    id                 VARCHAR(255) NOT NULL
         CONSTRAINT pk_timeslot PRIMARY KEY,
-    start_time         TIME                    NOT NULL,
-    end_time           TIME                    NOT NULL,
-    day_of_week        INTEGER                 NOT NULL,
+    start_time         TIME         NOT NULL,
+    end_time           TIME         NOT NULL,
+    day_of_week        INTEGER      NOT NULL,
     creation_timestamp TIMESTAMP DEFAULT NOW(),
     update_timestamp   TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE IF NOT EXISTS activity
 (
-    id                 VARCHAR(255)            NOT NULL
+    id                 VARCHAR(255) NOT NULL
         CONSTRAINT pk_activity PRIMARY KEY,
-    name               VARCHAR(255)            NOT NULL,
+    name               VARCHAR(255) NOT NULL,
     base_price         DOUBLE PRECISION,
-    attendees_limit    INTEGER                 NOT NULL,
+    attendees_limit    INTEGER      NOT NULL,
     creation_timestamp TIMESTAMP DEFAULT NOW(),
     update_timestamp   TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE IF NOT EXISTS available_class
 (
-    id          VARCHAR(255) NOT NULL
+    id                 VARCHAR(255) NOT NULL
         CONSTRAINT pk_available_class PRIMARY KEY,
-    activity_id VARCHAR(255) NOT NULL,
-    timeslot_id VARCHAR(255) NOT NULL,
+    activity_id        VARCHAR(255) NOT NULL,
+    timeslot_id        VARCHAR(255) NOT NULL,
     creation_timestamp TIMESTAMP DEFAULT NOW(),
     update_timestamp   TIMESTAMP DEFAULT NOW(),
     CONSTRAINT fk_activity
@@ -106,6 +106,27 @@ CREATE TABLE IF NOT EXISTS available_class
         FOREIGN KEY (timeslot_id) REFERENCES timeslot ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS reservation
+(
+    id                 VARCHAR(255) NOT NULL
+        CONSTRAINT pk_reservation PRIMARY KEY,
+    available_class_id VARCHAR(255) NOT NULL UNIQUE,
+    creation_timestamp TIMESTAMP DEFAULT NOW(),
+    update_timestamp   TIMESTAMP DEFAULT NOW(),
+    CONSTRAINT fk_available_class
+        FOREIGN KEY (available_class_id) REFERENCES available_class ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS reservation_user_data
+(
+    user_id        VARCHAR(255) NOT NULL,
+    reservation_id VARCHAR(255) NOT NULL,
+    CONSTRAINT fk_user_data
+        FOREIGN KEY (user_id) REFERENCES user_data ON DELETE CASCADE,
+    CONSTRAINT fk_reservation
+        FOREIGN KEY (reservation_id) REFERENCES reservation ON DELETE CASCADE,
+    CONSTRAINT pk_reservation_user_data PRIMARY KEY (user_id, reservation_id)
+)
 
 
 
