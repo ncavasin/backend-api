@@ -3,6 +3,7 @@ package com.sip.api.domains.user;
 import com.sip.api.domains.role.Role;
 import com.sip.api.dtos.user.UserCreationDto;
 import com.sip.api.dtos.user.UserDto;
+import com.sip.api.dtos.user.UserSlimDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,7 +25,6 @@ public class UserConverter {
                 userCreationDto.getPhone());
     }
 
-
     public static UserDto entityToDto(User user) {
         return UserDto.builder()
                 .id(user.getId())
@@ -39,8 +39,16 @@ public class UserConverter {
                 .build();
     }
 
+    public static UserSlimDto entityToDtoSlim(User user) {
+        return UserSlimDto.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .build();
+    }
+
     public static List<UserDto> entityToDto(List<User> users) {
         return users.stream().map(UserConverter::entityToDto).collect(Collectors.toList());
     }
-
 }
