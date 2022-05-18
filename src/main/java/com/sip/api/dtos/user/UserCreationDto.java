@@ -1,10 +1,12 @@
 package com.sip.api.dtos.user;
 
 import lombok.*;
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class UserCreationDto {
     @Min(1)
     @Max(99)
     private LocalDate birthDate;
-    private int phone;
+    @NonNegative
+    private BigInteger phone;
     private List<String> rolesNames;
 }

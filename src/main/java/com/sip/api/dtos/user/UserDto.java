@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -21,7 +22,7 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private LocalDate birthDate;
-    private int phone;
+    private BigInteger phone;
     private UserStatus status;
     private Set<String> roles;
 }

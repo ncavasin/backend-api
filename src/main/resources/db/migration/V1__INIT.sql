@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS user_data
     dni                numeric                         NOT NULL UNIQUE,
     password           VARCHAR(255)                    NOT NULL,
     email              VARCHAR(255)                    NOT NULL UNIQUE,
-    phone              INTEGER                         NOT NULL,
+    phone              BIGINT                          NOT NULL,
     first_name         VARCHAR(255),
     last_name          VARCHAR(255),
     birth_date         DATE,
