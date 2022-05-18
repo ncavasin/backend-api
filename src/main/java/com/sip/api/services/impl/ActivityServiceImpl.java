@@ -7,6 +7,7 @@ import com.sip.api.dtos.activity.ActivityDto;
 import com.sip.api.exceptions.BadRequestException;
 import com.sip.api.repositories.ActivityRepository;
 import com.sip.api.services.ActivityService;
+import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ActivityServiceImpl implements ActivityService {
     private final ActivityRepository activityRepository;
+    private final UserService userService;
 
     @Override
     public List<Activity> findAll() {
@@ -37,6 +39,7 @@ public class ActivityServiceImpl implements ActivityService {
         return activityRepository.save(Activity.builder()
                 .name(activityCreationDto.getName())
                 .basePrice(activityCreationDto.getBasePrice())
+                .professor(userService.findById(activityCreationDto.getProfessor().getId()))
                 .attendeesLimit(activityCreationDto.getAttendeesLimit())
                 .build());
     }
@@ -47,6 +50,7 @@ public class ActivityServiceImpl implements ActivityService {
         activity.setName(activityDto.getName());
         activity.setBasePrice(activityDto.getBasePrice());
         activity.setAttendeesLimit(activityDto.getAttendeesLimit());
+        activity.setProfessor(userService.findById(activityDto.getProfessor().getId()));
         return activityRepository.save(activity);
     }
 

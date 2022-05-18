@@ -1,5 +1,6 @@
 package com.sip.api.domains.availableClass;
 
+import com.sip.api.domains.user.UserConverter;
 import com.sip.api.dtos.activity.ActivityDto;
 import com.sip.api.dtos.availableClass.AvailableClassDto;
 import com.sip.api.dtos.timeslot.TimeslotDto;
@@ -23,6 +24,7 @@ public class AvailableClassConverter {
                 .activityDto(ActivityDto.builder()
                         .id(availableClass.getActivity().getId())
                         .name(availableClass.getActivity().getName())
+                        .professor(UserConverter.entityToDtoSlim(availableClass.getActivity().getProfessor()))
                         .attendeesLimit(availableClass.getActivity().getAttendeesLimit())
                         .basePrice(availableClass.getActivity().getBasePrice())
                         .build())

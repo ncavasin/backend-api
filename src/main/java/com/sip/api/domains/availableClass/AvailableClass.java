@@ -2,15 +2,14 @@ package com.sip.api.domains.availableClass;
 
 import com.sip.api.domains.TimeTrackable;
 import com.sip.api.domains.activity.Activity;
-import com.sip.api.domains.reservation.Reservation;
 import com.sip.api.domains.timeslot.Timeslot;
 import lombok.*;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Set;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -36,4 +35,17 @@ public class AvailableClass extends TimeTrackable {
     @JoinColumn(name = "timeslot_id", nullable = false, referencedColumnName = "id")
     @Fetch(FetchMode.JOIN)
     private Timeslot timeslot;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        AvailableClass that = (AvailableClass) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

@@ -42,7 +42,6 @@ public class Role extends TimeTrackable {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(super.id);
+        return getClass().hashCode();
     }
-
 }

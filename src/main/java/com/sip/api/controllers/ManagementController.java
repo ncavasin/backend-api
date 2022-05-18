@@ -38,6 +38,4 @@ public class ManagementController {
     public RoleDto removeResourceFromRole(@PathVariable("resourceId") String resourceId, @PathVariable("roleId") String roleId) {
         return RoleConverter.entityToDto(roleService.removeResourceFromRole(resourceId, roleId));
     }
-
-
 }

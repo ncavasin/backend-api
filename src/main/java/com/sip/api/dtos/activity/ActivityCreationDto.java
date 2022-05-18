@@ -1,9 +1,7 @@
 package com.sip.api.dtos.activity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.sip.api.dtos.user.UserSlimDto;
+import lombok.*;
 import org.checkerframework.checker.index.qual.NonNegative;
 
 @Data
@@ -14,6 +12,8 @@ public class ActivityCreationDto {
     private String name;
     @NonNegative
     private Double basePrice;
+    @NonNull
+    private UserSlimDto professor;
     @NonNegative
     private int attendeesLimit;
 }
