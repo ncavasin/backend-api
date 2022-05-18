@@ -78,7 +78,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
         // TODO: FILTER BY HTTP METHOD TOO
         HttpMethod requestingMethod = HttpMethod.valueOf(request.getMethod());
         boolean hasAccessToEverything = allowedResources.stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().contains("/*"));
-        boolean hasAccessToUrl = allowedResources.stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(requestingUrl));
+        boolean hasAccessToUrl = allowedResources.stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().contains(requestingUrl));
 
 //        Collection<GrantedAuthority> matches = allowedResources.stream().filter(grantedAuthority -> grantedAuthority.getAuthority().contains(requestingUrl)).collect(Collectors.toList());
 
