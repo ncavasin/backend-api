@@ -119,7 +119,6 @@ public class BasicSetup implements ApplicationRunner {
                 timeslotService.createTimeslot(TimeslotCreationDto.builder()
                         .startTime(LocalTime.of(i, 15))
                         .endTime(LocalTime.of(i + 1, 15))
-                        .availableClasses(Collections.emptySet())
                         .dayOfWeek(getRandomDay())
                         .build());
             }
@@ -128,7 +127,6 @@ public class BasicSetup implements ApplicationRunner {
                 timeslotService.createTimeslot(TimeslotCreationDto.builder()
                         .startTime(LocalTime.of(i, 15))
                         .endTime(LocalTime.of(i + 1, 15))
-                        .availableClasses(Collections.emptySet())
                         .dayOfWeek(getRandomDay())
                         .build());
             }

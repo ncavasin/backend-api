@@ -11,6 +11,7 @@ import com.sip.api.services.TimeslotService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @Component
@@ -30,14 +31,16 @@ public class TimeslotServiceImpl implements TimeslotService {
 
     @Override
     public Timeslot createTimeslot(TimeslotCreationDto timeslotCreationDto) {
-        if(timeslotRepository.existsByStartTimeAndEndTime(timeslotCreationDto.getStartTime(), timeslotCreationDto.getEndTime()))
+        if (timeslotRepository.existsByStartTimeAndEndTime(timeslotCreationDto.getStartTime(), timeslotCreationDto.getEndTime()))
             throw new BadRequestException("Timeslot already exists");
+        checkEndTimeIsBiggerThanStartTime(timeslotCreationDto.getStartTime(), timeslotCreationDto.getEndTime());
         return timeslotRepository.save(TimeslotConverter.fromDtoToEntity(timeslotCreationDto));
     }
 
     @Override
     public Timeslot updateTimeslot(String timeslotId, TimeslotDto timeslotDto) {
-        if(!timeslotRepository.existsById(timeslotId)) throw new NotFoundException("Timeslot not found");
+        if (!timeslotRepository.existsById(timeslotId)) throw new NotFoundException("Timeslot not found");
+        checkEndTimeIsBiggerThanStartTime(timeslotDto.getStartTime(), timeslotDto.getEndTime());
         Timeslot timeslot = findById(timeslotId);
         timeslot.setStartTime(timeslotDto.getStartTime());
         timeslot.setEndTime(timeslotDto.getEndTime());
@@ -48,5 +51,10 @@ public class TimeslotServiceImpl implements TimeslotService {
     @Override
     public void deleteTimeslot(String timeslotId) {
         timeslotRepository.deleteById(timeslotId);
+    }
+
+    private void checkEndTimeIsBiggerThanStartTime(LocalTime startTime, LocalTime endTime) {
+        if (startTime.isAfter(endTime))
+            throw new BadRequestException("End time must be bigger than start time");
     }
 }

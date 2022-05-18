@@ -17,8 +17,47 @@ spec:
         - name: app
           image: gcr.io/sip-unlu-2022/sip-api-image:latest
           imagePullPolicy: Always
-          envFrom:
-            - configMapRef:
-                name: sip-api-configmap # Must match with API ConfigMap identifier
+          env:
+            - name: jwt-secret
+              value: adminadmin
+
+            - name: jwt-issuer
+              value: SIP-2022
+
+            - name: jwt-expiration-days
+              value: "5"
+
+            - name: sip-db
+              value: sip-db
+
+            - name: db-host
+              value: sip-db-service.default.svc.cluster.local
+
+            - name: db-port
+              value: "5432"
+
+            - name: db-name
+              value: sip
+
+            - name: db-username
+              value: sip
+
+            - name: db-password
+              value: sip.2022
+
+            - name: db-url
+              value: jdbc:postgresql://sip-db-service.default.svc.cluster.local:5432/sip?user=sip&password=sip.2022
+
+            - name: smtp-password
+              value: xudijuocjkxwkgdo
+
+            - name: admin-email
+              value: admin@admin.com
+
+            - name: admin-password
+              value: adminadmin
+#          envFrom:
+#            - configMapRef:
+#                name: sip-api-configmap # Must match with API ConfigMap identifier
 
 
