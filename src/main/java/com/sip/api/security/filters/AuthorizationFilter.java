@@ -73,17 +73,21 @@ public class AuthorizationFilter extends OncePerRequestFilter {
         Collection<GrantedAuthority> allowedResources = jwtService.getAllowedResourcesAsGrantedAuthorities(decodedToken);
 
         // Finally, verify that the user has the resource permission to access the url
-        String requestingUrl = request.getRequestURL().toString();
-
+        String servletPath = request.getServletPath().toLowerCase();
         // TODO: FILTER BY HTTP METHOD TOO
         HttpMethod requestingMethod = HttpMethod.valueOf(request.getMethod());
         boolean hasAccessToEverything = allowedResources.stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().contains("/*"));
-        boolean hasAccessToUrl = allowedResources.stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().contains(requestingUrl));
+//        allowedResources.forEach(resource -> {
+//            System.out.println("RESOURCE = %s", resource.getAuthority());
+//        });
+        boolean hasAccessToUrl = allowedResources
+                .stream()
+                .anyMatch(grantedAuthority -> servletPath.contains(grantedAuthority.getAuthority()));
 
 //        Collection<GrantedAuthority> matches = allowedResources.stream().filter(grantedAuthority -> grantedAuthority.getAuthority().contains(requestingUrl)).collect(Collectors.toList());
 
         if (!(hasAccessToEverything | hasAccessToUrl)) {
-            log.info("User does not have permission to access {}.", requestingUrl);
+            log.info("User does not have permission to access {}.", servletPath);
             filterChain.doFilter(request, response);
             return;
         }
