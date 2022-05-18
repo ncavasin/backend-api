@@ -1,6 +1,5 @@
 package com.sip.api.dtos.activity;
 
-import com.sip.api.domains.availableClass.AvailableClass;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +14,6 @@ public class ActivityCreationDto {
     private String name;
     @NonNegative
     private Double basePrice;
-    private AvailableClass availableClass;
     @NonNegative
     private int attendeesLimit;
 }
