@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS user_data
     dni                numeric                         NOT NULL UNIQUE,
     password           VARCHAR(255)                    NOT NULL,
     email              VARCHAR(255)                    NOT NULL UNIQUE,
-    phone              BIGINT                          NOT NULL,
+    phone              BIGINT,
     first_name         VARCHAR(255),
     last_name          VARCHAR(255),
     birth_date         DATE,
@@ -87,6 +87,9 @@ CREATE TABLE IF NOT EXISTS activity
         CONSTRAINT pk_activity PRIMARY KEY,
     name               VARCHAR(255) NOT NULL,
     base_price         DOUBLE PRECISION,
+    user_id            VARCHAR(255) NOT NULL,
+    CONSTRAINT fk_activity_user_data
+        FOREIGN KEY (user_id) REFERENCES user_data (id) ON DELETE CASCADE,
     attendees_limit    INTEGER      NOT NULL,
     creation_timestamp TIMESTAMP DEFAULT NOW(),
     update_timestamp   TIMESTAMP DEFAULT NOW()
