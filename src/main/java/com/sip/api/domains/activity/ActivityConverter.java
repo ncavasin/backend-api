@@ -1,5 +1,6 @@
 package com.sip.api.domains.activity;
 
+import com.sip.api.domains.user.UserConverter;
 import com.sip.api.dtos.activity.ActivityDto;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class ActivityConverter {
                 .id(activity.getId())
                 .name(activity.getName())
                 .basePrice(activity.getBasePrice())
+                .professor(UserConverter.entityToDtoSlim(activity.getProfessor()))
                 .attendeesLimit(activity.getAttendeesLimit())
                 .build();
     }
@@ -24,6 +26,7 @@ public class ActivityConverter {
         return Activity.builder()
                 .name(activityDto.getName())
                 .basePrice(activityDto.getBasePrice())
+                .professor(UserConverter.slimDtoToEntity(activityDto.getProfessor()))
                 .attendeesLimit(activityDto.getAttendeesLimit())
                 .build();
     }
