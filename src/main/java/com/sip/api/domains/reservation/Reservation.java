@@ -5,10 +5,12 @@ import com.sip.api.domains.availableClass.AvailableClass;
 import com.sip.api.domains.user.User;
 import com.sip.api.exceptions.BadRequestException;
 import lombok.*;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -44,5 +46,18 @@ public class Reservation extends TimeTrackable {
 
     public void removeAttendee(User user) {
         attendees.remove(user);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Reservation that = (Reservation) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
