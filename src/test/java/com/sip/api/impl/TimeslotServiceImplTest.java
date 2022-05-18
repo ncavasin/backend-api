@@ -1,10 +1,11 @@
-package com.sip.api.services;
+package com.sip.api.impl;
 
 import com.sip.api.domains.timeslot.Timeslot;
 import com.sip.api.dtos.timeslot.TimeslotCreationDto;
 import com.sip.api.dtos.timeslot.TimeslotDto;
 import com.sip.api.exceptions.BadRequestException;
 import com.sip.api.exceptions.NotFoundException;
+import com.sip.api.services.TimeslotService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
