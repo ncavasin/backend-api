@@ -25,6 +25,10 @@ public class UserConverter {
                 userCreationDto.getPhone());
     }
 
+    public static User slimDtoToEntity(UserSlimDto userSlimDto) {
+        return new User(userSlimDto.getId(), userSlimDto.getEmail(), userSlimDto.getFirstName(), userSlimDto.getLastName());
+    }
+
     public static UserDto entityToDto(User user) {
         return UserDto.builder()
                 .id(user.getId())

@@ -68,6 +68,14 @@ public class User extends TimeTrackable implements UserDetails {
         this.phone = phone;
     }
 
+    public User(String id, String email, String firstName, String lastName) {
+        super();
+        this.id = id;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
