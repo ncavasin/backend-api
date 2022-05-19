@@ -18,44 +18,86 @@ spec:
           image: gcr.io/sip-unlu-2022/sip-api-image:latest
           imagePullPolicy: Always
           env:
-            - name: jwt-secret
+            - name: SIP_API_PORT
               value: adminadmin
+
+            - name: jwt-secret
+              valueFrom:
+                configMapKeyRef:
+                  name: sip-api-configmap
+                  key: jwt-secret
 
             - name: jwt-issuer
-              value: SIP-2022
+              valueFrom:
+                configMapKeyRef:
+                  name: sip-api-configmap
+                  key: jwt-issuer
 
             - name: jwt-expiration-days
-              value: "5"
+              valueFrom:
+                configMapKeyRef:
+                  name: sip-api-configmap
+                  key: jwt-expiration-days
 
             - name: sip-db
-              value: sip-db
+              valueFrom:
+                configMapKeyRef:
+                  name: sip-api-configmap
+                  key: sip-db
 
             - name: db-host
-              value: sip-db-service.default.svc.cluster.local
+              valueFrom:
+                configMapKeyRef:
+                  name: sip-api-configmap
+                  key: db-host
 
             - name: db-port
-              value: "5432"
+              valueFrom:
+                configMapKeyRef:
+                  name: sip-api-configmap
+                  key: db-port
 
             - name: db-name
-              value: sip
+              valueFrom:
+                configMapKeyRef:
+                  name: sip-api-configmap
+                  key: db-name
 
             - name: db-username
-              value: sip
+              valueFrom:
+                configMapKeyRef:
+                  name: sip-api-configmap
+                  key: db-username
 
             - name: db-password
-              value: sip.2022
+              valueFrom:
+                configMapKeyRef:
+                  name: sip-api-configmap
+                  key: db-password
 
             - name: db-url
-              value: jdbc:postgresql://sip-db-service.default.svc.cluster.local:5432/sip?user=sip&password=sip.2022
+              valueFrom:
+                configMapKeyRef:
+                  name: sip-api-configmap
+                  key: db-url
 
             - name: smtp-password
-              value: xudijuocjkxwkgdo
+              valueFrom:
+                configMapKeyRef:
+                  name: sip-api-configmap
+                  key: smtp-password
 
             - name: admin-email
-              value: admin@admin.com
+              valueFrom:
+                configMapKeyRef:
+                  name: sip-api-configmap
+                  key: admin-email
 
             - name: admin-password
-              value: adminadmin
+              valueFrom:
+                configMapKeyRef:
+                  name: sip-api-configmap
+                  key: admin-password
 #          envFrom:
 #            - configMapRef:
 #                name: sip-api-configmap # Must match with API ConfigMap identifier
