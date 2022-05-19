@@ -63,11 +63,6 @@ spec:
                   name: sip-api-configmap
                   key: db-name
 
-            - name: db-username
-              valueFrom:
-                configMapKeyRef:
-                  name: sip-api-configmap
-                  key: db-username
 
             - name: db-password
               valueFrom:
