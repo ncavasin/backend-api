@@ -52,7 +52,7 @@ public class UserServiceImplTest {
                 .name("USER_ROLE")
                 .allowedResourcesIds(Collections.singletonList(userResource.getId()))
                 .build());
-        savedUser = createUser(12345678, "password123!", "ncavasin97@gmail.com", 23456781,
+        savedUser = createUser(12345678, "password123!", "ncavasin97@gmail.com", 23456781L,
                 "Nicolás", "Cavasin", LocalDate.of(1997, 03, 26), null);
     }
 
@@ -65,14 +65,14 @@ public class UserServiceImplTest {
     @Test
     public void shouldNotCreateWhenWeakPassword() {
         Assert.assertThrows(BadRequestException.class, () -> createUser(12345678, "123",
-                "ncavasin97@gmail.com", 23456781,
+                "ncavasin97@gmail.com", 23456781L,
                 "Nicolás", "Cavasin",  LocalDate.of(1997, 03, 26), null));
     }
 
     @Test
     public void shouldNotCreateWhenDuplicatedEmail() {
         // Create another user with the same email than the saved User
-        Assert.assertThrows(BadRequestException.class, () -> createUser(87654321, "securepassword1!", savedUser.getEmail(), 999944,
+        Assert.assertThrows(BadRequestException.class, () -> createUser(87654321, "securepassword1!", savedUser.getEmail(), 999944L,
                 "Juan", "Perez",  LocalDate.of(1997, 03, 26), null));
     }
 
@@ -115,7 +115,7 @@ public class UserServiceImplTest {
         Assert.assertThrows(NotFoundException.class, () -> userService.findById(foundUser.getId()));
     }
 
-    private User createUser(int dni, String password, String email, int phone, String firstName, String lastName, LocalDate birthDate, List<String> rolesNames) {
+    private User createUser(int dni, String password, String email, Long phone, String firstName, String lastName, LocalDate birthDate, List<String> rolesNames) {
         return userService.createUser(UserCreationDto.builder()
                 .dni(dni)
                 .password(password)
