@@ -182,6 +182,16 @@ public class BasicSetup implements ApplicationRunner {
                     .name("ALL")
                     .url("/*")
                     .build());
+        if (!resourceService.existsByUrl("/login"))
+            resourceService.createResource(ResourceCreationDto.builder()
+                    .name("LOGIN")
+                    .url("/login")
+                    .build());
+        if (!resourceService.existsByUrl("/logout"))
+            resourceService.createResource(ResourceCreationDto.builder()
+                    .name("LOGOUT")
+                    .url("/logout")
+                    .build());
         if (!resourceService.existsByUrl("/user"))
             resourceService.createResource(ResourceCreationDto.builder()
                     .name("USER")
@@ -197,16 +207,17 @@ public class BasicSetup implements ApplicationRunner {
                     .name("ACTIVITY")
                     .url("/activity")
                     .build());
-        if (!resourceService.existsByUrl("/login"))
+        if (!resourceService.existsByUrl("/available-class"))
             resourceService.createResource(ResourceCreationDto.builder()
-                    .name("LOGIN")
-                    .url("/login")
+                    .name("AVAILABLE_CLASS")
+                    .url("/available-class")
                     .build());
-        if (!resourceService.existsByUrl("/logout"))
+        if (!resourceService.existsByUrl("/reservation")) {
             resourceService.createResource(ResourceCreationDto.builder()
-                    .name("LOGOUT")
-                    .url("/logout")
+                    .name("RESERVATION")
+                    .url("/reservation")
                     .build());
+        }
     }
 
     private void createRoles() {
@@ -225,13 +236,20 @@ public class BasicSetup implements ApplicationRunner {
                             resourceService.findByName("ACTIVITY").getId(),
                             resourceService.findByName("USER").getId()))
                     .build());
+        if (!roleService.existsByName("ROLE_ANALYST"))
+            roleService.createRole(RoleCreationDto
+                    .builder()
+                    .name("ROLE_ANALYST")
+                    .allowedResourcesIds(List.of(resourceService.findByName("ALL").getId()))
+                    .build());
         if (!roleService.existsByName("ROLE_USER"))
             roleService.createRole(RoleCreationDto
                     .builder()
                     .name("ROLE_USER")
                     .allowedResourcesIds(List.of(resourceService.findByName("LOGIN").getId(),
                             resourceService.findByName("LOGOUT").getId(),
-                            resourceService.findByName("USER").getId()))
+                            resourceService.findByName("USER").getId(),
+                            resourceService.findByName("ACTIVITY").getId()))
                     .build());
     }
 }
