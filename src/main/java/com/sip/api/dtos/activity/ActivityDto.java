@@ -1,5 +1,6 @@
 package com.sip.api.dtos.activity;
 
+import com.sip.api.dtos.user.UserSlimDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +16,7 @@ public class ActivityDto {
     private String name;
     @NonNegative
     private Double basePrice;
+    private UserSlimDto professor;
     @NonNegative
     private int attendeesLimit;
 }

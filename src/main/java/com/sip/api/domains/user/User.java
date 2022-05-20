@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sip.api.domains.TimeTrackable;
 import com.sip.api.domains.enums.UserStatus;
 import com.sip.api.domains.role.Role;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,6 +21,7 @@ import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Getter
 @Setter
 @Entity
@@ -39,7 +37,7 @@ public class User extends TimeTrackable implements UserDetails {
     @Column(nullable = false, unique = true)
     private String email;
 
-    private int phone;
+    private Long phone;
 
     private String firstName;
 
@@ -59,7 +57,7 @@ public class User extends TimeTrackable implements UserDetails {
     private Set<Role> roles = new LinkedHashSet<>();
 
     // Use by UserFactory to convert from UserDTO to User
-    public User(int dni, String password, String email, String firstName, String lastName, LocalDate birthDate, int phone) {
+    public User(int dni, String password, String email, String firstName, String lastName, LocalDate birthDate, Long phone) {
         super();
         this.dni = dni;
         this.password = password;
@@ -68,6 +66,14 @@ public class User extends TimeTrackable implements UserDetails {
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.phone = phone;
+    }
+
+    public User(String id, String email, String firstName, String lastName) {
+        super();
+        this.id = id;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     @Override

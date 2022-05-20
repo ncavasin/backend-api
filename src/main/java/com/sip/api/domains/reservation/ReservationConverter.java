@@ -1,5 +1,6 @@
 package com.sip.api.domains.reservation;
 
+import com.sip.api.domains.availableClass.AvailableClassConverter;
 import com.sip.api.dtos.reservation.ReservationDto;
 import com.sip.api.dtos.user.UserSlimDto;
 
@@ -16,7 +17,7 @@ public class ReservationConverter {
     public static ReservationDto fromEntityToDto(Reservation reservation) {
         return ReservationDto.builder()
                 .id(reservation.getId())
-                .availableClass(reservation.getAvailableClass())
+                .availableClass(AvailableClassConverter.fromEntityToDto(reservation.getAvailableClass()))
                 .attendees(reservation.getAttendees().stream()
                         .map(attendee -> UserSlimDto.builder()
                                 .id(attendee.getId())

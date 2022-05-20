@@ -26,6 +26,6 @@ public class UserCreationDto {
     @Min(1)
     @Max(99)
     private LocalDate birthDate;
-    private int phone;
+    private Long phone;
     private List<String> rolesNames;
 }

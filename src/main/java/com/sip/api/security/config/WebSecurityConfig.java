@@ -37,17 +37,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/login/**", "/register/**", "/password/**")
                 .permitAll();
 
-        http.authorizeRequests()
-                .antMatchers(String.valueOf(HTTPMethod.GET), "/available-class/**")
+        // remove this to re-enable authentication
+        http.authorizeRequests().antMatchers("/**")
                 .permitAll();
 
-        http
-                .addFilter(new AuthenticationFilter(authenticationManager(), jwtService))
-                .addFilterAfter(new AuthorizationFilter(jwtService), AuthenticationFilter.class);
+        // uncomment this to enable authentication
+//        http.authorizeRequests()
+//                .antMatchers(String.valueOf(HTTPMethod.GET), "/available-class/**")
+//                .permitAll();
 
-        http.authorizeRequests()
-                .anyRequest()
-                .authenticated();
+//        http
+//                .addFilter(new AuthenticationFilter(authenticationManager(), jwtService))
+//                .addFilterAfter(new AuthorizationFilter(jwtService), AuthenticationFilter.class);
+//
+//        http.authorizeRequests()
+//                .anyRequest()
+//                .authenticated();
     }
 
 
