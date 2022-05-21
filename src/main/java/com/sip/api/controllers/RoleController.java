@@ -18,7 +18,7 @@ import java.util.List;
 public class RoleController {
     private final RoleService roleService;
 
-    @GetMapping
+    @PostMapping("/find-by-name")
     public RoleDto getRoleByName(@RequestBody @Valid RoleDto roleDto) {
         return RoleConverter.entityToDto(roleService.findByName(roleDto.getName()));
     }
