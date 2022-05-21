@@ -21,7 +21,7 @@ public class ResourceController {
         return ResourceConverter.entityToDto(resourceService.findById(resourceId));
     }
 
-    @GetMapping
+    @PostMapping("/find-by-name")
     public ResourceDto getResourceByName(@RequestBody @Valid ResourceDto resourceDto) {
         return ResourceConverter.entityToDto(resourceService.findByName(resourceDto.getName()));
     }
