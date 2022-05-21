@@ -11,8 +11,8 @@ springdoc:
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5050/sip
-    username: sip
-    password: sip.2022
+    username: ${db-username}
+    password: ${db-password}
     driver-class-name: org.postgresql.Driver
 
   flyway:
@@ -50,10 +50,10 @@ spring:
       max-file-size: 25MB
       max-request-size: 25MB
 
-jwt-secret: '{jwt-secret}'
-jwt-issuer: '{jwt-issuer}'
-jwt-expiration-days: '{jwt-expiration-days}'
+jwt-secret: ${jwt-secret}
+jwt-issuer: ${jwt-issuer}
+jwt-expiration-days: ${jwt-expiration-days}
 
-superadmin-email: '{admin-email}'
-superadmin-password: '{admin-password}'
+superadmin-email: ${admin-email}
+superadmin-password: ${admin-password}
 app-url: 'localhost:8080'

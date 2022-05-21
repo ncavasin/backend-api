@@ -11,8 +11,8 @@ springdoc:
 spring:
   datasource:
     url: jdbc:postgresql://sip-db-service.default.svc.cluster.local:5432/sip?user=sip&password=sip.2022
-    username: sip
-    password: sip.2022
+    username: ${db-username}
+    password: ${db-password}
     driver-class-name: org.postgresql.Driver
 
   flyway:
@@ -20,20 +20,20 @@ spring:
     default-schema: public
     schemas: public
     out-of-order: true
-    enabled: true
+    enabled: false
   jpa:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
         format_sql: false
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     show-sql: true
   mail:
     host: smtp.gmail.com
     port: 587
     username: sip.2022.unlu@gmail.com
-    password: xudijuocjkxwkgdo
+    password: ${smtp-password}
     properties:
       mail:
         smtp:
@@ -50,10 +50,10 @@ spring:
       max-file-size: 25MB
       max-request-size: 25MB
 
-jwt-secret: supersecretpassword
-jwt-issuer: NC-SIP-2022
-jwt-expiration-days: 5
+jwt-secret: ${jwt-secret}
+jwt-issuer: ${jwt-issuer}
+jwt-expiration-days: ${jwt-expiration-days}
 
-superadmin-email: admin@admin.com
-superadmin-password: adminadmin
-app-url: '{app-url}'
+superadmin-email: ${admin-email}
+superadmin-password: ${admin-password}
+app-url: ${app-url}
