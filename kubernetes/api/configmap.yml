@@ -7,17 +7,15 @@ metadata:
   labels:
     app: sip-api # Must match with api deployment identifier
 data:
-  jwt-secret: supersecretkey
-  jwt-issuer: NC-SIP-2022
-  jwt-expiration-days: "5"
-  sip-db: sip-db
-  db-host: sip-db-service.default.svc.cluster.local
-  db-port: "5432"
-  db-name: sip
-  db-user: sip
-  db-password: sip.2022
-  db-url: jdbc:postgresql://sip-db-service.default.svc.cluster.local:5432/sip?user=sip&password=sip.2022
-  smtp-password: xudijuocjkxwkgdo
-  admin-email: admin@admin.com
-  admin-password: adminadmin
-  application-url: http://34.75.130.221/
+  JWT_SECRET: supersecretkey
+  JWT_ISSUER: NC-SIP-2022
+  JWT_EXPIRATION_DAYS: "5"
+  DB_PORT: "5432"
+  DB_NAME: sip
+  DB_USER: sip
+  DB_PASSWORD: sip.2022
+  DB_URL: jdbc:postgresql://sip-db-service.default.svc.cluster.local:5432/sip?user=sip&password=sip.2022
+  SMTP_PASSWORD: xudijuocjkxwkgdo
+  ADMIN_EMAIL: admin@admin.com
+  ADMIN_PASSWORD: adminadmin
+  APPLICATION_URL: http://34.75.130.221/
