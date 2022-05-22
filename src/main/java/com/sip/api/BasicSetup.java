@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 @Transactional
+@PropertySource(value = {"application.yml"})
 public class BasicSetup implements ApplicationRunner {
     private final UserService userService;
     private final RoleService roleService;
@@ -38,9 +40,9 @@ public class BasicSetup implements ApplicationRunner {
     private final TimeslotService timeslotService;
     private final AvailableClassService availableClassService;
 
-    @Value("${superadmin-email}")
+    @Value("${superadmin:email}")
     private String superAdminEmail;
-    @Value("${superadmin-password}")
+    @Value("${superadmin:password}")
     private String superAdminPassword;
     String professorEmail = "professor@mail.com";
 

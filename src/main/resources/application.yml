@@ -10,9 +10,10 @@ springdoc:
 
 spring:
   datasource:
-    url: jdbc:postgresql://sip-db-service.default.svc.cluster.local:5432/sip?user=sip&password=sip.2022
-    username: ${db-username}
-    password: ${db-password}
+#    url: jdbc:postgresql://sip-db-service.default.svc.cluster.local:5432/sip?user=sip&password=sip.2022
+    url: jdbc:postgresql://localhost:5050/sip
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   flyway:
@@ -27,13 +28,13 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
         format_sql: false
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: true
   mail:
     host: smtp.gmail.com
     port: 587
     username: sip.2022.unlu@gmail.com
-    password: ${smtp-password}
+    password: ${SMTP_PASSWORD}
     properties:
       mail:
         smtp:
@@ -50,10 +51,14 @@ spring:
       max-file-size: 25MB
       max-request-size: 25MB
 
-jwt-secret: ${jwt-secret}
-jwt-issuer: ${jwt-issuer}
-jwt-expiration-days: ${jwt-expiration-days}
+jwt:
+  secret: ${JWT_SECRET}
+  issuer: ${JWT_ISSUER}
+  expirationDays: ${JWT_EXPIRATION_DAYS}
 
-superadmin-email: ${admin-email}
-superadmin-password: ${admin-password}
-app-url: ${application-url}
+superadmin:
+  email: ${ADMIN_EMAIL}
+  password: ${ADMIN_PASSWORD}
+
+app:
+  url: ${APPLICATION_URL}
