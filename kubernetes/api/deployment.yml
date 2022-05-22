@@ -23,73 +23,61 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: sip-api-configmap
-                  key: jwt-secret
+                  key: JWT_SECRET
 
             - name: jwt-issuer
               valueFrom:
                 configMapKeyRef:
                   name: sip-api-configmap
-                  key: jwt-issuer
+                  key: JWT_ISSUER
 
             - name: jwt-expiration-days
               valueFrom:
                 configMapKeyRef:
                   name: sip-api-configmap
-                  key: jwt-expiration-days
-
-            - name: sip-db
-              valueFrom:
-                configMapKeyRef:
-                  name: sip-api-configmap
-                  key: sip-db
-
-            - name: db-host
-              valueFrom:
-                configMapKeyRef:
-                  name: sip-api-configmap
-                  key: db-host
+                  key: JWT_EXPIRATION_DAYS
 
             - name: db-port
               valueFrom:
                 configMapKeyRef:
                   name: sip-api-configmap
-                  key: db-port
+                  key: DB_PORT
 
             - name: db-name
               valueFrom:
                 configMapKeyRef:
                   name: sip-api-configmap
-                  key: db-name
+                  key: DB_NAME
 
             - name: db-password
               valueFrom:
                 configMapKeyRef:
                   name: sip-api-configmap
-                  key: db-password
+                  key: DB_PASSWORD
 
             - name: db-url
               valueFrom:
                 configMapKeyRef:
                   name: sip-api-configmap
-                  key: db-url
+                  key: DB_URL
 
             - name: smtp-password
               valueFrom:
                 configMapKeyRef:
                   name: sip-api-configmap
-                  key: smtp-password
+                  key: SMTP_PASSWORD
 
             - name: admin-email
               valueFrom:
                 configMapKeyRef:
                   name: sip-api-configmap
-                  key: admin-email
+                  key: ADMIN_EMAIL
 
             - name: admin-password
               valueFrom:
                 configMapKeyRef:
                   name: sip-api-configmap
-                  key: admin-password
+                  key: ADMIN_PASSWORD
 
 
 
