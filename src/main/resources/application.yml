@@ -56,4 +56,4 @@ jwt-expiration-days: ${jwt-expiration-days}
 
 superadmin-email: ${admin-email}
 superadmin-password: ${admin-password}
-app-url: ${app-url}
+app-url: ${application-url}
