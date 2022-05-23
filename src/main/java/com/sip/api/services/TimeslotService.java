@@ -9,6 +9,8 @@ import java.util.List;
 public interface TimeslotService {
     List<Timeslot> findAll();
 
+    List<Timeslot> findAllAvailableAndOrdered();
+
     Timeslot findById(String timeslotId);
 
     Timeslot createTimeslot(TimeslotCreationDto timeslotCreationDto);
