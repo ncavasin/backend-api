@@ -1,3 +1,5 @@
+jwt_secret: ${JWT_SECRET}
+
 server:
   error:
     include-message: always
@@ -11,7 +13,7 @@ springdoc:
 spring:
   datasource:
 #    url: jdbc:postgresql://sip-db-service.default.svc.cluster.local:5432/sip?user=sip&password=sip.2022
-    url: jdbc:postgresql://localhost:5050/sip
+    url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
@@ -51,8 +53,8 @@ spring:
       max-file-size: 25MB
       max-request-size: 25MB
 
+
 jwt:
-  secret: ${JWT_SECRET}
   issuer: ${JWT_ISSUER}
   expirationDays: ${JWT_EXPIRATION_DAYS}
 

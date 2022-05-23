@@ -29,7 +29,7 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class JwtServiceImpl implements JwtService {
     private final RoleService roleService;
-    @Value("${jwt.secret}")
+    @Value("${jwt_secret}")
     private String secret;
     @Value("${jwt.issuer}")
     private String issuer;
