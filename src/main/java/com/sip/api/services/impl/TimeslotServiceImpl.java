@@ -25,6 +25,11 @@ public class TimeslotServiceImpl implements TimeslotService {
     }
 
     @Override
+    public List<Timeslot> findAllAvailableAndOrdered() {
+        return timeslotRepository.findAllAvailableAndOrderedByStartTimeAAndDayOfWeek();
+    }
+
+    @Override
     public Timeslot findById(String timeslotId) {
         return timeslotRepository.findById(timeslotId).orElseThrow(() -> new NotFoundException("Timeslot not found"));
     }
