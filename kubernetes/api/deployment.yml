@@ -19,61 +19,61 @@ spec:
           imagePullPolicy: Always
           env:
 
-            - name: jwt-secret
+            - name: JWT_SECRET
               valueFrom:
                 configMapKeyRef:
                   name: sip-api-configmap
                   key: JWT_SECRET
 
-            - name: jwt-issuer
+            - name: JWT_ISSUER
               valueFrom:
                 configMapKeyRef:
                   name: sip-api-configmap
                   key: JWT_ISSUER
 
-            - name: jwt-expiration-days
+            - name: JWT_EXPIRATION_DAYS
               valueFrom:
                 configMapKeyRef:
                   name: sip-api-configmap
                   key: JWT_EXPIRATION_DAYS
 
-            - name: db-port
+            - name: DB_PORT
               valueFrom:
                 configMapKeyRef:
                   name: sip-api-configmap
                   key: DB_PORT
 
-            - name: db-name
+            - name: DB_NAME
               valueFrom:
                 configMapKeyRef:
                   name: sip-api-configmap
                   key: DB_NAME
 
-            - name: db-password
+            - name: DB_PASSWORD
               valueFrom:
                 configMapKeyRef:
                   name: sip-api-configmap
                   key: DB_PASSWORD
 
-            - name: db-url
+            - name: DB_URL
               valueFrom:
                 configMapKeyRef:
                   name: sip-api-configmap
                   key: DB_URL
 
-            - name: smtp-password
+            - name: SMTP_PASSWORD
               valueFrom:
                 configMapKeyRef:
                   name: sip-api-configmap
                   key: SMTP_PASSWORD
 
-            - name: admin-email
+            - name: ADMIN_EMAIL
               valueFrom:
                 configMapKeyRef:
                   name: sip-api-configmap
                   key: ADMIN_EMAIL
 
-            - name: admin-password
+            - name: ADMIN_PASSWORD
               valueFrom:
                 configMapKeyRef:
                   name: sip-api-configmap
