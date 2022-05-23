@@ -12,8 +12,7 @@ springdoc:
 
 spring:
   datasource:
-#    url: jdbc:postgresql://sip-db-service.default.svc.cluster.local:5432/sip?user=sip&password=sip.2022
-    url: ${DB_URL}
+    url: jdbc:postgresql://sip-db-service.default.svc.cluster.local:5432/sip?user=sip&password=sip.2022
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
@@ -61,6 +60,6 @@ jwt:
 superadmin:
   email: ${ADMIN_EMAIL}
   password: ${ADMIN_PASSWORD}
-
-app:
-  url: ${APPLICATION_URL}
+#
+#app:
+#  url: ${APPLICATION_URL}
