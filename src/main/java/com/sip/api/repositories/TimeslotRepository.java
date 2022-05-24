@@ -21,5 +21,5 @@ public interface TimeslotRepository extends JpaRepository<Timeslot, String> {
             "ORDER BY t.dayOfWeek, t.startTime, t.endTime ASC")
     List<Timeslot> findAllAvailableAndOrderedByStartTimeAndDayOfWeek();
 
-    boolean existsByStartTimeAndEndTime(LocalTime startTime, LocalTime endTime);
+    boolean existsByStartTimeAndEndTimeAndDayOfWeek(LocalTime startTime, LocalTime endTime, DayOfWeek dayOfWeek);
 }
