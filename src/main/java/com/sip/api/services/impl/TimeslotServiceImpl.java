@@ -26,7 +26,7 @@ public class TimeslotServiceImpl implements TimeslotService {
 
     @Override
     public List<Timeslot> findAllAvailableAndOrdered() {
-        return timeslotRepository.findAllAvailableAndOrderedByStartTimeAAndDayOfWeek();
+        return timeslotRepository.findAllAvailableAndOrderedByStartTimeAndDayOfWeek();
     }
 
     @Override

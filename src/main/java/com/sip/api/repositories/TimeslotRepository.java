@@ -17,7 +17,7 @@ public interface TimeslotRepository extends JpaRepository<Timeslot, String> {
             "WHERE t.id NOT IN " +
                 "(SELECT ac.timeslot FROM AvailableClass ac)" +
             "ORDER BY t.dayOfWeek, t.startTime, t.endTime ASC")
-    List<Timeslot> findAllAvailableAndOrderedByStartTimeAAndDayOfWeek();
+    List<Timeslot> findAllAvailableAndOrderedByStartTimeAndDayOfWeek();
 
     boolean existsByStartTimeAndEndTime(LocalTime startTime, LocalTime endTime);
 }
