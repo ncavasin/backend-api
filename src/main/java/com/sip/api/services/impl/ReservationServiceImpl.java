@@ -34,6 +34,11 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    public Integer countAttendeeAmountByAvailableClassId(String availableClassId) {
+        return reservationRepository.countAttendeeAmountByAvailableClassId(availableClassId);
+    }
+
+    @Override
     public Reservation addUserToReservation(ReservationCreationDto reservationCreationDto) {
         AvailableClass availableClass = availableClassService.findById(reservationCreationDto.getAvailableClassId());
         User attendee = userService.findById(reservationCreationDto.getAttendeeId());
