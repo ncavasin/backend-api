@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/pay")
-public class MercadoPagoController {
+@RequestMapping("/payment")
+public class PaymentController {
     private final PaymentService paymentService;
 
     @GetMapping("/all")
