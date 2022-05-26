@@ -4,29 +4,28 @@ import com.sip.api.domains.enums.UserStatus;
 import com.sip.api.domains.resource.Resource;
 import com.sip.api.domains.role.Role;
 import com.sip.api.domains.user.User;
-import com.sip.api.dtos.RoleCreationDto;
-import com.sip.api.dtos.resource.ResourceCreationDto;
 import com.sip.api.dtos.user.UserCreationDto;
 import com.sip.api.dtos.user.UserEmailDto;
 import com.sip.api.dtos.user.UserPasswordDto;
 import com.sip.api.exceptions.BadRequestException;
 import com.sip.api.exceptions.NotFoundException;
+import com.sip.api.security.PasswordEncoder;
 import com.sip.api.services.ResourceService;
 import com.sip.api.services.RoleService;
 import com.sip.api.services.UserService;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.List;
 
 
 @RunWith(SpringRunner.class)
@@ -41,22 +40,31 @@ public class UserServiceImplTest {
     @Autowired
     private ResourceService resourceService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    private final Long phone = 123456789L;
+    private final String userEmail = "ncavasin97@gmail.com";
+    private final String firstName = "Nicolas";
+    private final String lastName = "Cavasin";
     private Resource userResource;
     private Role userRole;
     private User savedUser;
 
-    @BeforeEach
-    private void setUp() {
-        userResource = resourceService.createResource(ResourceCreationDto.builder()
-                .name("USER")
-                .url("/user")
+    @Before
+    @Transactional
+    public void setUp() {
+        String strongPassword = "password123!";
+        savedUser = userService.createUser(UserCreationDto.builder()
+                .dni(12345678)
+                .password(strongPassword)
+                .email(userEmail)
+                .phone(phone)
+                .firstName(firstName)
+                .lastName(lastName)
+                .birthDate(LocalDate.of(1997, 3, 26))
+                .rolesNames(Collections.singletonList(roleService.findByName("ROLE_USER").getName()))
                 .build());
-        userRole = roleService.createRole(RoleCreationDto.builder()
-                .name("USER_ROLE")
-                .allowedResourcesIds(Collections.singletonList(userResource.getId()))
-                .build());
-        savedUser = createUser(12345678, "password123!", "ncavasin97@gmail.com", 23456781L,
-                "Nicolás", "Cavasin", LocalDate.of(1997, 03, 26), null);
     }
 
     @Test
@@ -66,20 +74,40 @@ public class UserServiceImplTest {
     }
 
     @Test
+    @Transactional
     public void shouldNotCreateWhenWeakPassword() {
-        Assert.assertThrows(BadRequestException.class, () -> createUser(12345678, "123",
-                "ncavasin97@gmail.com", 23456781L,
-                "Nicolás", "Cavasin",  LocalDate.of(1997, 03, 26), null));
+        Assert.assertThrows(BadRequestException.class, () ->
+                userService.createUser(UserCreationDto.builder()
+                        .dni(12345678)
+                        .password("123")
+                        .email(userEmail)
+                        .phone(phone)
+                        .firstName(firstName)
+                        .lastName(lastName)
+                        .birthDate(LocalDate.of(1997, 3, 26))
+                        .rolesNames(Collections.singletonList(roleService.findByName("ROLE_USER").getName()))
+                        .build()));
     }
 
     @Test
+    @Transactional
     public void shouldNotCreateWhenDuplicatedEmail() {
         // Create another user with the same email than the saved User
-        Assert.assertThrows(BadRequestException.class, () -> createUser(87654321, "securepassword1!", savedUser.getEmail(), 999944L,
-                "Juan", "Perez",  LocalDate.of(1997, 03, 26), null));
+        Assert.assertThrows(BadRequestException.class, () ->
+                userService.createUser(UserCreationDto.builder()
+                        .dni(98765431)
+                        .password("anotherPassword!!!")
+                        .email(savedUser.getEmail())
+                        .phone(phone)
+                        .firstName("Juan")
+                        .lastName("Perez")
+                        .birthDate(LocalDate.of(1997, 3, 26))
+                        .rolesNames(Collections.singletonList(roleService.findByName("ROLE_USER").getName()))
+                        .build()));
     }
 
     @Test
+    @Transactional
     public void shouldUpdateEmail() {
         String updatedEmail = "updatedEmail@mail.com";
         Assert.assertNotEquals(savedUser.getEmail(), updatedEmail);
@@ -91,6 +119,7 @@ public class UserServiceImplTest {
     }
 
     @Test
+    @Transactional
     public void shouldUpdatePassword() {
         String updatedPassword = "updatedPassword!";
         Assert.assertNotEquals(savedUser.getPassword(), updatedPassword);
@@ -98,36 +127,23 @@ public class UserServiceImplTest {
         final User updatedUser = userService.updatePassword(savedUser.getId(), UserPasswordDto.builder()
                 .password(updatedPassword)
                 .build());
-        Assert.assertEquals(updatedUser.getPassword(), updatedPassword);
+        Assert.assertTrue(passwordEncoder.encoder().matches(updatedPassword, updatedUser.getPassword()));
     }
 
     @Test
+    @Transactional
     public void shouldDeactivateUser() {
         User foundUser = userService.findById(savedUser.getId());
-        Assert.assertEquals(foundUser.getStatus(), UserStatus.ACTIVE);
-
         userService.deactivateUser(foundUser.getId());
         foundUser = userService.findById(savedUser.getId());
-        Assert.assertEquals(foundUser.getStatus(), UserStatus.INACTIVE);
+        Assert.assertEquals(foundUser.getStatus(), UserStatus.DEACTIVATED);
     }
 
     @Test
+    @Transactional
     public void shouldDeleteUser() {
         User foundUser = userService.findById(savedUser.getId());
         userService.deleteUser(foundUser.getId());
         Assert.assertThrows(NotFoundException.class, () -> userService.findById(foundUser.getId()));
-    }
-
-    private User createUser(int dni, String password, String email, Long phone, String firstName, String lastName, LocalDate birthDate, List<String> rolesNames) {
-        return userService.createUser(UserCreationDto.builder()
-                .dni(dni)
-                .password(password)
-                .email(email)
-                .phone(phone)
-                .firstName(firstName)
-                .lastName(lastName)
-                .birthDate(birthDate)
-                .rolesNames(rolesNames)
-                .build());
     }
 }
