@@ -27,6 +27,6 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public void paymentFeedback(String paymentId) {
-        
+
     }
 }
