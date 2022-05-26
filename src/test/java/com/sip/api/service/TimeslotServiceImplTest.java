@@ -1,4 +1,4 @@
-package com.sip.api.services;
+package com.sip.api.service;
 
 import com.sip.api.domains.timeslot.Timeslot;
 import com.sip.api.dtos.timeslot.TimeslotCreationDto;

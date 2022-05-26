@@ -1,4 +1,4 @@
-package com.sip.api.impl;
+package com.sip.api.service;
 
 import com.sip.api.domains.resource.Resource;
 import com.sip.api.dtos.resource.ResourceCreationDto;

@@ -1,4 +1,4 @@
-package com.sip.api.impl;
+package com.sip.api.service;
 
 import com.sip.api.domains.enums.UserStatus;
 import com.sip.api.domains.resource.Resource;
@@ -24,7 +24,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
