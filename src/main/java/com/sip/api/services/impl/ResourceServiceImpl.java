@@ -2,7 +2,8 @@ package com.sip.api.services.impl;
 
 import com.sip.api.domains.resource.Resource;
 import com.sip.api.dtos.resource.ResourceCreationDto;
-import com.sip.api.dtos.resource.ResourceDto;
+import com.sip.api.dtos.resource.ResourceNameDto;
+import com.sip.api.dtos.resource.ResourceUrlDto;
 import com.sip.api.exceptions.BadRequestException;
 import com.sip.api.exceptions.NotFoundException;
 import com.sip.api.repositories.ResourceRepository;
@@ -47,11 +48,17 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public Resource updateResource(ResourceDto resourceDto) {
-        Resource resource = findById(resourceDto.getId());
-        checkExistence(resourceDto.getName());
-        resource.setName(resourceDto.getName());
-        resource.setUrl(resourceDto.getUrl());
+    public Resource updateResourceName(ResourceNameDto resourceNameDto) {
+        Resource resource = findById(resourceNameDto.getId());
+        checkExistence(resourceNameDto.getName());
+        resource.setName(resourceNameDto.getName());
+        return resourceRepository.save(resource);
+    }
+
+    @Override
+    public Resource updateResourceUrl(ResourceUrlDto resourceUrlDto) {
+        Resource resource = findById(resourceUrlDto.getId());
+        resource.setUrl(resourceUrlDto.getUrl());
         return resourceRepository.save(resource);
     }
 
