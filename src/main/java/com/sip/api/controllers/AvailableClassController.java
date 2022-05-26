@@ -26,6 +26,11 @@ public class AvailableClassController {
         return AvailableClassConverter.fromEntityToDto(availableClassService.findById(availableClassId));
     }
 
+    @GetMapping("/by-activity-id/{activityId}")
+    public List<AvailableClassDto> findyByActivityId(@PathVariable("activityId") String activityId) {
+        return AvailableClassConverter.fromEntityToDto(availableClassService.findByActivityId(activityId));
+    }
+
     @PostMapping
     public AvailableClassDto createAvailableClass(@RequestBody @Valid AvailableClassesCreationDto availableClassesCreationDto) {
         return AvailableClassConverter.fromEntityToDto(availableClassService.createAvailableClass(availableClassesCreationDto));
