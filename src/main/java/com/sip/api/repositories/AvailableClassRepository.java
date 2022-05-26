@@ -12,6 +12,8 @@ public interface AvailableClassRepository extends JpaRepository<AvailableClass, 
     @NonNull
     List<AvailableClass> findAll();
 
+    List<AvailableClass> findAllByActivityId(String activityId);
+
     void deleteById(@NonNull String id);
 
     boolean existsById(@NonNull String id);

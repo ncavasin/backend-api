@@ -35,6 +35,11 @@ public class AvailableClassServiceImpl implements AvailableClassService {
     }
 
     @Override
+    public List<AvailableClass> findByActivityId(String activityId) {
+        return availableClassRepository.findAllByActivityId(activityId);
+    }
+
+    @Override
     public AvailableClass createAvailableClass(AvailableClassesCreationDto availableClassesCreationDto) {
         checkAvailableClassDoesNotExist(availableClassesCreationDto.getActivityId(), availableClassesCreationDto.getTimeslotId());
         return availableClassRepository.save(AvailableClass.builder()

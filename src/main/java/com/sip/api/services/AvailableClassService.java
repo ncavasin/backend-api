@@ -11,6 +11,8 @@ public interface AvailableClassService {
 
     AvailableClass findById(String appointmentId);
 
+    List<AvailableClass> findByActivityId(String activityId);
+
     AvailableClass createAvailableClass(AvailableClassesCreationDto availableClassesCreationDto);
 
     void removeAvailableClass(String appointmentId);
