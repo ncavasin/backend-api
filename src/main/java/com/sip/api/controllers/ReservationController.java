@@ -1,6 +1,7 @@
 package com.sip.api.controllers;
 
 import com.sip.api.domains.reservation.ReservationConverter;
+import com.sip.api.dtos.availableClass.AvailableClassAttendeeAmountDto;
 import com.sip.api.dtos.reservation.ReservationCreationDto;
 import com.sip.api.dtos.reservation.ReservationDto;
 import com.sip.api.services.ReservationService;
@@ -23,6 +24,11 @@ public class ReservationController {
     @GetMapping("/{reservationId}")
     public ReservationDto findById(@PathVariable("reservationId") String reservationId) {
         return ReservationConverter.fromEntityToDto(reservationService.findById(reservationId));
+    }
+
+    @GetMapping("/attendee-amount-by-available-class/{availableClassId}")
+    public AvailableClassAttendeeAmountDto findFreeSlots(@PathVariable("availableClassId") String availableClassId) {
+        return ReservationConverter.fromEntityToDto(reservationService.countAttendeeAmountByAvailableClassId(availableClassId));
     }
 
     @PostMapping()
