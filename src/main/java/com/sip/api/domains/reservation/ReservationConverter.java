@@ -1,6 +1,7 @@
 package com.sip.api.domains.reservation;
 
 import com.sip.api.domains.availableClass.AvailableClassConverter;
+import com.sip.api.dtos.availableClass.AvailableClassAttendeeAmountDto;
 import com.sip.api.dtos.reservation.ReservationDto;
 import com.sip.api.dtos.user.UserSlimDto;
 
@@ -26,6 +27,12 @@ public class ReservationConverter {
                                 .lastName(attendee.getLastName())
                                 .build())
                         .collect(Collectors.toSet()))
+                .build();
+    }
+
+    public static AvailableClassAttendeeAmountDto fromEntityToDto(Integer attendeeAmount) {
+        return AvailableClassAttendeeAmountDto.builder()
+                .attendeeAmount(attendeeAmount)
                 .build();
     }
 }
