@@ -37,7 +37,7 @@ public class TimeslotServiceImpl implements TimeslotService {
 
     @Override
     public Timeslot createTimeslot(TimeslotCreationDto timeslotCreationDto) {
-        checkExistenceOverlappingAndPrecedingTimes(timeslotCreationDto.getStartTime(), timeslotCreationDto.getEndTime(), timeslotCreationDto.getDayOfWeek());
+        checkExistenceOverlappingAndPrecedingTimes(null, timeslotCreationDto.getStartTime(), timeslotCreationDto.getEndTime(), timeslotCreationDto.getDayOfWeek());
         return timeslotRepository.save(TimeslotConverter.fromDtoToEntity(timeslotCreationDto));
     }
 
@@ -46,7 +46,7 @@ public class TimeslotServiceImpl implements TimeslotService {
         if (!timeslotRepository.existsById(timeslotId))
             throw new NotFoundException("Timeslot not found");
 
-        checkExistenceOverlappingAndPrecedingTimes(timeslotDto.getStartTime(), timeslotDto.getEndTime(), timeslotDto.getDayOfWeek());
+        checkExistenceOverlappingAndPrecedingTimes(timeslotId, timeslotDto.getStartTime(), timeslotDto.getEndTime(), timeslotDto.getDayOfWeek());
 
         Timeslot timeslot = findById(timeslotId);
         timeslot.setStartTime(timeslotDto.getStartTime());
@@ -60,9 +60,9 @@ public class TimeslotServiceImpl implements TimeslotService {
         timeslotRepository.deleteById(timeslotId);
     }
 
-    private void checkExistenceOverlappingAndPrecedingTimes(LocalTime startTime, LocalTime endTime, DayOfWeek dayOfWeek) {
+    private void checkExistenceOverlappingAndPrecedingTimes(String timeslotId, LocalTime startTime, LocalTime endTime, DayOfWeek dayOfWeek) {
         checkExistenceByStartTimeEndTimeAndDayOfWeek(startTime, endTime, dayOfWeek);
-        checkOverlapping(startTime, endTime, dayOfWeek);
+        checkOverlapping(timeslotId, startTime, endTime, dayOfWeek);
         checkEndTimeIsBiggerThanStartTime(startTime, endTime);
     }
 
@@ -71,13 +71,14 @@ public class TimeslotServiceImpl implements TimeslotService {
             throw new BadRequestException(String.format("Timeslot from %s to %s already exists", startTime, endTime));
     }
 
-    private void checkOverlapping(LocalTime startTime, LocalTime endTime, DayOfWeek dayOfWeek) {
-        if (isOverlappingWithExistingTimeslot(startTime, endTime, dayOfWeek))
+    private void checkOverlapping(String timeslotId, LocalTime startTime, LocalTime endTime, DayOfWeek dayOfWeek) {
+        if (isOverlappingWithExistingTimeslot(timeslotId, startTime, endTime, dayOfWeek))
             throw new BadRequestException("Timeslot overlaps with existing timeslot");
     }
 
-    private boolean isOverlappingWithExistingTimeslot(LocalTime startTime, LocalTime endTime, DayOfWeek dayOfWeek) {
+    private boolean isOverlappingWithExistingTimeslot(String timeslotId, LocalTime startTime, LocalTime endTime, DayOfWeek dayOfWeek) {
         List<Timeslot> timeslots = timeslotRepository.findAll();
+        timeslots.removeIf(timeslot -> timeslot.getId().equals(timeslotId));
         return timeslots.stream()
                 .anyMatch(timeslot -> dayOfWeek.equals(timeslot.getDayOfWeek())
                         &&
