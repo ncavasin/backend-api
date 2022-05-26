@@ -3,6 +3,8 @@ package com.sip.api.controllers;
 import com.sip.api.domains.resource.ResourceConverter;
 import com.sip.api.dtos.resource.ResourceCreationDto;
 import com.sip.api.dtos.resource.ResourceDto;
+import com.sip.api.dtos.resource.ResourceNameDto;
+import com.sip.api.dtos.resource.ResourceUrlDto;
 import com.sip.api.services.ResourceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +38,14 @@ public class ResourceController {
         return ResourceConverter.entityToDto(resourceService.createResource(resourceCreationDto));
     }
 
-    @PutMapping
-    public ResourceDto updateResource(@RequestBody @Valid ResourceDto resourceDto) {
-        return ResourceConverter.entityToDto(resourceService.updateResource(resourceDto));
+    @PutMapping("/update-name")
+    public ResourceDto updateResourceName(@RequestBody @Valid ResourceNameDto resourceNameDto) {
+        return ResourceConverter.entityToDto(resourceService.updateResourceName(resourceNameDto));
+    }
+
+    @PutMapping("/update-url")
+    public ResourceDto updateResourceUrl(@RequestBody @Valid ResourceUrlDto resourceUrlDto) {
+        return ResourceConverter.entityToDto(resourceService.updateResourceUrl(resourceUrlDto));
     }
 
     @DeleteMapping("/{resourceId}")
