@@ -36,6 +36,7 @@ public class ActivityServiceImpl implements ActivityService {
         if (activityRepository.existsByName(activityCreationDto.getName()))
             throw new BadRequestException("Activity already exists!");
 
+        checkNegativities(activityCreationDto.getBasePrice(), activityCreationDto.getAttendeesLimit());
         return activityRepository.save(Activity.builder()
                 .name(activityCreationDto.getName())
                 .basePrice(activityCreationDto.getBasePrice())
@@ -47,11 +48,25 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public Activity updateActivity(String activityId, ActivityDto activityDto) {
         Activity activity = findById(activityId);
+        checkNegativities(activityDto.getBasePrice(), activityDto.getAttendeesLimit());
         activity.setName(activityDto.getName());
         activity.setBasePrice(activityDto.getBasePrice());
         activity.setAttendeesLimit(activityDto.getAttendeesLimit());
         activity.setProfessor(userService.findById(activityDto.getProfessor().getId()));
         return activityRepository.save(activity);
+    }
+
+    private void checkNegativities(Double price, int attendeeLimit) {
+        checkNegativePrice(price);
+        checkNegativeAttendeeLimit(attendeeLimit);
+    }
+
+    private void checkNegativePrice(Double price) {
+        if (price < 0) throw new BadRequestException("Activity price cannot be negative!");
+    }
+
+    private void checkNegativeAttendeeLimit(int attendeeLimit) {
+        if (attendeeLimit < 0) throw new BadRequestException("Activity attendee limit cannot be negative!");
     }
 
     @Override
