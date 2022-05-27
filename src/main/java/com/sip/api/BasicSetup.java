@@ -6,7 +6,7 @@ import com.sip.api.domains.user.User;
 import com.sip.api.domains.user.UserConverter;
 import com.sip.api.dtos.RoleCreationDto;
 import com.sip.api.dtos.activity.ActivityCreationDto;
-import com.sip.api.dtos.availableClass.AvailableClassesCreationDto;
+import com.sip.api.dtos.availableClass.AvailableClassCreationDto;
 import com.sip.api.dtos.resource.ResourceCreationDto;
 import com.sip.api.dtos.timeslot.TimeslotCreationDto;
 import com.sip.api.dtos.user.UserCreationDto;
@@ -140,7 +140,7 @@ public class BasicSetup implements ApplicationRunner {
         try {
             Activity activity = activityService.findAll().get(activityPosition);
             Timeslot timeslot = timeslotService.findAll().get(timeslotPosition);
-            availableClassService.createAvailableClass(AvailableClassesCreationDto.builder()
+            availableClassService.createAvailableClass(AvailableClassCreationDto.builder()
                     .activityId(activity.getId())
                     .timeslotId(timeslot.getId())
                     .build());

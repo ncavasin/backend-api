@@ -2,7 +2,7 @@ package com.sip.api.services.impl;
 
 import com.sip.api.domains.availableClass.AvailableClass;
 import com.sip.api.dtos.availableClass.AvailableClassDto;
-import com.sip.api.dtos.availableClass.AvailableClassesCreationDto;
+import com.sip.api.dtos.availableClass.AvailableClassCreationDto;
 import com.sip.api.exceptions.BadRequestException;
 import com.sip.api.repositories.AvailableClassRepository;
 import com.sip.api.services.ActivityService;
@@ -40,11 +40,11 @@ public class AvailableClassServiceImpl implements AvailableClassService {
     }
 
     @Override
-    public AvailableClass createAvailableClass(AvailableClassesCreationDto availableClassesCreationDto) {
-        checkAvailableClassDoesNotExist(availableClassesCreationDto.getActivityId(), availableClassesCreationDto.getTimeslotId());
+    public AvailableClass createAvailableClass(AvailableClassCreationDto availableClassCreationDto) {
+        checkAvailableClassDoesNotExist(availableClassCreationDto.getActivityId(), availableClassCreationDto.getTimeslotId());
         return availableClassRepository.save(AvailableClass.builder()
-                .activity(activityService.findById(availableClassesCreationDto.getActivityId()))
-                .timeslot(timeslotService.findById(availableClassesCreationDto.getTimeslotId()))
+                .activity(activityService.findById(availableClassCreationDto.getActivityId()))
+                .timeslot(timeslotService.findById(availableClassCreationDto.getTimeslotId()))
                 .build());
     }
 
