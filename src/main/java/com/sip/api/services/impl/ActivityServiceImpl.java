@@ -5,6 +5,7 @@ import com.sip.api.domains.activity.Activity;
 import com.sip.api.dtos.activity.ActivityCreationDto;
 import com.sip.api.dtos.activity.ActivityDto;
 import com.sip.api.exceptions.BadRequestException;
+import com.sip.api.exceptions.NotFoundException;
 import com.sip.api.repositories.ActivityRepository;
 import com.sip.api.services.ActivityService;
 import com.sip.api.services.UserService;
@@ -28,7 +29,7 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public Activity findById(String activityId) {
-        return activityRepository.findById(activityId).orElseThrow(() -> new BadRequestException("Activity not found!"));
+        return activityRepository.findById(activityId).orElseThrow(() -> new NotFoundException("Activity not found!"));
     }
 
     @Override
