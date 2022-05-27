@@ -4,6 +4,7 @@ import com.sip.api.domains.availableClass.AvailableClass;
 import com.sip.api.dtos.availableClass.AvailableClassDto;
 import com.sip.api.dtos.availableClass.AvailableClassesCreationDto;
 import com.sip.api.exceptions.BadRequestException;
+import com.sip.api.exceptions.NotFoundException;
 import com.sip.api.repositories.AvailableClassRepository;
 import com.sip.api.services.ActivityService;
 import com.sip.api.services.AvailableClassService;
@@ -31,7 +32,7 @@ public class AvailableClassServiceImpl implements AvailableClassService {
 
     @Override
     public AvailableClass findById(String availableClassId) {
-        return availableClassRepository.findById(availableClassId).orElseThrow(() -> new BadRequestException("AvailableClass not found!"));
+        return availableClassRepository.findById(availableClassId).orElseThrow(() -> new NotFoundException("AvailableClass not found!"));
     }
 
     @Override
