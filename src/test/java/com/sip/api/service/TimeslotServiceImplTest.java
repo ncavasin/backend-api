@@ -25,7 +25,7 @@ import java.time.LocalTime;
 public class TimeslotServiceImplTest {
     @Autowired
     private TimeslotService timeslotService;
-    private final DayOfWeek dayOfWeek = DayOfWeek.MONDAY;
+    private final DayOfWeek dayOfWeek = DayOfWeek.SUNDAY;
     private final LocalTime startTime = LocalTime.of(10, 0, 0);
     private final LocalTime endTime = startTime.plusHours(1);
     private Timeslot savedTimeslot;
@@ -64,7 +64,7 @@ public class TimeslotServiceImplTest {
     @Test
     @Transactional
     public void updateTimeslotDay() {
-        DayOfWeek newDayOfWeek = DayOfWeek.FRIDAY;
+        DayOfWeek newDayOfWeek = DayOfWeek.SATURDAY;
 
         TimeslotDto updateDto = TimeslotDto.builder()
                 .id(savedTimeslot.getId())
@@ -115,7 +115,7 @@ public class TimeslotServiceImplTest {
     @Test
     @Transactional
     public void updateTimeslotEndTime() {
-        LocalTime newEndTime = LocalTime.of(20, 0, 0);
+        LocalTime newEndTime = LocalTime.of(23, 0, 0);
 
         TimeslotDto updateDto = TimeslotDto.builder()
                 .id(savedTimeslot.getId())
