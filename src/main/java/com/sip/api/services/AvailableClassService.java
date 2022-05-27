@@ -15,7 +15,7 @@ public interface AvailableClassService {
 
     AvailableClass createAvailableClass(AvailableClassCreationDto availableClassCreationDto);
 
-    void removeAvailableClass(String appointmentId);
+    void removeAvailableClass(String availableClassId);
 
     AvailableClass updateAvailableClass(AvailableClassDto availableClassDto);
 }
