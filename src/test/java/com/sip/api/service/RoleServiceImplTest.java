@@ -30,7 +30,6 @@ public class RoleServiceImplTest {
     private Role savedRole;
 
     private Role deletableRole;
-    private final String newRoleName = "newRole";
     private List<String> savedRoleResourcesIds;
 
     @Before
@@ -39,6 +38,7 @@ public class RoleServiceImplTest {
         savedRoleResourcesIds = List.of(
                 resourceService.findByName("USER").getId(),
                 resourceService.findByName("ACTIVITY").getId());
+        String newRoleName = "newRole";
         savedRole = generateRole(newRoleName, savedRoleResourcesIds);
         deletableRole = generateRole("deletableRole", savedRoleResourcesIds);
     }
