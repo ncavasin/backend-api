@@ -5,6 +5,7 @@ import com.sip.api.dtos.RoleCreationDto;
 import com.sip.api.services.ResourceService;
 import com.sip.api.services.RoleService;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,34 +36,50 @@ public class RoleServiceImplTest {
         savedRole = generateRole(newRoleName, savedRoleRelatedResourcesIds);
     }
 
+    @Test
+    @Transactional
     public void createRole() {
 
     }
 
+    @Test
+    @Transactional
     public void updateRoleName() {
 
     }
 
+    @Test
+    @Transactional
     public void addResourceToRole() {
 
     }
 
+    @Test
+    @Transactional
     public void addNonExistingResourceToRole_shouldThrowBadRequest() {
 
     }
 
+    @Test
+    @Transactional
     public void removeResourceFromRole() {
 
     }
 
+    @Test
+    @Transactional
     public void removeNonExistingResourceFromRole_shouldThrowBadRequest() {
 
     }
 
+    @Test
+    @Transactional
     public void deleteRole() {
 
     }
 
+    @Test
+    @Transactional
     public void deleteRoleByName() {
 
     }
