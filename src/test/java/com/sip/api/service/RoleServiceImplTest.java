@@ -1,5 +1,6 @@
 package com.sip.api.service;
 
+import com.sip.api.domains.resource.Resource;
 import com.sip.api.domains.role.Role;
 import com.sip.api.dtos.RoleCreationDto;
 import com.sip.api.exceptions.NotFoundException;
@@ -29,15 +30,16 @@ public class RoleServiceImplTest {
     private Role savedRole;
 
     private Role deletableRole;
-    private final ThreadLocal<String> newRoleName = ThreadLocal.withInitial(() -> "newRole");
+    private final String newRoleName = "newRole";
+    private List<String> savedRoleResourcesIds;
 
     @Before
     @Transactional
     public void setUp() {
-        List<String> savedRoleResourcesIds = List.of(
+        savedRoleResourcesIds = List.of(
                 resourceService.findByName("USER").getId(),
                 resourceService.findByName("ACTIVITY").getId());
-        savedRole = generateRole(newRoleName.get(), savedRoleResourcesIds);
+        savedRole = generateRole(newRoleName, savedRoleResourcesIds);
         deletableRole = generateRole("deletableRole", savedRoleResourcesIds);
     }
 
@@ -58,25 +60,33 @@ public class RoleServiceImplTest {
     @Test
     @Transactional
     public void addResourceToRole() {
+        final Resource newResource = resourceService.findByName("MANAGEMENT");
+        Assert.assertFalse(savedRole.getAllowedResources().contains(newResource));
 
+        final Role updated = roleService.addResourceToRole(newResource.getId(), savedRole.getId());
+        Assert.assertTrue(updated.getAllowedResources().contains(newResource));
     }
 
     @Test
     @Transactional
     public void addNonExistingResourceToRole_shouldThrowBadRequest() {
-
+        Assert.assertThrows(NotFoundException.class, () -> roleService.addResourceToRole("NON_EXISTENT_RESOURCE_ID", savedRole.getId()));
     }
 
     @Test
     @Transactional
     public void removeResourceFromRole() {
+        final Resource toRemoveResource = resourceService.findById(savedRoleResourcesIds.get(0));
+        Assert.assertTrue(savedRole.getAllowedResources().contains(toRemoveResource));
 
+        final Role updated = roleService.removeResourceFromRole(toRemoveResource.getId(), savedRole.getId());
+        Assert.assertFalse(updated.getAllowedResources().contains(toRemoveResource));
     }
 
     @Test
     @Transactional
     public void removeNonExistingResourceFromRole_shouldThrowBadRequest() {
-
+        Assert.assertThrows(NotFoundException.class, () -> roleService.removeResourceFromRole("NON_EXISTENT_RESOURCE_ID", savedRole.getId()));
     }
 
     @Test
@@ -109,7 +119,6 @@ public class RoleServiceImplTest {
     @Transactional
     public void deleteRoleByNonExistentName_shouldThrowBadRequest() {
         Assert.assertThrows(NotFoundException.class, () -> roleService.deleteRoleByName("NON_EXISTENT_ROLE_NAME"));
-
     }
 
     private Role generateRole(String name, List<String> allowedResourcesIds) {
