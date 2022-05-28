@@ -1,10 +1,7 @@
 package com.sip.api.controllers;
 
 import com.sip.api.domains.user.UserConverter;
-import com.sip.api.dtos.user.UserDniDto;
-import com.sip.api.dtos.user.UserDto;
-import com.sip.api.dtos.user.UserEmailDto;
-import com.sip.api.dtos.user.UserPasswordDto;
+import com.sip.api.dtos.user.*;
 import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +24,11 @@ public class UserController {
     @GetMapping("/{userId}")
     public UserDto findById(@PathVariable("userId") String userId) {
         return UserConverter.entityToDto(userService.findById(userId));
+    }
+
+    @GetMapping("/users-by-role/{roleId}")
+    public List<UserSlimDto> findAllUsersByRole(@PathVariable("roleId") String roleId) {
+        return UserConverter.entityToDtoSlim(userService.findAllUsersByRole(roleId));
     }
 
     @PostMapping("/find-by-dni")
