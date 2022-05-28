@@ -1,4 +1,4 @@
-package com.sip.api.impl;
+package com.sip.api.service;
 
 import com.sip.api.domains.timeslot.Timeslot;
 import com.sip.api.dtos.timeslot.TimeslotCreationDto;
@@ -25,7 +25,7 @@ import java.time.LocalTime;
 public class TimeslotServiceImplTest {
     @Autowired
     private TimeslotService timeslotService;
-    private final DayOfWeek dayOfWeek = DayOfWeek.MONDAY;
+    private final DayOfWeek dayOfWeek = DayOfWeek.SUNDAY;
     private final LocalTime startTime = LocalTime.of(10, 0, 0);
     private final LocalTime endTime = startTime.plusHours(1);
     private Timeslot savedTimeslot;
@@ -48,23 +48,32 @@ public class TimeslotServiceImplTest {
         Assert.assertThrows(BadRequestException.class, () -> generateTimeslot(startTime, endTime, dayOfWeek));
     }
 
+    @Test
+    @Transactional
     public void createTimeslotWithEndDateBeforeStartDate_shouldThrowBadRequest() {
         Assert.assertThrows(BadRequestException.class, () -> generateTimeslot(endTime, startTime, dayOfWeek));
     }
 
     @Test
     @Transactional
+    public void createTimeslotOverlappingAnother_shouldThrowBadRequest() {
+        Assert.assertThrows(BadRequestException.class,
+                () -> generateTimeslot(startTime.minusMinutes(15), endTime.minusMinutes(15), dayOfWeek));
+    }
+
+    @Test
+    @Transactional
     public void updateTimeslotDay() {
-        DayOfWeek newDayOfWeek = DayOfWeek.TUESDAY;
+        DayOfWeek newDayOfWeek = DayOfWeek.SATURDAY;
 
         TimeslotDto updateDto = TimeslotDto.builder()
                 .id(savedTimeslot.getId())
                 .startTime(savedTimeslot.getStartTime())
                 .endTime(savedTimeslot.getEndTime())
-                .dayOfWeek(DayOfWeek.TUESDAY)
+                .dayOfWeek(newDayOfWeek)
                 .build();
 
-        Timeslot updated = timeslotService.updateTimeslot(savedTimeslot.getId(), updateDto);
+        Timeslot updated = timeslotService.updateTimeslot(updateDto.getId(), updateDto);
 
         Assert.assertNotEquals(timeslotService.findById(updated.getId()).getDayOfWeek(), dayOfWeek);
         Assert.assertEquals(timeslotService.findById(updated.getId()).getDayOfWeek(), newDayOfWeek);
@@ -88,7 +97,7 @@ public class TimeslotServiceImplTest {
     @Test
     @Transactional
     public void updateTimeslotStartTime() {
-        LocalTime newStartTime = LocalTime.of(16, 0, 0);
+        LocalTime newStartTime = LocalTime.of(22, 0, 0);
 
         TimeslotDto updateDto = TimeslotDto.builder()
                 .id(savedTimeslot.getId())
@@ -106,16 +115,16 @@ public class TimeslotServiceImplTest {
     @Test
     @Transactional
     public void updateTimeslotEndTime() {
-        LocalTime newEndTime = LocalTime.of(20, 0, 0);
+        LocalTime newEndTime = LocalTime.of(23, 0, 0);
 
         TimeslotDto updateDto = TimeslotDto.builder()
                 .id(savedTimeslot.getId())
-                .startTime(savedTimeslot.getStartTime())
+                .startTime(newEndTime.minusHours(1))
                 .endTime(newEndTime)
                 .dayOfWeek(savedTimeslot.getDayOfWeek())
                 .build();
 
-        Timeslot updated = timeslotService.updateTimeslot(savedTimeslot.getId(), updateDto);
+        Timeslot updated = timeslotService.updateTimeslot(updateDto.getId(), updateDto);
 
         Assert.assertNotEquals(timeslotService.findById(updated.getId()).getEndTime(), endTime);
         Assert.assertEquals(timeslotService.findById(updated.getId()).getEndTime(), newEndTime);
