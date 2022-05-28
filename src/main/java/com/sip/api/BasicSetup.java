@@ -6,7 +6,7 @@ import com.sip.api.domains.user.User;
 import com.sip.api.domains.user.UserConverter;
 import com.sip.api.dtos.RoleCreationDto;
 import com.sip.api.dtos.activity.ActivityCreationDto;
-import com.sip.api.dtos.availableClass.AvailableClassesCreationDto;
+import com.sip.api.dtos.availableClass.AvailableClassCreationDto;
 import com.sip.api.dtos.resource.ResourceCreationDto;
 import com.sip.api.dtos.timeslot.TimeslotCreationDto;
 import com.sip.api.dtos.user.UserCreationDto;
@@ -114,6 +114,8 @@ public class BasicSetup implements ApplicationRunner {
         createActivity("CROSSFIT", 2250.75D, 12);
         createActivity("SPINNING", 3550.25D, 20);
         createActivity("BOXING", 1050.10D, 6);
+        createActivity("TESTING_ACTIVITY", 1050.10D, 1);
+
     }
 
     private void createActivity(String activityName, double basePrice, int attendeesLimit) {
@@ -134,13 +136,14 @@ public class BasicSetup implements ApplicationRunner {
         createAvailableClass(1, 0);
         createAvailableClass(2, 1);
         createAvailableClass(1, 2);
+        createAvailableClass(3, 3);
     }
 
     private void createAvailableClass(int activityPosition, int timeslotPosition) {
         try {
             Activity activity = activityService.findAll().get(activityPosition);
             Timeslot timeslot = timeslotService.findAll().get(timeslotPosition);
-            availableClassService.createAvailableClass(AvailableClassesCreationDto.builder()
+            availableClassService.createAvailableClass(AvailableClassCreationDto.builder()
                     .activityId(activity.getId())
                     .timeslotId(timeslot.getId())
                     .build());
