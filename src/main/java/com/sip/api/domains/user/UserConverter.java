@@ -52,6 +52,11 @@ public class UserConverter {
                 .build();
     }
 
+    public static List<UserSlimDto> entityToDtoSlim(List<User> users) {
+        return users.stream().map(UserConverter::entityToDtoSlim).collect(Collectors.toList());
+
+    }
+
     public static List<UserDto> entityToDto(List<User> users) {
         return users.stream().map(UserConverter::entityToDto).collect(Collectors.toList());
     }
