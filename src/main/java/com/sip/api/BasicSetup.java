@@ -114,6 +114,8 @@ public class BasicSetup implements ApplicationRunner {
         createActivity("CROSSFIT", 2250.75D, 12);
         createActivity("SPINNING", 3550.25D, 20);
         createActivity("BOXING", 1050.10D, 6);
+        createActivity("TESTING_ACTIVITY", 1050.10D, 1);
+
     }
 
     private void createActivity(String activityName, double basePrice, int attendeesLimit) {
@@ -134,6 +136,7 @@ public class BasicSetup implements ApplicationRunner {
         createAvailableClass(1, 0);
         createAvailableClass(2, 1);
         createAvailableClass(1, 2);
+        createAvailableClass(3, 3);
     }
 
     private void createAvailableClass(int activityPosition, int timeslotPosition) {
