@@ -9,8 +9,13 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, String> {
 
-    @Query("select u from User u where u.roles = ?1")
-    List<User> findAllByRoles(String role);
+    @Query(nativeQuery = true,
+            value = "SELECT u.*" +
+                    "FROM user_data u " +
+                    "JOIN user_data_role udr ON u.id = udr.user_id " +
+                    "JOIN role r ON udr.role_id = r.id " +
+                    "WHERE r.id = :roleId")
+    List<User> findAllByRoles(String roleId);
 
     boolean existsByDni(Integer dni);
 
