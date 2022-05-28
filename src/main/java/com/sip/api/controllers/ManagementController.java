@@ -3,14 +3,14 @@ package com.sip.api.controllers;
 import com.sip.api.domains.role.RoleConverter;
 import com.sip.api.domains.user.UserConverter;
 import com.sip.api.dtos.role.RoleDto;
+import com.sip.api.dtos.user.UserCreationDto;
 import com.sip.api.dtos.user.UserDto;
 import com.sip.api.services.RoleService;
 import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/management")
@@ -37,5 +37,10 @@ public class ManagementController {
     @PutMapping("/remove-resource-from-role/{resourceId}/{roleId}")
     public RoleDto removeResourceFromRole(@PathVariable("resourceId") String resourceId, @PathVariable("roleId") String roleId) {
         return RoleConverter.entityToDto(roleService.removeResourceFromRole(resourceId, roleId));
+    }
+
+    @PostMapping("/add-user-with-roles")
+    public UserDto createUserWithRoles(@RequestBody @Valid UserCreationDto userCreationDto) {
+        return UserConverter.entityToDto(userService.createUser(userCreationDto));
     }
 }
