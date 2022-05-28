@@ -30,6 +30,7 @@ public class ResourceServiceImplTest {
     private final String nameDeletable = "DELETABLE_RESOURCE";
 
     @Before
+    @Transactional
     public void setUp() {
         savedResource = generateResource(name, url);
         updatableResource = generateResource("OLD_RESOURCE_NAME", "/OLD_RESOURCE_URL");
