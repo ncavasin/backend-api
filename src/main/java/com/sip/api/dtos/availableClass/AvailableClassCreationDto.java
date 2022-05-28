@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AvailableClassesCreationDto {
+public class AvailableClassCreationDto {
     @NotNull
     private String activityId;
     @NotNull
