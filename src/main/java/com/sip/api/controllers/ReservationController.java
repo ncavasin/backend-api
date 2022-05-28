@@ -36,9 +36,9 @@ public class ReservationController {
         return ReservationConverter.fromEntityToDto(reservationService.addUserToReservation(reservationCreationDto));
     }
 
-    @PutMapping("/{availableClassId}/{attendeeId}")
-    public ReservationDto removeUserFromReservation(@PathVariable("availableClassId") String availableClassId, @PathVariable("attendeeId") String attendeeId) {
-        return ReservationConverter.fromEntityToDto(reservationService.removeUserFromReservationUsingAvailableClassId(availableClassId, attendeeId));
+    @PutMapping("/remove-user/{attendeeId}/from-available-class/{availableClassId}")
+    public ReservationDto removeUserFromReservation(@PathVariable("attendeeId") String attendeeId, @PathVariable("availableClassId") String availableClassId) {
+        return ReservationConverter.fromEntityToDto(reservationService.removeUserFromReservationUsingAvailableClassId(attendeeId, availableClassId));
     }
 
     @DeleteMapping("/{reservationId}")
