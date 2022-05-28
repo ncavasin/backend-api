@@ -14,7 +14,7 @@ public interface ReservationService {
 
     Reservation addUserToReservation(ReservationCreationDto reservationCreationDto);
 
-    Reservation removeUserFromReservationUsingAvailableClassId(String availableClassId, String attendeeId);
+    Reservation removeUserFromReservationUsingAvailableClassId(String attendeeId, String availableClassId);
 
     void deleteReservation(String reservationId);
 }
