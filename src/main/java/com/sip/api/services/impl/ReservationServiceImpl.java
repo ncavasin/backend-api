@@ -69,7 +69,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Reservation removeUserFromReservationUsingAvailableClassId(String availableClassId, String attendeeId) {
+    public Reservation removeUserFromReservationUsingAvailableClassId(String attendeeId, String availableClassId) {
         AvailableClass availableClass = availableClassService.findById(availableClassId);
         Reservation reservation = reservationRepository
                 .findByAvailableClass_Id(availableClass.getId())
