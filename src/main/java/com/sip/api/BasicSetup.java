@@ -7,7 +7,6 @@ import com.sip.api.domains.user.UserConverter;
 import com.sip.api.dtos.RoleCreationDto;
 import com.sip.api.dtos.activity.ActivityCreationDto;
 import com.sip.api.dtos.availableClass.AvailableClassCreationDto;
-import com.sip.api.dtos.resource.ResourceCreationDto;
 import com.sip.api.dtos.timeslot.TimeslotCreationDto;
 import com.sip.api.dtos.user.UserCreationDto;
 import com.sip.api.dtos.user.UserEmailDto;
@@ -47,69 +46,10 @@ public class BasicSetup implements ApplicationRunner {
     @Override
     @Transactional
     public void run(ApplicationArguments args) {
-        createResources();
-        createRoles();
         createTimeslots();
-        createAdminUser();
-        createProfessorUser();
-        createAnalystUser();
         createActivities();
         createAvailableClasses();
     }
-
-    private void createAnalystUser() {
-        try {
-            String analystMail = "analyst@mail.com";
-            if (!userService.existsByEmail(analystMail)) {
-                User analyst = userService.createUser(UserCreationDto.builder()
-                        .dni(00000)
-                        .email(analystMail)
-                        .password("12345678")
-                        .rolesNames(Collections.singletonList("ROLE_ANALYST"))
-                        .build());
-                userService.activateUser(analyst.getId());
-                log.info("Analyst created");
-            }
-        } catch (Exception e) {
-            log.error("Error creating professor. Message: {}", e.getMessage());
-        }
-    }
-
-    private void createProfessorUser() {
-        try {
-            if (!userService.existsByEmail(professorEmail)) {
-                User professor = userService.createUser(UserCreationDto.builder()
-                        .dni(123987)
-                        .email(professorEmail)
-                        .password("12345678")
-                        .rolesNames(Collections.singletonList("ROLE_PROFESSOR"))
-                        .build());
-                userService.activateUser(professor.getId());
-                log.info("Professor created");
-            }
-        } catch (Exception e) {
-            log.error("Error creating professor. Message: {}", e.getMessage());
-        }
-    }
-
-    private void createAdminUser() {
-        try {
-            if (!userService.existsByEmail(superAdminEmail)) {
-                User user = userService.createUser(UserCreationDto.builder()
-                        .dni(99999999)
-                        .email(superAdminEmail)
-                        .password(superAdminPassword)
-                        .phone(22233325L)
-                        .rolesNames(Collections.singletonList("ROLE_ADMIN"))
-                        .build());
-                userService.activateUser(user.getId());
-                log.info("Admin created");
-            }
-        } catch (Exception e) {
-            log.error("Error creating admin with credential '{}' '{}'. Error: {}", superAdminEmail, superAdminPassword, e.getMessage());
-        }
-    }
-
     private void createActivities() {
         createActivity("CROSSFIT", 2250.75D, 12);
         createActivity("SPINNING", 3550.25D, 20);
@@ -183,110 +123,6 @@ public class BasicSetup implements ApplicationRunner {
             }
         } catch (BadRequestException e) {
             log.info("Timeslots already created, skipping...");
-        }
-    }
-
-    private void createResources() {
-        createResourceByNameAndUrl("/*", "ALL");
-        createResourceByNameAndUrl("/login", "LOGIN");
-        createResourceByNameAndUrl("/logout", "LOGOUT");
-        createResourceByNameAndUrl("/user", "USER");
-        createResourceByNameAndUrl("/management", "MANAGEMENT");
-        createResourceByNameAndUrl("/activity", "ACTIVITY");
-        createResourceByNameAndUrl("/timeslot", "TIMESLOT");
-        createResourceByNameAndUrl("/available-class", "AVAILABLE_CLASS");
-        createResourceByNameAndUrl("/reservation", "RESERVATION");
-    }
-
-    private void createResourceByNameAndUrl(String resourceUrl, String resourceName) {
-        try {
-            if (!resourceService.existsByUrl(resourceUrl)) {
-                resourceService.createResource(ResourceCreationDto.builder()
-                        .name(resourceName)
-                        .url(resourceUrl)
-                        .build());
-                log.info("Resource {} created.", resourceUrl);
-            }
-        } catch (Exception e) {
-            log.error("Error creating resource {}. Error: {}.", resourceUrl, e.getMessage());
-        }
-    }
-
-    private void createRoles() {
-        try {
-            createAdminRole();
-        } catch (Exception e) {
-            log.error("Error creating admin role. Error: {}.", e.getMessage());
-        }
-        try {
-            createProfessorRole();
-        } catch (Exception e) {
-            log.error("Error creating professor role. Error: {}.", e.getMessage());
-        }
-        try {
-            createAnalystRole();
-        } catch (Exception e) {
-            log.error("Error creating analyst role. Error: {}.", e.getMessage());
-        }
-        try {
-            createUserRole();
-        } catch (Exception e) {
-            log.error("Error creating user role. Error: {}.", e.getMessage());
-        }
-    }
-
-    private void createUserRole() {
-        if (!roleService.existsByName("ROLE_USER")) {
-            roleService.createRole(RoleCreationDto
-                    .builder()
-                    .name("ROLE_USER")
-                    .allowedResourcesIds(List.of(resourceService.findByName("LOGIN").getId(),
-                            resourceService.findByName("LOGOUT").getId(),
-                            resourceService.findByName("USER").getId(),
-                            resourceService.findByName("ACTIVITY").getId()))
-                    .build());
-            log.info("User role created");
-        }
-    }
-
-    private void createAnalystRole() {
-        if (!roleService.existsByName("ROLE_ANALYST")) {
-
-            roleService.createRole(RoleCreationDto
-                    .builder()
-                    .name("ROLE_ANALYST")
-                    .allowedResourcesIds(List.of(resourceService.findByName("ALL").getId()))
-                    .build());
-            log.info("Analyst role created");
-
-        }
-    }
-
-    private void createProfessorRole() {
-        if (!roleService.existsByName("ROLE_PROFESSOR")) {
-
-            roleService.createRole(RoleCreationDto
-                    .builder()
-                    .name("ROLE_PROFESSOR")
-                    .allowedResourcesIds(List.of(resourceService.findByName("LOGIN").getId(),
-                            resourceService.findByName("LOGOUT").getId(),
-                            resourceService.findByName("ACTIVITY").getId(),
-                            resourceService.findByName("USER").getId()))
-                    .build());
-            log.info("Professor role created");
-
-        }
-    }
-
-    private void createAdminRole() {
-        if (!roleService.existsByName("ROLE_ADMIN")) {
-
-            roleService.createRole(RoleCreationDto
-                    .builder()
-                    .name("ROLE_ADMIN")
-                    .allowedResourcesIds(List.of(resourceService.findByName("ALL").getId()))
-                    .build());
-            log.info("Admin role created");
         }
     }
 }
