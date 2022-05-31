@@ -41,6 +41,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role createRole(RoleCreationDto roleCreationDto) {
+        if (roleRepository.existsByName(roleCreationDto.getName()))
+            throw new BadRequestException(String.format("Role with name %s already exists!", roleCreationDto.getName()));
         Set<Resource> allowedResources = roleCreationDto.getAllowedResourcesIds() == null ? new LinkedHashSet<>() :
                 roleCreationDto.getAllowedResourcesIds()
                         .stream()
