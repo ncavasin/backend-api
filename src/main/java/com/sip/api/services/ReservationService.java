@@ -10,6 +10,8 @@ public interface ReservationService {
 
     Reservation findById(String reservationId);
 
+    List<Reservation> findAllByUserId(String userId);
+
     Integer countAttendeeAmountByAvailableClassId(String availableClassId);
 
     Reservation addUserToReservation(ReservationCreationDto reservationCreationDto);
