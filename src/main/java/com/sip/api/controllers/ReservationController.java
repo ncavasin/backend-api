@@ -31,6 +31,11 @@ public class ReservationController {
         return ReservationConverter.fromEntityToDto(reservationService.countAttendeeAmountByAvailableClassId(availableClassId));
     }
 
+    @GetMapping("/from-user/{userId}")
+    public List<ReservationDto> findAllByUserId(@PathVariable("userId") String userId) {
+        return ReservationConverter.fromEntityToDto(reservationService.findAllByUserId(userId));
+    }
+
     @PostMapping()
     public ReservationDto addUserToReservation(@RequestBody ReservationCreationDto reservationCreationDto) {
         return ReservationConverter.fromEntityToDto(reservationService.addUserToReservation(reservationCreationDto));
