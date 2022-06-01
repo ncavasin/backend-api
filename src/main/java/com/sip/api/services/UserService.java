@@ -16,6 +16,8 @@ public interface UserService extends UserDetailsService {
 
     User findById(String userId);
 
+    List<User> findAllUsersByRole(String roleId);
+
     User createUser(UserCreationDto userCreationDto);
 
     User assignRoleToUserById(String userId, String roleId);

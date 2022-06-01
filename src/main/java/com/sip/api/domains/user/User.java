@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sip.api.domains.TimeTrackable;
 import com.sip.api.domains.enums.UserStatus;
 import com.sip.api.domains.role.Role;
+import com.sip.api.domains.subscription.Subscription;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -13,10 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor
@@ -55,6 +53,9 @@ public class User extends TimeTrackable implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     @Fetch(FetchMode.JOIN)
     private Set<Role> roles = new LinkedHashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    private Set<Subscription> subscriptions = new HashSet<>();
 
     // Use by UserFactory to convert from UserDTO to User
     public User(int dni, String password, String email, String firstName, String lastName, LocalDate birthDate, Long phone) {

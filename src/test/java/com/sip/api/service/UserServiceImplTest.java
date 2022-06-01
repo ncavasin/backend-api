@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.List;
 
 
 @RunWith(SpringRunner.class)
@@ -123,6 +124,14 @@ public class UserServiceImplTest {
                         .birthDate(LocalDate.of(1997, 3, 26))
                         .rolesNames(Collections.singletonList(roleService.findByName("ROLE_USER").getName()))
                         .build()));
+    }
+
+    @Test
+    @Transactional
+    public void findUsersByRole() {
+        final Role adminRole = roleService.findByName("ROLE_ADMIN");
+        final List<User> users = userService.findAllUsersByRole(adminRole.getId());
+        Assert.assertEquals(users.size(), 1);
     }
 
     @Test
