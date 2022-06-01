@@ -7,6 +7,7 @@ import com.sip.api.domains.user.UserConverter;
 import com.sip.api.dtos.RoleCreationDto;
 import com.sip.api.dtos.activity.ActivityCreationDto;
 import com.sip.api.dtos.availableClass.AvailableClassCreationDto;
+import com.sip.api.dtos.plan.PlanCreationDto;
 import com.sip.api.dtos.resource.ResourceCreationDto;
 import com.sip.api.dtos.timeslot.TimeslotCreationDto;
 import com.sip.api.dtos.user.UserCreationDto;
@@ -32,10 +33,10 @@ public class SetupMigration implements StartUpMigration {
     private final ResourceService resourceService;
     private final RoleService roleService;
     private final UserService userService;
-
     private final TimeslotService timeslotService;
     private final ActivityService activityService;
     private final AvailableClassService availableClassService;
+    private final PlanService planService;
 
     @Value("${superadmin-email}")
     private String superAdminEmail;
@@ -50,6 +51,28 @@ public class SetupMigration implements StartUpMigration {
         createTimeslots();
         createActivities();
         createAvailableClasses();
+        createPlans();
+    }
+
+    private void createPlans() {
+        createPlan("Bronze", "Bronze plan", 1500D, 2);
+        createPlan("Silver", "Silver plan", 2250D, 3);
+        createPlan("Gold", "Gold plan", 2750D, 4);
+        createPlan("Platinum", "Platinum plan", 3500D, 7);
+    }
+
+    private void createPlan(String name, String description, Double price, Integer activitiesLimit) {
+        try {
+            planService.createPlan(PlanCreationDto.builder()
+                    .name(name)
+                    .description(description)
+                    .price(price)
+                    .activitiesLimit(activitiesLimit)
+                    .build());
+            log.info("Plan {} created.", name);
+        } catch (BadRequestException e) {
+            log.info("Creation skipped. Plan {} already exists.", name);
+        }
     }
 
     private void createAvailableClasses() {
