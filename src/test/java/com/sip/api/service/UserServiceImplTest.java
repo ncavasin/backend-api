@@ -43,7 +43,7 @@ public class UserServiceImplTest {
     private PasswordEncoder passwordEncoder;
 
     private final Long phone = 123456789L;
-    private final String userEmail = "ncavasin97@gmail.com";
+    private final String userEmail = "somebody@gmail.com";
     private final String firstName = "Nicolas";
     private final String lastName = "Cavasin";
     private final String weakPassword = "weak";
