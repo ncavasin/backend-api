@@ -1,8 +1,5 @@
 package com.sip.api.dtos.subscription;
 
-import com.sip.api.dtos.payment.PaymentDto;
-import com.sip.api.dtos.plan.PlanDto;
-import com.sip.api.dtos.user.UserSlimDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,12 +11,10 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SubscriptionDto {
-    private String id;
+public class SubscriptionCreationDto {
+    private String description;
     private LocalDate startDate;
     private LocalDate endDate;
-    private PlanDto planDto;
-    private PaymentDto paymentDto;
-    private UserSlimDto userSlimDto;
+    private String planId;
+    private String userId;
 }
-
