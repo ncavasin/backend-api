@@ -28,7 +28,7 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class UserMigration implements StartUpMigration {
+public class SetupMigration implements StartUpMigration {
     private final ResourceService resourceService;
     private final RoleService roleService;
     private final UserService userService;
