@@ -133,6 +133,7 @@ public class UserMigration implements StartUpMigration {
         createUser(22222222, professorEmail, Collections.singletonList("ROLE_PROFESSOR"));
         createUser(33333333, superAdminEmail, Collections.singletonList("ROLE_ADMIN"));
         createUser(44444444, "user@user.com", Collections.singletonList("ROLE_USER"));
+        createUser(55555555, "ncavasin97@gmail.com", Collections.singletonList("ROLE_USER"));
     }
 
     private void createUser(int dni, String mail, List<String> rolesNames) {
