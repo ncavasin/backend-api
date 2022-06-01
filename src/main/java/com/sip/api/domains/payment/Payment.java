@@ -22,7 +22,7 @@ public class Payment extends TimeTrackable {
     @Column(nullable = false)
     private LocalDate paymentDate;
 
-    private Double amountPayed;
+    private Double amountPaid;
 
     private String transactionId;
 
