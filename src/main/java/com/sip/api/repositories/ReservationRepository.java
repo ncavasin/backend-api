@@ -13,6 +13,13 @@ public interface ReservationRepository extends JpaRepository<Reservation, String
     @NonNull
     List<Reservation> findAll();
 
+    @Query(nativeQuery = true,
+    value = "SELECT r.* " +
+            "FROM user_data u " +
+                "JOIN reservation_user_data rud on u.id = rud.user_id " +
+                "JOIN reservation r on rud.reservation_id = r.id " +
+            "WHERE u.id = :userId")
+    List<Reservation> findAllByAttendeeId(String userId);
 
     @Query(nativeQuery = true,
             value = "SELECT count(*) " +
