@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS subscription
     end_date           DATE         NOT NULL,
     plan_id            VARCHAR(255) NOT NULL,
     CONSTRAINT fk_subscription_plan FOREIGN KEY (plan_id) REFERENCES plan (id),
-    payment_id         VARCHAR(255) NOT NULL,
+    payment_id         VARCHAR(255),
     CONSTRAINT fk_plan FOREIGN KEY (plan_id) REFERENCES plan (id) ON DELETE CASCADE,
     user_id            VARCHAR(255) NOT NULL,
     CONSTRAINT fk_subscription_user FOREIGN KEY (user_id) REFERENCES user_data (id) ON DELETE CASCADE,

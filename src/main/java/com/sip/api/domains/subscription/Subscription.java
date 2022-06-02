@@ -34,12 +34,17 @@ public class Subscription extends TimeTrackable {
     @Fetch(FetchMode.JOIN)
     private Plan plan;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_id", nullable = false)
     @Fetch(FetchMode.JOIN)
     private Payment payment;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     @Fetch(FetchMode.JOIN)
     private User user;
+
+    public boolean isPaid() {
+        return this.payment != null;
+    }
 }
