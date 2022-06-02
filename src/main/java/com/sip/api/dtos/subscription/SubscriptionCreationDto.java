@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
@@ -13,8 +14,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class SubscriptionCreationDto {
     private String description;
+    @NotNull
     private LocalDate startDate;
-    private LocalDate endDate;
+    @NotNull
+    private Integer monthsToAdd;
+    @NotNull
     private String planId;
+    @NotNull
     private String userId;
 }
