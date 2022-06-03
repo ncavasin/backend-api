@@ -8,11 +8,15 @@ import java.util.List;
 public interface SubscriptionService {
     List<Subscription> getAllSubscriptions();
 
-    List<Subscription> findSubscriptionsByUserId(String userId);
-
     Subscription findSubscriptionById(String subscriptionId);
+
+    List<Subscription> findSubscriptionsByPlanId(String planId);
+
+    List<Subscription> findSubscriptionsByUserId(String userId);
 
     Subscription createSubscription(SubscriptionCreationDto subscriptionCreationDto);
 
     void deleteSubscription(String subscriptionId);
+
+    void deleteAllSubscriptionsFromUser(String userId);
 }
