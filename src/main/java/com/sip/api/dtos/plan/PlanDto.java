@@ -1,12 +1,9 @@
 package com.sip.api.dtos.plan;
 
-import com.sip.api.dtos.subscription.SubscriptionDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @Builder
@@ -18,5 +15,4 @@ public class PlanDto {
     private String description;
     private Double price;
     private Integer activitiesLimit;
-    private List<SubscriptionDto> subscriptions;
 }
