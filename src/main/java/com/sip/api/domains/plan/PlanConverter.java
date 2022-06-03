@@ -1,9 +1,7 @@
 package com.sip.api.domains.plan;
 
-import com.sip.api.domains.subscription.SubscriptionConverter;
 import com.sip.api.dtos.plan.PlanDto;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +20,6 @@ public class PlanConverter {
                 .description(plan.getDescription())
                 .price(plan.getPrice())
                 .activitiesLimit(plan.getActivitiesLimit())
-                .subscriptionsIds(SubscriptionConverter.fromEntitiesToListOfIds(plan.getSubscriptions()))
                 .build();
     }
 
