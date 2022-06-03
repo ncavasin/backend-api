@@ -26,6 +26,11 @@ public class SubscriptionController {
         return SubscriptionConverter.fromEntityToDto(subscriptionService.findSubscriptionById(subscriptionId));
     }
 
+    @GetMapping("/from-plan/{planId}")
+    public List<SubscriptionDto> findByPlanId(@PathVariable("planId") String planId) {
+        return SubscriptionConverter.fromEntityToDto(subscriptionService.findSubscriptionsByPlanId(planId));
+    }
+
     @GetMapping("/from-user/{userId}")
     public List<SubscriptionDto> findByUserId(@PathVariable("userId") String userId) {
         return SubscriptionConverter.fromEntityToDto(subscriptionService.findSubscriptionsByUserId(userId));
@@ -39,5 +44,10 @@ public class SubscriptionController {
     @DeleteMapping("/{subscriptionId}")
     public void deleteSubscription(@PathVariable("subscriptionId") String subscriptionId) {
         subscriptionService.deleteSubscription(subscriptionId);
+    }
+
+    @DeleteMapping("/from-user/{userId}")
+    public void deleteAllSubscriptionsFromUser(@PathVariable("userId") String userId) {
+        subscriptionService.deleteAllSubscriptionsFromUser(userId);
     }
 }
