@@ -45,7 +45,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         return subscriptionRepository.save(Subscription.builder()
                 .description(subscriptionCreationDto.getDescription())
                 .startDate(subscriptionCreationDto.getStartDate())
-                .endDate(subscriptionCreationDto.getEndDate())
+                .endDate(subscriptionCreationDto.getStartDate().plusMonths(subscriptionCreationDto.getMonthsToAdd()))
                 .plan(plan)
                 .user(user)
                 .build());
