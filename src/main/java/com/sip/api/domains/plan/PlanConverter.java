@@ -20,7 +20,6 @@ public class PlanConverter {
                 .description(plan.getDescription())
                 .price(plan.getPrice())
                 .activitiesLimit(plan.getActivitiesLimit())
-                // TODO .subscriptions()
                 .build();
     }
 
