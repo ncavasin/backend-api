@@ -1,4 +1,4 @@
-package com.sip.api.dtos.plan;
+package com.sip.api.dtos.payment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PlanDto {
+public class PaymentDto {
     private String id;
-    private String name;
-    private String description;
-    private Double price;
-    private Integer activitiesLimit;
 }
