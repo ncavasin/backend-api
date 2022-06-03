@@ -22,7 +22,7 @@ public class PlanConverter {
                 .description(plan.getDescription())
                 .price(plan.getPrice())
                 .activitiesLimit(plan.getActivitiesLimit())
-                .subscriptions(SubscriptionConverter.fromEntityToDto(new ArrayList<>(plan.getSubscriptions())))
+                .subscriptionsIds(SubscriptionConverter.fromEntitiesToListOfIds(plan.getSubscriptions()))
                 .build();
     }
 

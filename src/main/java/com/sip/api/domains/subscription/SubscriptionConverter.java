@@ -5,6 +5,7 @@ import com.sip.api.domains.user.UserConverter;
 import com.sip.api.dtos.subscription.SubscriptionDto;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class SubscriptionConverter {
@@ -24,5 +25,11 @@ public class SubscriptionConverter {
                 // TODO implement payment serialization
                 .userSlimDto(UserConverter.entityToDtoSlim(subscription.getUser()))
                 .build();
+    }
+
+    public static List<String> fromEntitiesToListOfIds(Set<Subscription> subscriptions) {
+        return subscriptions.stream()
+                .map(Subscription::getId)
+                .collect(Collectors.toList());
     }
 }
