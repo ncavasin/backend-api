@@ -77,9 +77,26 @@ public class SetupMigration implements StartUpMigration {
 
     private void createAvailableClasses() {
         createAvailableClass(1, 0);
-        createAvailableClass(2, 1);
+        createAvailableClass(1, 1);
         createAvailableClass(1, 2);
-        createAvailableClass(3, 3);
+        createAvailableClass(1, 3);
+        createAvailableClass(1, 4);
+        createAvailableClass(1, 5);
+        createAvailableClass(2, 6);
+        createAvailableClass(2, 7);
+        createAvailableClass(2, 8);
+        createAvailableClass(2, 9);
+        createAvailableClass(2, 10);
+        createAvailableClass(3, 11);
+        createAvailableClass(3, 12);
+        createAvailableClass(3, 13);
+        createAvailableClass(3, 14);
+        createAvailableClass(3, 15);
+        createAvailableClass(3, 16);
+        createAvailableClass(3, 17);
+        createAvailableClass(3, 18);
+        createAvailableClass(3, 19);
+        createAvailableClass(3, 20);
     }
 
     private void createAvailableClass(int activityPosition, int timeslotPosition) {
