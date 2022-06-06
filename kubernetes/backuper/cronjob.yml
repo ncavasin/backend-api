@@ -1,4 +1,4 @@
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: sip-backuper-cronjob
@@ -17,16 +17,17 @@ spec:
     spec:
       template:
         spec:
+          restartPolicy: OnFailure
           containers:
             - name: sip-backuper-cronjob
               image: gcr.io/sip-unlu-2022/sip-backuper:latest
               imagePullPolicy: Always
               env:
                 - name: client_id
-                    valueFrom:
-                      configMapKeyRef:
-                        name: sip-backuper-configmap
-                        key: client_id
+                  valueFrom:
+                    configMapKeyRef:
+                      name: sip-backuper-configmap
+                      key: client_id
 
                 - name: client_email
                   valueFrom:
@@ -77,8 +78,8 @@ spec:
                       name: sip-backuper-configmap
                       key: db_host
 
-            - name: db_port
-              valueFrom:
-                configMapKeyRef:
-                  name: sip-backuper-configmap
-                  key: db_port
+                - name: db_port
+                  valueFrom:
+                    configMapKeyRef:
+                      name: sip-backuper-configmap
+                      key: db_port
