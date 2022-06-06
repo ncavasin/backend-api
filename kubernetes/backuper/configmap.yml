@@ -7,7 +7,7 @@ metadata:
   labels:
     app: sip-backuper-cronjob # Must match with database deployment identifier
 data:
-  client_id: 115360419542537508247
+  client_id: "115360419542537508247"
   client_email: 310985208451-compute@developer.gserviceaccount.com
   private_key_id: 2439b6422efdd843b17f9f7374b501fa573f2ebe
   bucket_name: sip-db-bucket
