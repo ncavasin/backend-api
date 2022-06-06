@@ -1,31 +1,84 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: postgres-backup-dev
+  name: sip-backuper-cronjob
 spec:
-  # Backup the database every day at 2AM
-  schedule: "0 2 * * *"
+  #          Backup the database every day at 2AM
+  #          ┌───────────── minute (0 - 59)
+  #          │ ┌───────────── hour (0 - 23)
+  #          │ │ ┌───────────── day of the month (1 - 31)
+  #          │ │ │ ┌───────────── month (1 - 12)
+  #          │ │ │ │ ┌───────────── day of the week (0 - 6) (Sunday to Saturday;
+  #          │ │ │ │ │                                   7 is also Sunday on some systems)
+  #          │ │ │ │ │                                   OR sun, mon, tue, wed, thu, fri, sat
+  #          │ │ │ │ │
+  schedule: "0 4 * * *" # => Everyday at 4 AM
   jobTemplate:
     spec:
       template:
         spec:
           containers:
-          - name: postgres-backup-dev
-            image: postgres:10.4
-            command: ["/bin/sh"]
-            args: ["-c", 'echo "$PGPASS" > /root/.pgpass && chmod 600 /root/.pgpass && pg_dump -Fc -h <host> -U <user> <db> > /var/backups/backup.dump']
-            env:
-            - name: PGPASS
+            - name: postgres-backup-dev
+              image: gcr.io/sip-unlu-2022/sip-backuper-image:latest
+              imagePullPolicy: Always
+              env:
+                - name: client_id
+                    valueFrom:
+                      configMapKeyRef:
+                        name: sip-backuper-configmap
+                        key: client_id
+
+                - name: client_email
+                  valueFrom:
+                    configMapKeyRef:
+                      name: sip-backuper-configmap
+                      key: client_email
+
+                - name: private_key_id
+                  valueFrom:
+                    configMapKeyRef:
+                      name: sip-backuper-configmap
+                      key: private_key_id
+
+                - name: private_key
+                  valueFrom:
+                    secretKeyRef:
+                      name: sip-backuper-secret
+                      key: private_key
+                      optional: false
+
+                - name: bucket_name
+                  valueFrom:
+                    configMapKeyRef:
+                      name: sip-backuper-configmap
+                      key: bucket_name
+
+                - name: db_name
+                  valueFrom:
+                    configMapKeyRef:
+                      name: sip-backuper-configmap
+                      key: db_name
+
+                - name: db_username
+                  valueFrom:
+                    configMapKeyRef:
+                      name: sip-backuper-configmap
+                      key: db_username
+
+                - name: db_password
+                  valueFrom:
+                    configMapKeyRef:
+                      name: sip-backuper-configmap
+                      key: db_password
+
+                - name: db_host
+                  valueFrom:
+                    configMapKeyRef:
+                      name: sip-backuper-configmap
+                      key: db_host
+
+            - name: db_port
               valueFrom:
-                secretKeyRef:
-                  name: dev-pgpass
-                  key: pgpass
-            volumeMounts:
-            - mountPath: /var/backups
-              name: postgres-backup-storage
-          restartPolicy: Never
-          volumes:
-          - name: postgres-backup-storage
-            hostPath:
-              path: /var/volumes/postgres-backups
-              type: DirectoryOrCreate
+                configMapKeyRef:
+                  name: sip-backuper-configmap
+                  key: db_port
