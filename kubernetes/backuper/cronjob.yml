@@ -18,7 +18,7 @@ spec:
       template:
         spec:
           containers:
-            - name: sip-backuper
+            - name: sip-backuper-cronjob
               image: gcr.io/sip-unlu-2022/sip-backuper:latest
               imagePullPolicy: Always
               env:
