@@ -18,8 +18,8 @@ spec:
       template:
         spec:
           containers:
-            - name: postgres-backup-dev
-              image: gcr.io/sip-unlu-2022/sip-backuper-image:latest
+            - name: sip-backuper
+              image: gcr.io/sip-unlu-2022/sip-backuper:latest
               imagePullPolicy: Always
               env:
                 - name: client_id
