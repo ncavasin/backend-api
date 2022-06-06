@@ -58,7 +58,7 @@ jobs:
         run: kubectl apply -f db/configmap.yml ; kubectl apply -f db/storageclass.yml ; kubectl apply -f db/pvc.yml ; kubectl apply -f db/deployment.yml ; kubectl apply -f db/service.yml
 
       - name: Deploy Backuper to GKE
-          run: kubectl apply -f backuper/configmap.yml ; kubectl apply -f backuper/deployment.yml
+          run: kubectl apply -f backuper/configmap.yml ; kubectl apply -f backuper/cronjob.yml
 
       - name: Deploy API to GKE
         run: kubectl apply -f api/configmap.yml ; kubectl apply -f api/deployment.yml ; kubectl apply -f api/service.yml
