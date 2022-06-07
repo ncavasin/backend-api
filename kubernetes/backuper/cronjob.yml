@@ -18,7 +18,7 @@ spec:
       template:
         metadata:
           labels:
-            cj2job: sip-backuper-cjob
+            cj2job: cronjob
         spec:
           restartPolicy: OnFailure
           containers:
