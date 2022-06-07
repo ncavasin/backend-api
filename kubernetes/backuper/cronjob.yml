@@ -16,6 +16,9 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            cj2job: sip-backuper-cjob
         spec:
           restartPolicy: OnFailure
           containers:
