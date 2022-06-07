@@ -12,7 +12,7 @@ spec:
   #          │ │ │ │ │                                   7 is also Sunday on some systems)
   #          │ │ │ │ │                                   OR sun, mon, tue, wed, thu, fri, sat
   #          │ │ │ │ │
-  schedule: "0 4 * * *" # => Everyday at 4 AM
+  schedule: "* * * * *" # => hourly
   jobTemplate:
     spec:
       template:
@@ -46,8 +46,8 @@ spec:
 
                 - name: private_key
                   valueFrom:
-                    secretKeyRef:
-                      name: sip-backuper-secret
+                    configMapKeyRef:
+                      name: sip-backuper-configmap
                       key: private_key
                       optional: false
 
