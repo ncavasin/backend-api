@@ -6,6 +6,7 @@ import com.sip.api.domains.reservation.Reservation;
 import com.sip.api.domains.user.User;
 import com.sip.api.dtos.reservation.ReservationCreationDto;
 import com.sip.api.exceptions.BadRequestException;
+import com.sip.api.exceptions.NotFoundException;
 import com.sip.api.repositories.ReservationRepository;
 import com.sip.api.services.AvailableClassService;
 import com.sip.api.services.ReservationService;
@@ -30,7 +31,17 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Reservation findById(String reservationId) {
-        return reservationRepository.findById(reservationId).orElseThrow(() -> new BadRequestException("Reservation not found"));
+        return reservationRepository.findById(reservationId).orElseThrow(() -> new NotFoundException("Reservation not found"));
+    }
+
+    @Override
+    public List<Reservation> findAllByUserId(String userId) {
+        return reservationRepository.findAllByAttendeeId(userId);
+    }
+
+    @Override
+    public Integer countAttendeeAmountByAvailableClassId(String availableClassId) {
+        return reservationRepository.countAttendeeAmountByAvailableClassId(availableClassId);
     }
 
     @Override
@@ -64,7 +75,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Reservation removeUserFromReservationUsingAvailableClassId(String availableClassId, String attendeeId) {
+    public Reservation removeUserFromReservationUsingAvailableClassId(String attendeeId, String availableClassId) {
         AvailableClass availableClass = availableClassService.findById(availableClassId);
         Reservation reservation = reservationRepository
                 .findByAvailableClass_Id(availableClass.getId())
@@ -76,7 +87,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public void deleteReservation(String reservationId) {
         if (!reservationRepository.existsById(reservationId))
-            throw new BadRequestException("Reservation not found");
+            throw new NotFoundException("Reservation not found");
         reservationRepository.deleteById(reservationId);
     }
 }

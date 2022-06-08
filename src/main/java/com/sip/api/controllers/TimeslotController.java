@@ -21,6 +21,11 @@ public class TimeslotController {
         return TimeslotConverter.fromEntityToDto(timeslotService.findAll());
     }
 
+    @GetMapping("/available-and-ordered")
+    public List<TimeslotDto> findAllAvailableAndOrdered() {
+        return TimeslotConverter.fromEntityToDto(timeslotService.findAllAvailableAndOrdered());
+    }
+
     @GetMapping("/{timeslotId}")
     public TimeslotDto findById(@PathVariable("timeslotId") String timeslotId) {
         return TimeslotConverter.fromEntityToDto(timeslotService.findById(timeslotId));

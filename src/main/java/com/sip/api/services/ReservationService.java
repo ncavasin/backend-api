@@ -10,9 +10,13 @@ public interface ReservationService {
 
     Reservation findById(String reservationId);
 
+    List<Reservation> findAllByUserId(String userId);
+
+    Integer countAttendeeAmountByAvailableClassId(String availableClassId);
+
     Reservation addUserToReservation(ReservationCreationDto reservationCreationDto);
 
-    Reservation removeUserFromReservationUsingAvailableClassId(String availableClassId, String attendeeId);
+    Reservation removeUserFromReservationUsingAvailableClassId(String attendeeId, String availableClassId);
 
     void deleteReservation(String reservationId);
 }

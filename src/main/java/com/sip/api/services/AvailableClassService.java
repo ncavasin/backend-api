@@ -2,7 +2,7 @@ package com.sip.api.services;
 
 import com.sip.api.domains.availableClass.AvailableClass;
 import com.sip.api.dtos.availableClass.AvailableClassDto;
-import com.sip.api.dtos.availableClass.AvailableClassesCreationDto;
+import com.sip.api.dtos.availableClass.AvailableClassCreationDto;
 
 import java.util.List;
 
@@ -11,9 +11,11 @@ public interface AvailableClassService {
 
     AvailableClass findById(String appointmentId);
 
-    AvailableClass createAvailableClass(AvailableClassesCreationDto availableClassesCreationDto);
+    List<AvailableClass> findByActivityId(String activityId);
 
-    void removeAvailableClass(String appointmentId);
+    AvailableClass createAvailableClass(AvailableClassCreationDto availableClassCreationDto);
+
+    void removeAvailableClass(String availableClassId);
 
     AvailableClass updateAvailableClass(AvailableClassDto availableClassDto);
 }

@@ -2,7 +2,7 @@ package com.sip.api.controllers;
 
 import com.sip.api.domains.availableClass.AvailableClassConverter;
 import com.sip.api.dtos.availableClass.AvailableClassDto;
-import com.sip.api.dtos.availableClass.AvailableClassesCreationDto;
+import com.sip.api.dtos.availableClass.AvailableClassCreationDto;
 import com.sip.api.services.AvailableClassService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +26,14 @@ public class AvailableClassController {
         return AvailableClassConverter.fromEntityToDto(availableClassService.findById(availableClassId));
     }
 
+    @GetMapping("/by-activity-id/{activityId}")
+    public List<AvailableClassDto> findyByActivityId(@PathVariable("activityId") String activityId) {
+        return AvailableClassConverter.fromEntityToDto(availableClassService.findByActivityId(activityId));
+    }
+
     @PostMapping
-    public AvailableClassDto createAvailableClass(@RequestBody @Valid AvailableClassesCreationDto availableClassesCreationDto) {
-        return AvailableClassConverter.fromEntityToDto(availableClassService.createAvailableClass(availableClassesCreationDto));
+    public AvailableClassDto createAvailableClass(@RequestBody @Valid AvailableClassCreationDto availableClassCreationDto) {
+        return AvailableClassConverter.fromEntityToDto(availableClassService.createAvailableClass(availableClassCreationDto));
     }
 
     @PutMapping AvailableClassDto updateAvailableClass(@RequestBody @Valid AvailableClassDto availableClassDto) {

@@ -46,6 +46,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public List<User> findAllUsersByRole(String roleId) {
+        final Role role = roleService.findById(roleId);
+        return userRepository.findAllByRoles(role.getId());
+    }
+
+    @Override
     public User findByDni(UserDniDto userDniDto) {
         return userRepository.findByDni(userDniDto.getDni()).orElseThrow(() -> new NotFoundException("DNI not found"));
     }

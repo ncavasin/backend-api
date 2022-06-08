@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sip-front
+spec:
+  selector:
+    matchLabels:
+      app: sip-front
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        app: sip-front
+    spec:
+      containers:
+        - name: sip-front
+          image: gcr.io/sip-unlu-2022/sipfront:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+

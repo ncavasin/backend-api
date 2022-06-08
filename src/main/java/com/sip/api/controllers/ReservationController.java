@@ -1,6 +1,7 @@
 package com.sip.api.controllers;
 
 import com.sip.api.domains.reservation.ReservationConverter;
+import com.sip.api.dtos.availableClass.AvailableClassAttendeeAmountDto;
 import com.sip.api.dtos.reservation.ReservationCreationDto;
 import com.sip.api.dtos.reservation.ReservationDto;
 import com.sip.api.services.ReservationService;
@@ -25,14 +26,24 @@ public class ReservationController {
         return ReservationConverter.fromEntityToDto(reservationService.findById(reservationId));
     }
 
+    @GetMapping("/attendee-amount-by-available-class/{availableClassId}")
+    public AvailableClassAttendeeAmountDto findFreeSlots(@PathVariable("availableClassId") String availableClassId) {
+        return ReservationConverter.fromEntityToDto(reservationService.countAttendeeAmountByAvailableClassId(availableClassId));
+    }
+
+    @GetMapping("/from-user/{userId}")
+    public List<ReservationDto> findAllByUserId(@PathVariable("userId") String userId) {
+        return ReservationConverter.fromEntityToDto(reservationService.findAllByUserId(userId));
+    }
+
     @PostMapping()
     public ReservationDto addUserToReservation(@RequestBody ReservationCreationDto reservationCreationDto) {
         return ReservationConverter.fromEntityToDto(reservationService.addUserToReservation(reservationCreationDto));
     }
 
-    @PutMapping("/{availableClassId}/{attendeeId}")
-    public ReservationDto removeUserFromReservation(@PathVariable("availableClassId") String availableClassId, @PathVariable("attendeeId") String attendeeId) {
-        return ReservationConverter.fromEntityToDto(reservationService.removeUserFromReservationUsingAvailableClassId(availableClassId, attendeeId));
+    @PutMapping("/remove-user/{attendeeId}/from-available-class/{availableClassId}")
+    public ReservationDto removeUserFromReservation(@PathVariable("attendeeId") String attendeeId, @PathVariable("availableClassId") String availableClassId) {
+        return ReservationConverter.fromEntityToDto(reservationService.removeUserFromReservationUsingAvailableClassId(attendeeId, availableClassId));
     }
 
     @DeleteMapping("/{reservationId}")

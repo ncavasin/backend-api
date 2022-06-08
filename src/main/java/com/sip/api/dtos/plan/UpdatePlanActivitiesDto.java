@@ -1,4 +1,4 @@
-package com.sip.api.dtos.availableClass;
+package com.sip.api.dtos.plan;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,11 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class AvailableClassesCreationDto {
+@AllArgsConstructor
+public class UpdatePlanActivitiesDto {
     @NotNull
-    private String activityId;
+    private String planId;
     @NotNull
-    private String timeslotId;
+    private Integer activitiesLimit;
 }
