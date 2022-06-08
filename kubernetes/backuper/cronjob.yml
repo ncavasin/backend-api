@@ -12,7 +12,7 @@ spec:
   #          │ │ │ │ │                                   7 is also Sunday on some systems)
   #          │ │ │ │ │                                   OR sun, mon, tue, wed, thu, fri, sat
   #          │ │ │ │ │
-  schedule: "* * * * *" # => hourly
+  schedule: "0 * * * *" # => hourly
   jobTemplate:
     spec:
       template:
