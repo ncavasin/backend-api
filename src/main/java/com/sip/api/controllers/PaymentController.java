@@ -15,7 +15,7 @@ public class PaymentController {
 
     }
 
-    @PostMapping("/process")
+    @PostMapping("/pay")
     public void createPaymentPreference() {
         paymentService.processPayment();
     }
