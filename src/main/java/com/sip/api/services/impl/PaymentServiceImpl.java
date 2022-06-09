@@ -1,56 +1,89 @@
 package com.sip.api.services.impl;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mercadopago.MercadoPagoConfig;
-import com.mercadopago.client.payment.PaymentClient;
-import com.mercadopago.MercadoPagoConfig;
+import com.mercadopago.client.preference.PreferenceBackUrlsRequest;
+import com.mercadopago.client.preference.PreferenceClient;
+import com.mercadopago.client.preference.PreferenceItemRequest;
+import com.mercadopago.client.preference.PreferenceRequest;
+import com.mercadopago.exceptions.MPApiException;
+import com.mercadopago.exceptions.MPException;
+import com.mercadopago.resources.preference.Preference;
+import com.sip.api.domains.payment.Payment;
+import com.sip.api.domains.subscription.Subscription;
 import com.sip.api.dtos.mercadopago.PaymentDto;
 import com.sip.api.dtos.mercadopago.PaymentRequestDto;
+import com.sip.api.repositories.PaymentRepository;
 import com.sip.api.services.PaymentService;
+import com.sip.api.services.SubscriptionService;
 import lombok.RequiredArgsConstructor;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
-    private final PaymentClient paymentClient;
+    private final String publicKey = "TEST-06b585dd-6c6f-4991-94fd-0cd6b7963f43";
+    private final String accessToken = "TEST-7858724244652929-060822-41b97c015ac370f0e072387aa4e86a1b-1129213662";
+    private final String baseUrl = "http://34.75.130.221";
+    private final SubscriptionService subscriptionService;
+    private final PaymentRepository paymentRepository;
 
     @Override
-    public void processPayment() {
+    public List<Payment> getAllPaymentsOfUser(String userId) {
+        return null;
+    }
+
+    @Override
+    public void createPaymentReference(String subscriptionId) {
+        Subscription subscriptionToPay = subscriptionService.findSubscriptionById(subscriptionId);
+
+        MercadoPagoConfig.setAccessToken(accessToken);
+        PreferenceClient client = new PreferenceClient();
+        List<PreferenceItemRequest> items = new ArrayList<>();
+
+        items.add(PreferenceItemRequest.builder()
+                .title(subscriptionToPay.getPlan().getName())
+                .description(subscriptionToPay.getPlan().getDescription())
+                .quantity(1)
+                .unitPrice(BigDecimal.valueOf(subscriptionToPay.getPlan().getPrice()))
+                .build());
+
+        PreferenceRequest request = PreferenceRequest.builder()
+                .backUrls(PreferenceBackUrlsRequest.builder()
+                        .success("/user/pago/:id_plan/:result")
+                        .pending("/user/pago/:id_plan/:result")
+                        .failure("/user/pago/:id_plan/:result")
+                        .build())
+                .items(items)
+                .build();
+
+        Preference preference = null;
+        try {
+            preference = client.create(request);
+        } catch (MPException e) {
+            throw new RuntimeException(e);
+        } catch (MPApiException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Create payment entity in the subscription
+        paymentRepository.save(Payment.builder()
+                        .paymentDate(LocalDate.now())
+                        .amountPaid(preference.getItems().get(0).getUnitPrice().doubleValue())
+                        .transactionId(preference.getId())
+                .build());
 
 
     }
 
     @Override
     public PaymentDto pay(PaymentRequestDto paymentRequestDto) {
-//        Payment payment = paymentClient.create(null);
-//        PreferenceShipmentsRequest preferenceShipmentsRequest = new PreferenceShipmentsRequest();
-        MercadoPagoConfig.setAccessToken("PROD_ACCESS_TOKEN");
-        String authToken = "";
-        var values = new HashMap<String, String>() {{
-            put("name", "John Doe");
-            put ("occupation", "gardener");
-        }};
-
-        var objectMapper = new ObjectMapper();
-        try {
-            String requestBody = objectMapper
-                    .writeValueAsString(values);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-        BasicNameValuePair basicNameValuePair = new BasicNameValuePair("access_token", authToken);
-
-        post(null, "https://api.mercadopago.com/v1/payments", authToken, null);
         return null;
     }
 
@@ -70,28 +103,4 @@ public class PaymentServiceImpl implements PaymentService {
                 .bodyToMono(responseClass)
                 .block();
     }
-
-    public class PlanMPDto {
-        private String reason;
-        private AutoRecurringMPDto auto_recurring;
-        private PaymentMethodsAllowedMPDto payment_methods_allowed;
-        private String back_url;
-    }
-
-    public class AutoRecurringMPDto {
-        private Integer frequency;
-        private String frequency_type = "months";
-        private Integer repetitions;
-        private Integer billing_day;
-        private boolean billing_day_proportional = true;
-        private FreeTrialMPDto free_trial;
-        private Integer transacion_amount;
-        private String currency_id = "ARS";
-    }
-
-    public class FreeTrialMPDto {
-        private Integer frequency = 1;
-        private String frequency_type = "months";
-    }
-
 }

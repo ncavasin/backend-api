@@ -1,8 +1,12 @@
 package com.sip.api.controllers;
 
+import com.sip.api.domains.payment.PaymentConverter;
+import com.sip.api.dtos.payment.PaymentDto;
 import com.sip.api.services.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -10,14 +14,14 @@ import org.springframework.web.bind.annotation.*;
 public class PaymentController {
     private final PaymentService paymentService;
 
-    @GetMapping("/all")
-    public void getAllPayments() {
-
+    @GetMapping("/from-user/{userId}")
+    public List<PaymentDto> getAllPaymentsOfUser(@PathVariable("userId") String userId) {
+        return PaymentConverter.fromEntityToDto(paymentService.getAllPaymentsOfUser(userId));
     }
 
-    @PostMapping("/pay")
-    public void createPaymentPreference() {
-        paymentService.processPayment();
+    @PostMapping("/create-preference/{subscriptionId}")
+    public void createPaymentPreference(@PathVariable("subscriptionId") String subscriptionId) {
+        paymentService.createPaymentReference(subscriptionId);
     }
 
     @GetMapping("/feedback/{paymentId}")
