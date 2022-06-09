@@ -15,8 +15,8 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "payment")
