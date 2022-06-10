@@ -2,7 +2,7 @@ package com.sip.api.service;
 
 import com.sip.api.domains.resource.Resource;
 import com.sip.api.domains.role.Role;
-import com.sip.api.dtos.RoleCreationDto;
+import com.sip.api.dtos.role.RoleCreationDto;
 import com.sip.api.exceptions.NotFoundException;
 import com.sip.api.services.ResourceService;
 import com.sip.api.services.RoleService;
