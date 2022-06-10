@@ -7,6 +7,7 @@ import com.sip.api.dtos.mercadopago.PaymentNotificationDto;
 import com.sip.api.dtos.payment.PaymentDto;
 import com.sip.api.services.PaymentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,13 +43,13 @@ public class PaymentController {
         return PaymentConverter.fromEntityToDto(paymentService.getPaymentBySubscriptionId(subscriptionId));
     }
 
-    @PostMapping("/create-preference/{subscriptionId}")
+    @GetMapping("/create-preference/{subscriptionId}")
     public Preference createPaymentPreference(@PathVariable("subscriptionId") String subscriptionId) {
         return paymentService.createPaymentReference(subscriptionId);
     }
 
     @PostMapping("/notification")
-    public void paymentFeedback(@RequestParam("subscriptionId") String subscriptionId, @RequestBody PaymentNotificationDto paymentNotificationDto) {
+    public void paymentFeedback(@RequestParam("subscriptionId") String subscriptionId, @RequestBody @Validated PaymentNotificationDto paymentNotificationDto) {
         paymentService.paymentNotification(subscriptionId, paymentNotificationDto);
     }
 }
