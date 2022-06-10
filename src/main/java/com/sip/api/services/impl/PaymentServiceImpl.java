@@ -80,7 +80,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         items.add(PreferenceItemRequest.builder()
                 .title(subscriptionToPay.getPlan().getName())
-                .description(subscriptionToPay.getPlan().getDescription())
+                .description("Suscripcion a " + subscriptionToPay.getPlan().getDescription())
                 .quantity(1)
                 .unitPrice(BigDecimal.valueOf(subscriptionToPay.getPlan().getPrice() * subscriptionDuration))
                 .build());
