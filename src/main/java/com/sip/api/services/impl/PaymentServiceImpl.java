@@ -13,7 +13,9 @@ import com.sip.api.dtos.mercadopago.PaymentNotificationDto;
 import com.sip.api.exceptions.BadRequestException;
 import com.sip.api.repositories.PaymentRepository;
 import com.sip.api.services.PaymentService;
+import com.sip.api.services.PlanService;
 import com.sip.api.services.SubscriptionService;
+import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
+    private final UserService userService;
+    private final PlanService planService;
     private final String accessToken = "TEST-7858724244652929-060822-41b97c015ac370f0e072387aa4e86a1b-1129213662";
 
     private final String mpPaymentUrl = "https://api.mercadopago.com/v1/payments/";
@@ -49,16 +53,19 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<Payment> getAllPaymentsOfUser(String userId) {
+        userService.findById(userId);
         return paymentRepository.findAllByUserId(userId);
     }
 
     @Override
     public List<Payment> getAllPaymentsOfPlan(String planId) {
+        planService.findById(planId);
         return paymentRepository.findAllByPlanId(planId);
     }
 
     @Override
     public Payment getPaymentBySubscriptionId(String subscriptionId) {
+        subscriptionService.findSubscriptionById(subscriptionId);
         return paymentRepository.findBySubscriptionId(subscriptionId)
                 .orElseThrow(() -> new BadRequestException("Subscription has not been paid yet"));
     }
@@ -118,6 +125,8 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public void paymentNotification(String subscriptionId, PaymentNotificationDto paymentNotificationDto) {
+        if (paymentNotificationDto == null)
+            throw new BadRequestException("Payment notification is null");
 
         // Go fetch the payment data from MercadoPago
         PaymentClient paymentClient = new PaymentClient();
