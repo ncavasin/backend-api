@@ -21,13 +21,5 @@ public class PaymentNotificationDto {
     private Integer version;
     private String api_version;
     private String action;
-    private MPData data;
-
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    class MPData {
-        private String id;
-    }
+    private MPDataDto data;
 }
