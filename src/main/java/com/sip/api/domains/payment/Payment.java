@@ -34,6 +34,8 @@ public class Payment extends TimeTrackable {
     @Fetch(FetchMode.JOIN)
     private Subscription subscription;
 
+    private String paymentStatus;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
