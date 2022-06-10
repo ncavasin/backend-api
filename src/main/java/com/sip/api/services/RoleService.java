@@ -1,7 +1,7 @@
 package com.sip.api.services;
 
 import com.sip.api.domains.role.Role;
-import com.sip.api.dtos.RoleCreationDto;
+import com.sip.api.dtos.role.RoleCreationDto;
 
 import java.util.List;
 

@@ -4,7 +4,7 @@ import com.sip.api.domains.activity.Activity;
 import com.sip.api.domains.timeslot.Timeslot;
 import com.sip.api.domains.user.User;
 import com.sip.api.domains.user.UserConverter;
-import com.sip.api.dtos.RoleCreationDto;
+import com.sip.api.dtos.role.RoleCreationDto;
 import com.sip.api.dtos.activity.ActivityCreationDto;
 import com.sip.api.dtos.availableClass.AvailableClassCreationDto;
 import com.sip.api.dtos.plan.PlanCreationDto;
