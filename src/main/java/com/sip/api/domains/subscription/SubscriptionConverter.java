@@ -18,6 +18,7 @@ public class SubscriptionConverter {
     }
 
     public static SubscriptionDto fromEntityToDto(Subscription subscription) {
+        if (subscription == null) return null;
         return SubscriptionDto.builder()
                 .id(subscription.getId())
                 .startDate(subscription.getStartDate())
