@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,14 +30,12 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
-    private final UserService userService;
-    private final PlanService planService;
     private final String accessToken = "TEST-7858724244652929-060822-41b97c015ac370f0e072387aa4e86a1b-1129213662";
-
-    private final String mpPaymentUrl = "https://api.mercadopago.com/v1/payments/";
     private final String baseUrl = "http://34.138.26.22";
     private final String apiIP = "http://34.148.38.158";
     private final String failureUrl = "/user/pagos";
+    private final UserService userService;
+    private final PlanService planService;
     private final SubscriptionService subscriptionService;
     private final PaymentRepository paymentRepository;
 
@@ -77,12 +76,13 @@ public class PaymentServiceImpl implements PaymentService {
         MercadoPagoConfig.setAccessToken(accessToken);
         PreferenceClient client = new PreferenceClient();
         List<PreferenceItemRequest> items = new ArrayList<>();
+        long subscriptionDuration = ChronoUnit.MONTHS.between(subscriptionToPay.getStartDate(), subscriptionToPay.getEndDate());
 
         items.add(PreferenceItemRequest.builder()
                 .title(subscriptionToPay.getPlan().getName())
                 .description(subscriptionToPay.getPlan().getDescription())
                 .quantity(1)
-                .unitPrice(BigDecimal.valueOf(subscriptionToPay.getPlan().getPrice()))
+                .unitPrice(BigDecimal.valueOf(subscriptionToPay.getPlan().getPrice() * subscriptionDuration))
                 .build());
 
         PreferenceRequest request = PreferenceRequest.builder()
@@ -121,7 +121,6 @@ public class PaymentServiceImpl implements PaymentService {
 
         return preference;
     }
-
 
     @Override
     public void paymentNotification(String subscriptionId, PaymentNotificationDto paymentNotificationDto) {
