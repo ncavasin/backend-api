@@ -1,5 +1,6 @@
 package com.sip.api.domains.subscription;
 
+import com.sip.api.domains.payment.PaymentConverter;
 import com.sip.api.domains.plan.PlanConverter;
 import com.sip.api.domains.user.UserConverter;
 import com.sip.api.dtos.subscription.SubscriptionDto;
@@ -22,7 +23,7 @@ public class SubscriptionConverter {
                 .startDate(subscription.getStartDate())
                 .endDate(subscription.getEndDate())
                 .planDto(PlanConverter.fromEntityToDto(subscription.getPlan()))
-                // TODO implement payment serialization
+                .paymentDto(PaymentConverter.fromEntityToDto(subscription.getPayment()))
                 .userSlimDto(UserConverter.entityToDtoSlim(subscription.getUser()))
                 .build();
     }
