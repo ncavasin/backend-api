@@ -62,6 +62,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
                 .endDate(subscriptionCreationDto.getStartDate().plusMonths(subscriptionCreationDto.getMonthsToAdd()))
                 .plan(plan)
                 .user(user)
+                FIX THIS TO BE CREATED AS UNPAID
                 .payment(null)
                 .build());
     }
