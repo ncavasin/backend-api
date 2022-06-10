@@ -2,7 +2,10 @@ package com.sip.api.domains.payment;
 
 import com.sip.api.domains.TimeTrackable;
 import com.sip.api.domains.subscription.Subscription;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -10,13 +13,11 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "payment")
@@ -29,9 +30,11 @@ public class Payment extends TimeTrackable {
 
     private String transactionId;
 
-    @OneToMany(mappedBy = "payment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "payment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Fetch(FetchMode.JOIN)
-    private Set<Subscription> subscriptions = new HashSet<>();
+    private Subscription subscription;
+
+    private String paymentStatus;
 
     @Override
     public boolean equals(Object o) {

@@ -23,7 +23,7 @@
         <io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
         <com.auth0.version>3.19.1</com.auth0.version>
         <io.jsonwebtoken.jjwtimpl.version>0.11.2</io.jsonwebtoken.jjwtimpl.version>
-
+        <com.mercadopago.version>2.0.1</com.mercadopago.version>
     </properties>
     <dependencies>
         <dependency>
@@ -119,6 +119,17 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mercadopago</groupId>
+            <artifactId>sdk-java</artifactId>
+            <version>${com.mercadopago.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webflux</artifactId>
+            <version>5.2.6.RELEASE</version>
         </dependency>
     </dependencies>
 
