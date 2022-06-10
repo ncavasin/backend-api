@@ -7,8 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.validation.constraints.PositiveOrZero;
@@ -30,8 +28,8 @@ public class Payment extends TimeTrackable {
 
     private String transactionId;
 
-    @OneToOne(mappedBy = "payment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @Fetch(FetchMode.JOIN)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @MapsId
     private Subscription subscription;
 
     private String paymentStatus;
