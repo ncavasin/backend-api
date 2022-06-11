@@ -32,18 +32,15 @@ public class Subscription extends TimeTrackable {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "plan_id", nullable = false)
     @Fetch(FetchMode.JOIN)
-    @ToString.Exclude
     private Plan plan;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "payment_id")
-    @Fetch(FetchMode.JOIN)
     private Payment payment;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     @Fetch(FetchMode.JOIN)
-    @ToString.Exclude
     private User user;
 
     public boolean isPaid() {
