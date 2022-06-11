@@ -1,9 +1,11 @@
 package com.sip.api.services.impl;
 
+import com.sip.api.domains.payment.Payment;
 import com.sip.api.domains.plan.Plan;
 import com.sip.api.domains.subscription.Subscription;
 import com.sip.api.domains.user.User;
 import com.sip.api.dtos.subscription.SubscriptionCreationDto;
+import com.sip.api.dtos.subscription.SubscriptionDto;
 import com.sip.api.exceptions.BadRequestException;
 import com.sip.api.exceptions.NotFoundException;
 import com.sip.api.repositories.SubscriptionRepository;
@@ -56,14 +58,29 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         if (isOverlappingWithUserIdAndPlanIdWithinDates(user.getId(), plan.getId(), subscriptionCreationDto.getStartDate(), endDate))
             throw new BadRequestException("User new Subscription overlaps with an existing subscription for the same plan within the same period");
 
-        return subscriptionRepository.save(Subscription.builder()
+        Subscription subscriptionToSave = Subscription.builder()
                 .description(subscriptionCreationDto.getDescription())
                 .startDate(subscriptionCreationDto.getStartDate())
                 .endDate(subscriptionCreationDto.getStartDate().plusMonths(subscriptionCreationDto.getMonthsToAdd()))
                 .plan(plan)
                 .user(user)
-                .payment(null)
-                .build());
+                .build();
+
+        Payment paymentToSave = Payment.builder()
+                .subscription(subscriptionToSave)
+                .transactionId(null)
+                .paymentDate(null)
+                .amountPaid(null)
+                .paymentStatus(null)
+                .build();
+        subscriptionToSave.setPayment(paymentToSave);
+        return subscriptionRepository.save(subscriptionToSave);
+    }
+
+    @Override
+    public Subscription updateSubscription(String subscriptionId, SubscriptionDto subscriptionDto) {
+        //TODO
+        return null;
     }
 
     private boolean isOverlappingWithUserIdAndPlanIdWithinDates(String userId, String planId, LocalDate startDate, LocalDate endDate) {

@@ -1,7 +1,6 @@
 package com.sip.api.controllers;
 
 import com.mercadopago.resources.preference.Preference;
-import com.sip.api.domains.payment.Payment;
 import com.sip.api.domains.payment.PaymentConverter;
 import com.sip.api.dtos.mercadopago.PaymentNotificationDto;
 import com.sip.api.dtos.payment.PaymentDto;
@@ -29,8 +28,8 @@ public class PaymentController {
     }
 
     @GetMapping("/{paymentId}")
-    public Payment getById(@PathVariable("paymentId") String paymentId) {
-        return paymentService.findById(paymentId);
+    public PaymentDto getById(@PathVariable("paymentId") String paymentId) {
+        return PaymentConverter.fromEntityToDto(paymentService.findById(paymentId));
     }
 
     @GetMapping("/from-plan/{planId}")

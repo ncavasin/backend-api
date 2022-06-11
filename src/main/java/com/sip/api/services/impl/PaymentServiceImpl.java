@@ -6,6 +6,7 @@ import com.mercadopago.client.payment.PaymentClient;
 import com.mercadopago.client.preference.*;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
+import com.mercadopago.resources.payment.PaymentStatus;
 import com.mercadopago.resources.preference.Preference;
 import com.sip.api.domains.payment.Payment;
 import com.sip.api.domains.subscription.Subscription;
@@ -111,13 +112,13 @@ public class PaymentServiceImpl implements PaymentService {
             throw new RuntimeException(e);
         }
 
-        // Create payment entity in the subscription
-        paymentRepository.save(Payment.builder()
-                .transactionId(preference.getId())
-                .subscription(subscriptionToPay)
-                .paymentDate(LocalDate.now())
-                .amountPaid(preference.getItems().get(0).getUnitPrice().doubleValue())
-                .build());
+        // Update subscription's payment
+        Payment paymentToUpdate = subscriptionToPay.getPayment();
+        paymentToUpdate.setPaymentDate(LocalDate.now());
+        paymentToUpdate.setPaymentStatus(PaymentStatus.PENDING);
+        paymentToUpdate.setAmountPaid(subscriptionToPay.getPlan().getPrice() * subscriptionDuration);
+        paymentToUpdate.setTransactionId(preference.getId());
+        paymentRepository.save(paymentToUpdate);
 
         return preference;
     }
