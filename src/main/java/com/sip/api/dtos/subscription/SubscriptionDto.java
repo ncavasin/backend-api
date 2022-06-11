@@ -19,7 +19,7 @@ public class SubscriptionDto {
     private LocalDate startDate;
     private LocalDate endDate;
     private PlanDto planDto;
-    private PaymentDto paymentDto;
+    private String paymentId;
     private UserSlimDto userSlimDto;
 }
 

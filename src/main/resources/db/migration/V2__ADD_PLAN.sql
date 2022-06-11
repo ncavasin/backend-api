@@ -12,13 +12,14 @@ CREATE TABLE IF NOT EXISTS plan
 
 CREATE TABLE IF NOT EXISTS payment
 (
-    id                 VARCHAR(255)     NOT NULL,
+    id                 VARCHAR(255) NOT NULL,
     CONSTRAINT pk_payment PRIMARY KEY (id),
-    payment_date       TIMESTAMP        NOT NULL DEFAULT now(),
-    amount_paid        DOUBLE PRECISION NOT NULL,
+    payment_date       TIMESTAMP             DEFAULT now(),
+    amount_paid        DOUBLE PRECISION,
     transaction_id     VARCHAR(255),
-    creation_timestamp TIMESTAMP        NOT NULL DEFAULT now(),
-    update_timestamp   TIMESTAMP        NOT NULL DEFAULT now()
+    payment_status     VARCHAR(255),
+    creation_timestamp TIMESTAMP    NOT NULL DEFAULT now(),
+    update_timestamp   TIMESTAMP    NOT NULL DEFAULT now()
 );
 
 
@@ -48,12 +49,4 @@ CREATE TABLE IF NOT EXISTS plan_subscriptions
     CONSTRAINT fk_plan_subscription_subscription FOREIGN KEY (subscription_id) REFERENCES subscription (id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS payment_subscriptions
-(
-    payment_id      VARCHAR(255) NOT NULL,
-    subscription_id VARCHAR(255) NOT NULL,
-    CONSTRAINT pk_payment_subscription PRIMARY KEY (payment_id, subscription_id),
-    CONSTRAINT fk_payment_subscription_payment FOREIGN KEY (payment_id) REFERENCES payment (id) ON DELETE CASCADE,
-    CONSTRAINT fk_payment_subscription_subscription FOREIGN KEY (subscription_id) REFERENCES subscription (id) ON DELETE CASCADE
-);
 
