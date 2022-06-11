@@ -141,5 +141,6 @@ public class PaymentServiceImpl implements PaymentService {
         // Update the payment entity with the data from MercadoPago
         Payment paymentToUpdate = getPaymentBySubscriptionId(subscriptionId);
         paymentToUpdate.setPaymentStatus(mpPayment.getStatus());
+        paymentRepository.save(paymentToUpdate);
     }
 }
