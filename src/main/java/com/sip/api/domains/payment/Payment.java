@@ -11,7 +11,9 @@ import org.hibernate.Hibernate;
 import javax.persistence.*;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Data
@@ -31,7 +33,8 @@ public class Payment extends TimeTrackable {
     @JoinColumn(name = "subscription_id")
     private Subscription subscription;
 
-    private String paymentStatus;
+    @OneToMany(mappedBy = "payment", cascade = CascadeType.ALL)
+    private Set<PaymentStatus> paymentStatuses = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
