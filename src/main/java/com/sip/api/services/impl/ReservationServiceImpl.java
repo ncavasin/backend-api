@@ -87,7 +87,7 @@ public class ReservationServiceImpl implements ReservationService {
         Plan plan = planService.findMostExpensivePlanByUser(attendee.getId());
 
         if (userReservation >= plan.getActivitiesLimit())
-            throw new BadRequestException(String.format("User has reached maximum number of reservations according to plan: %s!", plan.getName()));
+            throw new BadRequestException(String.format("User has reached maximum number of reservations according to plan '%s'!", plan.getName()));
     }
 
     @Override
