@@ -2,6 +2,7 @@ package com.sip.api.controllers;
 
 import com.sip.api.domains.reservation.ReservationConverter;
 import com.sip.api.dtos.availableClass.AvailableClassAttendeeAmountDto;
+import com.sip.api.dtos.reservation.RemainingReservationsDto;
 import com.sip.api.dtos.reservation.ReservationCreationDto;
 import com.sip.api.dtos.reservation.ReservationDto;
 import com.sip.api.services.ReservationService;
@@ -28,12 +29,17 @@ public class ReservationController {
 
     @GetMapping("/attendee-amount-by-available-class/{availableClassId}")
     public AvailableClassAttendeeAmountDto findFreeSlots(@PathVariable("availableClassId") String availableClassId) {
-        return ReservationConverter.fromEntityToDto(reservationService.countAttendeeAmountByAvailableClassId(availableClassId));
+        return ReservationConverter.toAvailableClassDto(reservationService.countAttendeeAmountByAvailableClassId(availableClassId));
     }
 
     @GetMapping("/from-user/{userId}")
     public List<ReservationDto> findAllByUserId(@PathVariable("userId") String userId) {
         return ReservationConverter.fromEntityToDto(reservationService.findAllByUserId(userId));
+    }
+
+    @GetMapping("/remaining-classes/{userId}")
+    public RemainingReservationsDto getRemainingReservationsByUserId(@PathVariable("userId") String userId) {
+        return ReservationConverter.toRemaminingReservationsDto(reservationService.countRemainingReservationsByUserId(userId));
     }
 
     @PostMapping()
