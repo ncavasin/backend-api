@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -71,7 +72,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
                 .transactionId(null)
                 .paymentDate(null)
                 .amountPaid(null)
-                .paymentStatus(null)
+                .paymentStatuses(new HashSet<>())
                 .build();
         subscriptionToSave.setPayment(paymentToSave);
         return subscriptionRepository.save(subscriptionToSave);

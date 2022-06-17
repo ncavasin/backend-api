@@ -6,9 +6,9 @@ import com.mercadopago.client.payment.PaymentClient;
 import com.mercadopago.client.preference.*;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
-import com.mercadopago.resources.payment.PaymentStatus;
 import com.mercadopago.resources.preference.Preference;
 import com.sip.api.domains.payment.Payment;
+import com.sip.api.domains.payment.PaymentStatus;
 import com.sip.api.domains.subscription.Subscription;
 import com.sip.api.dtos.mercadopago.PaymentNotificationDto;
 import com.sip.api.exceptions.BadRequestException;
@@ -19,10 +19,12 @@ import com.sip.api.services.SubscriptionService;
 import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +33,12 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
-    private final String accessToken = "TEST-7858724244652929-060822-41b97c015ac370f0e072387aa4e86a1b-1129213662";
-    private final String baseUrl = "http://34.138.26.22";
-    private final String apiIP = "http://34.148.38.158";
+    @Value("${mercadopago.access-token}")
+    private String accessToken;//= "TEST-7858724244652929-060822-41b97c015ac370f0e072387aa4e86a1b-1129213662";
+    @Value("${mercadopago.frontend}")
+    private String frontIP;// = "http://34.133.211.180";
+    @Value("${mercadopago.backend}")
+    private String apiIP; // = "http://35.184.117.168";
     private final String failureUrl = "/user/pagos";
     private final UserService userService;
     private final PlanService planService;
@@ -96,9 +101,9 @@ public class PaymentServiceImpl implements PaymentService {
                 // Send the subscriptionToPayId in the notification URL
                 .notificationUrl(apiIP + "/payment/notification?subscriptionId=" + subscriptionId)
                 .backUrls(PreferenceBackUrlsRequest.builder()
-                        .success(baseUrl)
-                        .pending(baseUrl)
-                        .failure(baseUrl + failureUrl)
+                        .success(frontIP)
+                        .pending(frontIP)
+                        .failure(frontIP + failureUrl)
                         .build())
                 .items(items)
                 .build();
@@ -115,7 +120,11 @@ public class PaymentServiceImpl implements PaymentService {
         // Update subscription's payment
         Payment paymentToUpdate = subscriptionToPay.getPayment();
         paymentToUpdate.setPaymentDate(LocalDate.now());
-        paymentToUpdate.setPaymentStatus(PaymentStatus.PENDING);
+        paymentToUpdate.addPaymentStatus(PaymentStatus.builder()
+                .initTimestamp(LocalDateTime.now())
+                .paymentStatus(com.mercadopago.resources.payment.PaymentStatus.PENDING)
+                .isCurrent(true)
+                .build());
         paymentToUpdate.setAmountPaid(subscriptionToPay.getPlan().getPrice() * subscriptionDuration);
         paymentToUpdate.setTransactionId(preference.getId());
         paymentRepository.save(paymentToUpdate);
@@ -137,10 +146,13 @@ public class PaymentServiceImpl implements PaymentService {
             log.error("Error fetching data from payment {} from MercadoPago. Error: {}", paymentNotificationDto.getData().getId(), e.getMessage());
             throw new RuntimeException(e);
         }
-
         // Update the payment entity with the data from MercadoPago
         Payment paymentToUpdate = getPaymentBySubscriptionId(subscriptionId);
-        paymentToUpdate.setPaymentStatus(mpPayment.getStatus());
+        paymentToUpdate.addPaymentStatus(PaymentStatus.builder()
+                .initTimestamp(LocalDateTime.now())
+                .paymentStatus(mpPayment.getStatus())
+                .isCurrent(true)
+                .build());
         paymentRepository.save(paymentToUpdate);
     }
 }
