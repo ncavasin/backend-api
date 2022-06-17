@@ -11,6 +11,8 @@ public interface PlanService {
 
     Plan findById(String planId);
 
+    Plan findMostExpensivePlanByUser(String userId);
+
     Plan createPlan(PlanCreationDto planCreationDto);
 
     Plan updateName(UpdatePlanNameDto updatePlanNameDto);
