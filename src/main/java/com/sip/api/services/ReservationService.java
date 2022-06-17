@@ -14,6 +14,8 @@ public interface ReservationService {
 
     Integer countAttendeeAmountByAvailableClassId(String availableClassId);
 
+    Integer countRemainingReservationsByUserId(String userId);
+
     Reservation addUserToReservation(ReservationCreationDto reservationCreationDto);
 
     Reservation removeUserFromReservationUsingAvailableClassId(String attendeeId, String availableClassId);
