@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
@@ -17,5 +18,5 @@ public class PaymentDto {
     private Double amountPaid;
     private String subscriptionId;
     private LocalDate paymentDate;
-    private String paymentStatus;
+    private List<PaymentStatusDto> paymentStatuses;
 }

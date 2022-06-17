@@ -20,7 +20,7 @@ public class PaymentConverter {
                 .subscriptionId(payment.getSubscription().getId())
                 .paymentDate(payment.getPaymentDate())
                 .amountPaid(payment.getAmountPaid())
-                .paymentStatus(payment.getPaymentStatus())
+                .paymentStatuses(PaymentStatusConverter.fromEntityToDto(payment.getPaymentStatuses()))
                 .build();
     }
 }
