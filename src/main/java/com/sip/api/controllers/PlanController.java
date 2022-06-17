@@ -25,6 +25,11 @@ public class PlanController {
         return PlanConverter.fromEntityToDto(planService.findById(planId));
     }
 
+    @GetMapping("/user-most-expensive-plan/{userId}")
+    public PlanDto findMostExpensivePlanByUserId(@PathVariable("userId") String userId) {
+        return PlanConverter.fromEntityToDto(planService.findMostExpensivePlanByUser(userId));
+    }
+
     @PostMapping
     public PlanDto createPlan(@RequestBody PlanCreationDto planCreationDto) {
         return PlanConverter.fromEntityToDto(planService.createPlan(planCreationDto));
