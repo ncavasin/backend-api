@@ -34,10 +34,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, String
     Optional<Reservation> findByAvailableClass_Id(@NonNull String availableClassId);
 
     @Query(nativeQuery = true,
-    value = "SELECT COUNT(*) FROM plan p " +
-            "JOIN plan_subscriptions ps ON p.id = ps.plan_id " +
-            "JOIN subscription s ON ps.subscription_id = s.id " +
-            "WHERE s.user_id = :user_id")
+    value = "SELECT COUNT(*) FROM reservation r " +
+            "JOIN reservation_user_data rud ON rud.reservation_id = r.id " +
+            "JOIN user_data ud on rud.user_id = ud.id " +
+            "WHERE ud.id = ?1")
     Integer countReservationsByUserId(String userId);
 
     @Query("SELECT (COUNT(r) > 0) FROM Reservation r WHERE r.id = ?1")

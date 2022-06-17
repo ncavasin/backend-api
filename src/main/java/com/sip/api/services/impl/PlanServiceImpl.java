@@ -28,8 +28,8 @@ public class PlanServiceImpl implements PlanService {
 
     @Override
     public Plan findMostExpensivePlanByUser(String userId) {
-        return planRepository.findMostExpensivePlanByUser(userId)
-                .orElseThrow(() -> new NotFoundException("User in not subscribed to any plan!"));
+        List<Plan> plans = planRepository.findAllByUserIdOrderedByPriceDesc(userId);
+        return plans.stream().findFirst().orElseThrow(() -> new BadRequestException("User is not subscribed to any plan"));
     }
 
     @Override
