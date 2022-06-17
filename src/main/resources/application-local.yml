@@ -50,10 +50,10 @@ spring:
       max-file-size: 25MB
       max-request-size: 25MB
 
-jwt-secret: '{jwt-secret}'
-jwt-issuer: '{jwt-issuer}'
-jwt-expiration-days: '{jwt-expiration-days}'
+mercadopago:
+  frontend: http://34.133.211.180
+  backend: http://35.184.117.168
 
-superadmin-email: '{admin-email}'
-superadmin-password: '{admin-password}'
-app-url: 'localhost:8080'
+superadmin-email: admin@admin.com
+superadmin-password: adminadmin
+app-url: http://35.184.117.168
