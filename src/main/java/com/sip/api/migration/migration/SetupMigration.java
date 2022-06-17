@@ -4,11 +4,11 @@ import com.sip.api.domains.activity.Activity;
 import com.sip.api.domains.timeslot.Timeslot;
 import com.sip.api.domains.user.User;
 import com.sip.api.domains.user.UserConverter;
-import com.sip.api.dtos.role.RoleCreationDto;
 import com.sip.api.dtos.activity.ActivityCreationDto;
 import com.sip.api.dtos.availableClass.AvailableClassCreationDto;
 import com.sip.api.dtos.plan.PlanCreationDto;
 import com.sip.api.dtos.resource.ResourceCreationDto;
+import com.sip.api.dtos.role.RoleCreationDto;
 import com.sip.api.dtos.timeslot.TimeslotCreationDto;
 import com.sip.api.dtos.user.UserCreationDto;
 import com.sip.api.dtos.user.UserEmailDto;
@@ -165,7 +165,24 @@ public class SetupMigration implements StartUpMigration {
         createUser(22222222, professorEmail, Collections.singletonList("ROLE_PROFESSOR"));
         createUser(33333333, superAdminEmail, Collections.singletonList("ROLE_ADMIN"));
         createUser(44444444, "user@user.com", Collections.singletonList("ROLE_USER"));
-        createUser(55555555, "ncavasin97@gmail.com", Collections.singletonList("ROLE_USER"));
+        createUserWithName("Nicolas", "Cavasin", 55555555, "ncavasin97@gmail.com", Collections.singletonList("ROLE_USER"));
+    }
+
+    private void createUserWithName(String firsName, String LastName, int dni, String mail, List<String> rolesNames) {
+        try {
+            User analyst = userService.createUser(UserCreationDto.builder()
+                    .firstName(firsName)
+                    .lastName(LastName)
+                    .dni(dni)
+                    .email(mail)
+                    .password("12345678")
+                    .rolesNames(rolesNames)
+                    .build());
+            userService.activateUser(analyst.getId());
+            log.info("User '{}' created", mail);
+        } catch (BadRequestException e) {
+            log.info("Creation skipped. User '{}' already exists.", mail);
+        }
     }
 
     private void createUser(int dni, String mail, List<String> rolesNames) {
