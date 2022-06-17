@@ -27,6 +27,12 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
+    public Plan findMostExpensivePlanByUser(String userId) {
+        return planRepository.findMostExpensivePlanByUser(userId)
+                .orElseThrow(() -> new NotFoundException("User in not subscribed to any plan!"));
+    }
+
+    @Override
     public Plan createPlan(PlanCreationDto planCreationDto) {
         if (planRepository.existsByName(planCreationDto.getName()))
             throw new BadRequestException(String.format("Plan with name '%s' already exists", planCreationDto.getName()));
