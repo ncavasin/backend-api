@@ -2,6 +2,7 @@ package com.sip.api.services.impl;
 
 import com.sip.api.domains.availableClass.AvailableClass;
 import com.sip.api.domains.enums.UserStatus;
+import com.sip.api.domains.plan.Plan;
 import com.sip.api.domains.reservation.Reservation;
 import com.sip.api.domains.user.User;
 import com.sip.api.dtos.reservation.ReservationCreationDto;
@@ -9,6 +10,7 @@ import com.sip.api.exceptions.BadRequestException;
 import com.sip.api.exceptions.NotFoundException;
 import com.sip.api.repositories.ReservationRepository;
 import com.sip.api.services.AvailableClassService;
+import com.sip.api.services.PlanService;
 import com.sip.api.services.ReservationService;
 import com.sip.api.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class ReservationServiceImpl implements ReservationService {
     private final ReservationRepository reservationRepository;
     private final AvailableClassService availableClassService;
     private final UserService userService;
+    private final PlanService planService;
 
     @Override
     public List<Reservation> findAll() {
@@ -42,6 +45,13 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public Integer countAttendeeAmountByAvailableClassId(String availableClassId) {
         return reservationRepository.countAttendeeAmountByAvailableClassId(availableClassId);
+    }
+
+    @Override
+    public Integer countRemainingReservationsByUserId(String userId) {
+        Integer reservedClasses = reservationRepository.countReservationsByUserId(userId);
+        Integer maxReservations = planService.findMostExpensivePlanByUser(userId).getActivitiesLimit();
+        return maxReservations - reservedClasses;
     }
 
     @Override
@@ -72,6 +82,12 @@ public class ReservationServiceImpl implements ReservationService {
             throw new BadRequestException("Attendee account has been deactivated");
         if (attendee.getStatus().equals(UserStatus.OVERDUE))
             throw new BadRequestException("Attendee account payment is overdue");
+
+        Integer userReservation = reservationRepository.countReservationsByUserId(attendee.getId());
+        Plan plan = planService.findMostExpensivePlanByUser(attendee.getId());
+
+        if (userReservation >= plan.getActivitiesLimit())
+            throw new BadRequestException(String.format("User has reached maximum number of reservations according to plan '%s'!", plan.getName()));
     }
 
     @Override
