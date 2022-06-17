@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: sip-front
-          image: gcr.io/sip-unlu-2022/sipfront:latest
+          image: gcr.io/sip-unlu-2022-353303/sipfront:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80

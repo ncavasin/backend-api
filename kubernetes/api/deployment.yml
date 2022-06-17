@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: gcr.io/sip-unlu-2022/sip-api-image:latest
+          image: gcr.io/sip-unlu-2022-353303/sip-api-image:latest
           imagePullPolicy: Always
           env:
             - name: SIP_API_PORT
