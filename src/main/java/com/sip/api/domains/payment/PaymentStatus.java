@@ -5,11 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -23,11 +25,24 @@ public class PaymentStatus extends TimeTrackable {
     @Fetch(FetchMode.JOIN)
     private Payment payment;
 
-    private Timestamp initTimestamp;
+    private LocalDateTime initTimestamp;
 
     private String paymentStatus;
 
-    private Timestamp endTimestamp;
+    private LocalDateTime endTimestamp;
 
     private boolean isCurrent;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        PaymentStatus that = (PaymentStatus) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
