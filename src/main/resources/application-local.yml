@@ -11,8 +11,8 @@ springdoc:
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5050/sip
-    username: sip
-    password: sip.2022
+    username: ${db-username}
+    password: ${db-password}
     driver-class-name: org.postgresql.Driver
 
   flyway:
@@ -54,6 +54,10 @@ mercadopago:
   frontend: http://34.133.211.180
   backend: http://35.184.117.168
   access-token: TEST-7858724244652929-060822-41b97c015ac370f0e072387aa4e86a1b-1129213662
+
+jwt-secret: ${jwt-secret}
+jwt-issuer: ${jwt-issuer}
+jwt-expiration-days: ${jwt-expiration-days}
 
 superadmin-email: admin@admin.com
 superadmin-password: adminadmin
