@@ -120,11 +120,6 @@ public class PaymentServiceImpl implements PaymentService {
         // Update subscription's payment
         Payment paymentToUpdate = subscriptionToPay.getPayment();
         paymentToUpdate.setPaymentDate(LocalDate.now());
-        paymentToUpdate.addPaymentStatus(PaymentStatus.builder()
-                .initTimestamp(LocalDateTime.now())
-                .paymentStatus(com.mercadopago.resources.payment.PaymentStatus.PENDING)
-                .isCurrent(true)
-                .build());
         paymentToUpdate.setAmountPaid(subscriptionToPay.getPlan().getPrice() * subscriptionDuration);
         paymentToUpdate.setTransactionId(preference.getId());
         paymentRepository.save(paymentToUpdate);
