@@ -54,6 +54,11 @@ jwt-secret: ${jwt-secret}
 jwt-issuer: ${jwt-issuer}
 jwt-expiration-days: ${jwt-expiration-days}
 
-superadmin-email: ${admin-email}
-superadmin-password: ${admin-password}
-app-url: ${app-url}
+mercadopago:
+  frontend: http://34.133.211.180
+  backend: http://35.184.117.168
+  access-token: TEST-7858724244652929-060822-41b97c015ac370f0e072387aa4e86a1b-1129213662
+
+superadmin-email: admin@admin.com
+superadmin-password: adminadmin
+app-url: http://35.184.117.168
