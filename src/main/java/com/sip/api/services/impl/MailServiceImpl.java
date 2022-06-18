@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.AuthenticationFailedException;
 import javax.mail.MessagingException;
-import javax.mail.SendFailedException;
 import javax.mail.internet.MimeMessage;
 
 @Slf4j
@@ -20,7 +19,7 @@ import javax.mail.internet.MimeMessage;
 public class MailServiceImpl implements MailService {
     private final JavaMailSender mailSender;
 
-    @Value("${mercadopago.backend}")
+    @Value("${app-url}")
     private String url;
     @Value("${spring.mail.username}")
     private String USERNAME;
@@ -28,7 +27,7 @@ public class MailServiceImpl implements MailService {
     @Override
     @Async
     public void sendConfirmationMail(String to, String firstName, String token) {
-        String link = url+"/register/confirm?token=" + token;
+        String link = url + "/register/confirm?token=" + token;
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "utf-8");
@@ -42,11 +41,10 @@ public class MailServiceImpl implements MailService {
         } catch (AuthenticationFailedException e) {
             log.error("Error sending registration mail to {}. Error: {}", to, e.getMessage());
             e.printStackTrace();
-        }
-        catch (MessagingException e) {
+        } catch (MessagingException e) {
             log.error("Error sending registration mail to {}. Error: {}", to, e.getMessage());
             e.printStackTrace();
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("Error sending registration mail to {}. Error: {}", to, e.getMessage());
             e.printStackTrace();
         }

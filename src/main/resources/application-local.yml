@@ -33,7 +33,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: sip.2022.unlu@gmail.com
-    password: xudijuocjkxwkgdo
+    password: uqbelcsvfanzavld
     properties:
       mail:
         smtp:
