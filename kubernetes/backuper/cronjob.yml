@@ -23,7 +23,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: sip-backuper-cronjob
-              image: gcr.io/sip-unlu-2022/sip-backuper:latest
+              image: gcr.io/sip-unlu-2022-353303/sip-backuper:latest
               imagePullPolicy: Always
               env:
                 - name: client_id
